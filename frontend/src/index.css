@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+:root {
+  --color-background: #f5f6f7;
+  --color-surface: #ffffff;
+  --color-border: #c1c4c8;
+  --color-muted: #787f65;
+  --color-foreground: #2b2e33;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
