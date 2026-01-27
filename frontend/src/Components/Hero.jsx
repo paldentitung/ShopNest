@@ -2,12 +2,12 @@ import React from "react";
 
 const Hero = () => {
   return (
-    <div class="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8 mt-10">
-      <div class="text-center mb-12">
-        <h1 class="text-2xl md:text-4xl font-bold text-gray-900">
+    <div className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8 mt-10">
+      <div className="text-center mb-12">
+        <h1 className="text-2xl md:text-4xl font-bold text-gray-900">
           Shop the Future Today
         </h1>
-        <p class="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
+        <p className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
           Discover the latest trends and must-have products delivered to your
           doorstep
         </p>
