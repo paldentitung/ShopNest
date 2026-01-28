@@ -4,6 +4,8 @@ import rating50 from "../assets/ratings/rating-50.png";
 import rating45 from "../assets/ratings/rating-45.png";
 import rating40 from "../assets/ratings/rating-40.png";
 import MainButton from "./MainButton";
+import SecondaryButton from "./SecondaryButton";
+import { FaShoppingCart } from "react-icons/fa";
 
 const ProductListing = () => {
   const ratingImages = {
@@ -48,7 +50,7 @@ const ProductListing = () => {
                 </div>
 
                 {/* Rating */}
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between ">
                   {ratingImages[product.rating.stars] ? (
                     <img
                       src={ratingImages[product.rating.stars]}
@@ -64,11 +66,20 @@ const ProductListing = () => {
                 </div>
 
                 {/* Price */}
-                <div className="flex items-center justify-between mt-auto">
+                <div className="flex items-center justify-between my-3">
                   <span className="text-lg font-bold text-gray-900">
                     ${product.priceCents / 100}
                   </span>
-                  <MainButton name="Buy" />
+                  <SecondaryButton name="View" />
+                </div>
+
+                <div className="  ">
+                  <button className="px-6 flex items-center justify-center gap-4 relative w-full py-3 bg-(--color-foreground) text-(--color-surface) rounded-md border border-(--color-border) transition-all duration-300 hover:cursor-pointer opacity-90 hover:opacity-100 ">
+                    <span>
+                      <FaShoppingCart />
+                    </span>
+                    <span>Buy</span>
+                  </button>
                 </div>
               </div>
             </div>
