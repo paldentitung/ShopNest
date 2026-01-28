@@ -4,6 +4,7 @@ import Hero from "./Components/Hero";
 import Aboutus from "./Components/Aboutus";
 import ProductListing from "./Components/ProductListing";
 import Contact from "./Components/Contact";
+import Footer from "./Components/Footer";
 const App = () => {
   return (
     <div className="">
@@ -12,8 +13,7 @@ const App = () => {
       <Aboutus />
       <ProductListing />
       <Contact />
-      <div className="min-h-screen"></div>
-      <div className="min-h-screen"></div> <div className="min-h-screen"></div>
+      <Footer />
     </div>
   );
 };
