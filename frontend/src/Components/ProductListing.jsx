@@ -6,7 +6,7 @@ import rating40 from "../assets/ratings/rating-40.png";
 import MainButton from "./MainButton";
 import SecondaryButton from "./SecondaryButton";
 import { FaShoppingCart } from "react-icons/fa";
-
+import { motion } from "framer-motion";
 const ProductListing = () => {
   const ratingImages = {
     4.0: rating40,
@@ -24,9 +24,16 @@ const ProductListing = () => {
       {/* Grid */}
       <div className="w-full max-w-360 mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product) => (
-            <div
+          {products.map((product, index) => (
+            <motion.div
               key={product.id}
+              initial={{ y: -100, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{
+                duration: 0.7,
+                ease: "easeOut",
+                delay: index * 0.2,
+              }}
               className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col"
             >
               {/* Product Image */}
@@ -82,7 +89,7 @@ const ProductListing = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
