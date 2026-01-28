@@ -3,7 +3,7 @@ import MainButton from "./MainButton";
 
 const Contact = () => {
   return (
-    <section className="w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-12 p-6 mt-16">
+    <section className="w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-12 p-6 mt-16 h-auto md:h-[65vh]">
       {/* Contact Info */}
       <div className="flex flex-col gap-4 w-full md:w-1/2">
         <h2 className="text-lg md:text-2xl font-semibold">Contact Us</h2>
@@ -61,7 +61,7 @@ const Contact = () => {
             ></textarea>
           </div>
 
-          <MainButton name="Send Message" type="submit" />
+          <MainButton name="Send Message" type="submit" j />
         </form>
       </div>
     </section>
