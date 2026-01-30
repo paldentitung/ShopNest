@@ -1,14 +1,14 @@
 const Product = require("../models/Product");
-const mongoose = require("mongoose");
 
 exports.getAllProduct = async (req, res) => {
   try {
-    const products = (await Product.find()).toSorted({ date: -1 });
+    const products = await Product.find();
+
     const orderedProducts = products.map((p) => ({
       name: p.name,
       slug: p.slug,
-      category: p.category,
-      images: p.images,
+      category: p.category || "Clothing",
+      images: `http://localhost:3000${p.images}`,
       priceCents: p.priceCents,
       rating: p.rating,
       description: p.description,

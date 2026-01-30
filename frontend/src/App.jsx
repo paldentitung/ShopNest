@@ -5,15 +5,17 @@ import Aboutus from "./Components/Aboutus";
 import ProductListing from "./Components/ProductListing";
 import Contact from "./Components/Contact";
 import Footer from "./Components/Footer";
+import ProductPage from "./Pages/ProductPage";
 const App = () => {
   return (
     <div className="">
       <Header />
       <Hero />
       <Aboutus />
-      <ProductListing />
       <Contact />
       <Footer />
+
+      <ProductPage />
     </div>
   );
 };
