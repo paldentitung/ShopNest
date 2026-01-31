@@ -1,22 +1,38 @@
-import React from "react";
-import Header from "./Components/Header";
-import Hero from "./Components/Hero";
-import Aboutus from "./Components/Aboutus";
-import ProductListing from "./Components/ProductListing";
-import Contact from "./Components/Contact";
-import Footer from "./Components/Footer";
-import ProductPage from "./Pages/ProductPage";
+import { Routes, Route } from "react-router-dom";
+import Dashboard from "./Pages/Admin/Dashboard";
+import AdminLayout from "./Layouts/AdminLayout";
+import AboutPage from "./Pages/User/AboutPage";
+import Home from "./Pages/User/Home";
+import UserLayout from "./Layouts/UserLayout";
+import ProductPage from "./Pages/User/ProductPage";
+import Cart from "./Pages/User/Cart";
+import ContactPage from "./Pages/User/ContactPage";
+import Profile from "./Pages/User/Profile";
+import ProductManagement from "./Pages/Admin/ProductManagement";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
 const App = () => {
   return (
-    <div className="">
-      <Header />
-      <Hero />
-      <Aboutus />
-      <Contact />
-      <Footer />
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
-      <ProductPage />
-    </div>
+      {/* admin */}
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<Dashboard />} />
+        <Route path="productmanagement" element={<ProductManagement />} />
+      </Route>
+
+      {/* user */}
+      <Route path="/user" element={<UserLayout />}>
+        <Route index element={<Home />} /> {/* /user */}
+        <Route path="products" element={<ProductPage />} />
+        <Route path="about" element={<AboutPage />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="contact" element={<ContactPage />} />
+        <Route path="profile" element={<Profile />} />
+      </Route>
+    </Routes>
   );
 };
 

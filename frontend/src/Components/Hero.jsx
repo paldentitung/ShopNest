@@ -78,7 +78,7 @@ const Hero = () => {
         >
           <div className="bg-gray-400 rounded-md shadow-lg h-52 w-full">
             <img
-              src="hero-image-1.jpg"
+              src="public/hero-image-1.jpg"
               alt=""
               className="h-full w-full object-cover"
             />
