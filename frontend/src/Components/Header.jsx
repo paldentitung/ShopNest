@@ -16,7 +16,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full z-50 flex justify-between items-center p-6">
+      <div className="fixed top-0 left-0 w-full z-50 flex justify-between items-center p-6 ">
         {/* Logo */}
         <motion.div
           initial={{ x: -50, opacity: 0 }}
