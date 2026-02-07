@@ -9,14 +9,11 @@ import Cart from "./Pages/User/Cart";
 import ContactPage from "./Pages/User/ContactPage";
 import Profile from "./Pages/User/Profile";
 import ProductManagement from "./Pages/Admin/ProductManagement";
-import Login from "./Pages/Login";
-import Register from "./Pages/Register";
+import UserLogin from "./Pages/auth/UserLogin";
 const App = () => {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-
+      <Route path="/login/user" element={<UserLogin />} />
       {/* admin */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
