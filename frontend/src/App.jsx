@@ -10,10 +10,13 @@ import ContactPage from "./Pages/User/ContactPage";
 import Profile from "./Pages/User/Profile";
 import ProductManagement from "./Pages/Admin/ProductManagement";
 import UserLogin from "./Pages/auth/UserLogin";
+import AdminLogin from "./Pages/auth/AdminLogin";
 const App = () => {
   return (
     <Routes>
       <Route path="/login/user" element={<UserLogin />} />
+      <Route path="/login/admin" element={<AdminLogin />} />
+
       {/* admin */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
