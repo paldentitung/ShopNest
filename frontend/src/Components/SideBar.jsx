@@ -19,7 +19,9 @@ const SideBar = () => {
             </Link>
           </li>{" "}
           <li className="text-sm p-3  transition-all duration-300  rounded-md  hover:bg-gray-700 hover:text-white">
-            <Link className="block">Product Management</Link>
+            <Link to="/admin/ordermanagement" className="block">
+              Order Management
+            </Link>
           </li>
           <li className="text-sm p-3  transition-all duration-300  rounded-md  hover:bg-gray-700 hover:text-white">
             <Link className="block">Product Management</Link>

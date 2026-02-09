@@ -11,6 +11,7 @@ import Profile from "./Pages/User/Profile";
 import ProductManagement from "./Pages/Admin/ProductManagement";
 import UserLogin from "./Pages/auth/UserLogin";
 import AdminLogin from "./Pages/auth/AdminLogin";
+import OrderManagement from "./Pages/Admin/OrderManagement";
 const App = () => {
   return (
     <Routes>
@@ -21,6 +22,7 @@ const App = () => {
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="productmanagement" element={<ProductManagement />} />
+        <Route path="ordermanagement" element={<OrderManagement />} />
       </Route>
 
       {/* user */}
