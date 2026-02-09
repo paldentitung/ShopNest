@@ -24,7 +24,9 @@ const SideBar = () => {
             </Link>
           </li>
           <li className="text-sm p-3  transition-all duration-300  rounded-md  hover:bg-gray-700 hover:text-white">
-            <Link className="block">Product Management</Link>
+            <Link to="/admin/profile" className="block">
+              Profile
+            </Link>
           </li>
         </ul>
       </nav>

@@ -6,7 +6,7 @@ const ProductManagement = () => {
     <div className="w-full">
       <AdminHeader title="Product Management" />
 
-      <div className="w-full max-w-7xl mx-auto mt-6 bg-white rounded-xl shadow border border-gray-100 overflow-hidden">
+      <div className="w-full max-w-7xl mx-auto mt-6 bg-white rounded-xl shadow border border-gray-100 overflow-x-scroll">
         <table className="w-full text-sm text-left">
           <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
             <tr>
@@ -29,7 +29,9 @@ const ProductManagement = () => {
               <td className="px-6 py-4">$29.99</td>
 
               <td className="px-6 py-4">
-                <div className="w-12 h-12 bg-gray-200 rounded-md"></div>
+                <div className="w-12 h-12 bg-gray-200 rounded-md">
+                  <img src="../login.svg" alt="" />
+                </div>
               </td>
 
               <td className="px-6 py-4">
