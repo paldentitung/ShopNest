@@ -17,6 +17,7 @@ import {
 } from "recharts";
 import MainButton from "../../Components/MainButton";
 import SecondaryButton from "../../Components/SecondaryButton";
+import AdminHeader from "../../Components/AdminHeader";
 const Dashboard = () => {
   const overviewCards = [
     {
@@ -105,19 +106,7 @@ const Dashboard = () => {
 
   return (
     <div className="flex flex-col ">
-      <header className="flex justify-between items-center p-6 w-full">
-        <div className="w-full max-w-110 relative">
-          <input
-            type="search"
-            placeholder="search..."
-            className="pl-8 pr-2  py-2 w-full outline-0 rounded-sm border border-(--color-border) transition-all duration-300 focus:ring  focus:ring-(--color-foreground)"
-          />
-          <FaSearch className=" absolute top-3 mx-2" />
-        </div>
-        <div>
-          <FaUser />
-        </div>
-      </header>
+      <AdminHeader title="Dashboard" />
 
       <main className="bg-(--color-background) min-h-screen p-6">
         {/* overview cards */}
