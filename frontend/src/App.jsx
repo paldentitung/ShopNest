@@ -16,6 +16,7 @@ import AdminProfile from "./Pages/Admin/AdminProfile";
 import UserManagement from "./Pages/Admin/UserManagement";
 import Shipping from "./Pages/User/Shipping";
 import Payment from "./Pages/User/Payment";
+import Review from "./Pages/User/Review";
 const App = () => {
   return (
     <Routes>
