@@ -35,16 +35,17 @@ const ProductCard = ({ product }) => {
         </div>
 
         {/* Rating */}
-        <div className="flex items-center justify-between ">
-          {ratingImages[product.rating.stars] ? (
+        <div className="flex items-center justify-between">
+          {product.rating.count > 0 ? (
             <img
               src={ratingImages[product.rating.stars]}
               alt={`${product.rating.stars} stars`}
               className="w-20"
             />
           ) : (
-            <span className="text-gray-500">No rating</span>
+            <span className="text-gray-400 text-sm">No reviews yet</span>
           )}
+
           <span className="text-sm text-gray-600">
             ({product.rating.count})
           </span>
