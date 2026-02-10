@@ -14,6 +14,8 @@ import AdminLogin from "./Pages/auth/AdminLogin";
 import OrderManagement from "./Pages/Admin/OrderManagement";
 import AdminProfile from "./Pages/Admin/AdminProfile";
 import UserManagement from "./Pages/Admin/UserManagement";
+import Shipping from "./Pages/User/Shipping";
+import Payment from "./Pages/User/Payment";
 const App = () => {
   return (
     <Routes>
@@ -34,9 +36,12 @@ const App = () => {
         <Route index element={<Home />} /> {/* /user */}
         <Route path="products" element={<ProductPage />} />
         <Route path="about" element={<AboutPage />} />
-        <Route path="cart" element={<Cart />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="shipping" element={<Shipping />} />
+        <Route path="payment" element={<Payment />} />
+        <Route path="Review" element={<Review />} />
       </Route>
     </Routes>
   );
