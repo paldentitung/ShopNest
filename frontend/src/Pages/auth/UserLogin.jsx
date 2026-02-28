@@ -1,7 +1,40 @@
 import React from "react";
 import MainButton from "../../Components/MainButton";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../../Services/authApi";
+
 const UserLogin = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await login({ email, password });
+      console.log(res);
+
+      if (res.token) {
+        localStorage.setItem("token", res.token); // save JWT
+
+        // redirect based on role
+        if (res.user.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/user/");
+        }
+      } else {
+        alert(res.message || "Login failed");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong");
+    }
+  };
   return (
     <section className="min-h-screen bg-(--color-background)  flex justify-center items-center">
       {/* wrapper */}
@@ -16,7 +49,10 @@ const UserLogin = () => {
         </div>
         <div className="hidden md:block border border-gray-100"></div>
         <div className="flex-1">
-          <form className="flex justify-center items-center flex-col space-y-3">
+          <form
+            onSubmit={handleLogin}
+            className="flex justify-center items-center flex-col space-y-3"
+          >
             <div className="text-center flex justify-center items-center flex-col gap-2">
               <h2 className="font-semibold">ShopNest</h2>
               <div>
@@ -31,6 +67,7 @@ const UserLogin = () => {
               <input
                 type="email"
                 name="email"
+                onChange={(e) => setEmail(e.target.value)}
                 className="border border-(--color-border) p-2 outline-0 rounded-md shadow transition-all duration-300 focus:ring-2 focus:ring-(--color-foreground) focus:ring-offset-2  focus:ring-offset-white  "
                 required
               />
@@ -40,6 +77,7 @@ const UserLogin = () => {
               <input
                 type="password"
                 name="password"
+                onChange={(e) => setPassword(e.target.value)}
                 className="border border-(--color-border) p-2 outline-0 rounded-md shadow transition-all duration-300 focus:ring-2 focus:ring-(--color-foreground) focus:ring-offset-2  focus:ring-offset-white  "
                 required
               />
@@ -47,7 +85,10 @@ const UserLogin = () => {
             <button type="button" className="text-[13px] ml-auto md:pr-10">
               Forgot password?
             </button>
-            <button className=" w-full max-w-sm px-6 py-3 bg-(--color-foreground) text-white rounded-md shadow-md opacity-90 hover:opacity-100 transition-all duration-300 hover:cursor-pointer ">
+            <button
+              type="submit"
+              className=" w-full max-w-sm px-6 py-3 bg-(--color-foreground) text-white rounded-md shadow-md opacity-90 hover:opacity-100 transition-all duration-300 hover:cursor-pointer "
+            >
               Login
             </button>
 
@@ -75,7 +116,7 @@ const UserLogin = () => {
             </div>
             <div className="text-sm mt-8 flex items-center gap-3">
               Don't have an account?
-              <button type="button">Signup</button>
+              <Link to="/register">Signup</Link>
             </div>
           </form>
         </div>

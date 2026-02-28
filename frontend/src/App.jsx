@@ -17,11 +17,13 @@ import UserManagement from "./Pages/Admin/UserManagement";
 import Shipping from "./Pages/User/Shipping";
 import Payment from "./Pages/User/Payment";
 import Review from "./Pages/User/Review";
+import Register from "./Pages/auth/Register";
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/login/user" />} />
 
+      <Route path="/register" element={<Register />} />
       <Route path="/login/user" element={<UserLogin />} />
       <Route path="/login/admin" element={<AdminLogin />} />
 
