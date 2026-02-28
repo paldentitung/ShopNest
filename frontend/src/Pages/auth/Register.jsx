@@ -26,18 +26,18 @@ const Register = () => {
   return (
     <section className="min-h-screen bg-(--color-background) flex justify-center items-center">
       {/* wrapper */}
-      <div className="bg-white w-full max-w-5xl mx-auto h-full max-h-260 rounded-2xl shadow p-8 flex gap-8 overflow-hidden">
+      <div className="bg-white w-full max-w-5xl mx-auto h-full max-h-200 rounded-2xl shadow p-8 flex gap-8 overflow-hidden">
         {/* Left side illustration */}
         <div className="hidden md:flex flex-1 h-1/2 flex-col gap-10 overflow-hidden">
           <div className="font-bold text-lg text-center">
             Register now to explore the latest collections and enjoy exclusive
             offers.
           </div>
-          <div className="h-1/3">
+          <div className="h-full">
             <img
-              src="../register.svg"
+              src="/register.svg"
               alt="Register Illustration"
-              className=""
+              className="h-full"
             />
           </div>
         </div>
@@ -120,22 +120,6 @@ const Register = () => {
               <span className="flex-1 border-b border-gray-400"></span>
               <span className="px-2">Or Register with</span>
               <span className="flex-1 border-b border-gray-400"></span>
-            </div>
-
-            {/* Social buttons */}
-            <div className="flex gap-3">
-              <button
-                type="button"
-                className="flex items-center gap-1 px-8 py-3 rounded-msm border border-(--color-border)"
-              >
-                <FaGoogle /> Google
-              </button>
-              <button
-                type="button"
-                className="flex items-center gap-1 px-8 py-3 rounded-msm border border-(--color-border)"
-              >
-                <FaFacebook /> Facebook
-              </button>
             </div>
 
             {/* Link to login */}
