@@ -15,9 +15,10 @@ connectdb();
 
 // routes
 const ProductRoute = require("./routes/productRoute");
-
+const AuthRoute = require("./routes/AuthRoute");
 // define routes
 app.use("/api/products", ProductRoute);
+app.use("/api/auth", AuthRoute);
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);

@@ -26,8 +26,9 @@ const userSchema = new mongoose.Schema(
     totalOrders: {
       type: Number,
     },
+    isVerified: { type: Boolean, default: false },
     status: {
-      stype: String,
+      type: String,
       enum: ["active", "Blocked"],
       default: "active",
     },
