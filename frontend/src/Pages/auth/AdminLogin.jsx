@@ -47,7 +47,9 @@ const AdminLogin = () => {
             <button type="button" className="text-[13px] ml-auto md:pr-10">
               Forgot password?
             </button>
-            <MainButton name="login" type="submit" />
+            <button className=" w-full max-w-sm px-6 py-3 bg-(--color-foreground) text-white rounded-md shadow-md opacity-90 hover:opacity-100 transition-all duration-300 hover:cursor-pointer ">
+              Login
+            </button>
 
             <div className="text-sm mt-8 flex items-center gap-3">
               Don't have an account?

@@ -47,7 +47,9 @@ const UserLogin = () => {
             <button type="button" className="text-[13px] ml-auto md:pr-10">
               Forgot password?
             </button>
-            <MainButton name="login" type="submit" />
+            <button className=" w-full max-w-sm px-6 py-3 bg-(--color-foreground) text-white rounded-md shadow-md opacity-90 hover:opacity-100 transition-all duration-300 hover:cursor-pointer ">
+              Login
+            </button>
 
             <div className="flex items-center text-[14px] text-gray-500 gap-2 my-4 w-full max-w-sm">
               <span className="flex-1 border-b border-gray-400"></span>

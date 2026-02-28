@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./Pages/Admin/Dashboard";
 import AdminLayout from "./Layouts/AdminLayout";
 import AboutPage from "./Pages/User/AboutPage";
@@ -20,6 +20,8 @@ import Review from "./Pages/User/Review";
 const App = () => {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/login/user" />} />
+
       <Route path="/login/user" element={<UserLogin />} />
       <Route path="/login/admin" element={<AdminLogin />} />
 
