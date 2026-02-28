@@ -17,6 +17,7 @@ import Payment from "./Pages/User/Payment";
 import Review from "./Pages/User/Review";
 import Register from "./Pages/auth/Register";
 import Login from "./Pages/auth/Login";
+import PageNotFound from "./Components/PageNotFound";
 const App = () => {
   return (
     <Routes>
@@ -24,6 +25,7 @@ const App = () => {
 
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="*" element={<PageNotFound />} />
 
       {/* admin */}
       <Route path="/admin" element={<AdminLayout />}>
