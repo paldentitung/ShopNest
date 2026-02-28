@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../Services/authApi";
 
-const UserLogin = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,7 +19,7 @@ const UserLogin = () => {
       console.log(res);
 
       if (res.token) {
-        localStorage.setItem("token", res.token); // save JWT
+        localStorage.setItem("ShopNext-token", res.token); // save JWT
 
         // redirect based on role
         if (res.user.role === "admin") {
@@ -125,4 +125,4 @@ const UserLogin = () => {
   );
 };
 
-export default UserLogin;
+export default Login;
