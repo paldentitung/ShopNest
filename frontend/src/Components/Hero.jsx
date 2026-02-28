@@ -31,7 +31,7 @@ const Hero = () => {
             className="bg-gray-400 rounded-md shadow-lg h-72"
           >
             <img
-              src="hero-image-5.jpg"
+              src="/hero-image-5.jpg"
               alt=""
               className="h-full w-full object-cover"
             />
@@ -44,7 +44,7 @@ const Hero = () => {
             className="bg-gray-400 rounded-md shadow-lg h-72"
           >
             <img
-              src="hero-image-2.jpg"
+              src="/hero-image-2.jpg"
               alt=""
               className="h-full object-cover"
             />
@@ -61,7 +61,7 @@ const Hero = () => {
         >
           <div className="bg-gray-400 rounded-md shadow-lg h-72 w-full">
             <img
-              src="hero-image-6.jpg"
+              src="/hero-image-6.jpg"
               alt=""
               className="h-full w-full object-cover"
             />
@@ -78,7 +78,7 @@ const Hero = () => {
         >
           <div className="bg-gray-400 rounded-md shadow-lg h-52 w-full">
             <img
-              src="public/hero-image-1.jpg"
+              src="/hero-image-1.jpg"
               alt=""
               className="h-full w-full object-cover"
             />
@@ -95,7 +95,7 @@ const Hero = () => {
         >
           <div className="bg-gray-400 rounded-md shadow-lg h-72 w-full">
             <img
-              src="hero-image-7.jpg"
+              src="/hero-image-7.jpg"
               alt=""
               className="h-full object-cover"
             />
@@ -112,7 +112,7 @@ const Hero = () => {
             className="bg-gray-400 rounded-md shadow-lg h-72"
           >
             <img
-              src="hero-image-3.jpg"
+              src="/hero-image-3.jpg"
               alt=""
               className="h-full object-cover"
             />
@@ -125,7 +125,7 @@ const Hero = () => {
             className="bg-gray-400 rounded-md shadow-lg h-72"
           >
             <img
-              src="hero-image-4.jpg"
+              src="/hero-image-4.jpg"
               alt=""
               className="h-full w-full object-cover"
             />

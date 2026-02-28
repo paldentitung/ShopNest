@@ -1,6 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { FaShoppingCart, FaUser, FaTimes, FaBars } from "react-icons/fa";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  FaShoppingCart,
+  FaUser,
+  FaTimes,
+  FaBars,
+  FaSearch,
+} from "react-icons/fa";
 import { motion } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
+import { SearchContext } from "../Context/SearchContext";
 const Header = () => {
   const [isScroll, setIsScroll] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -14,6 +22,7 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const { showSearchBar, setShowSearchBar } = useContext(SearchContext);
   return (
     <>
       <div className="fixed top-0 left-0 w-full z-50 flex justify-between items-center p-6 ">
@@ -71,10 +80,19 @@ const Header = () => {
               : "bg-(--color-surface)]/30 text-(--color-foreground) border-(--color-border)"
           }`}
         >
-          <div className="flex gap-1 items-center">
+          <div className="relative flex items-center">
+            {/* Search Icon */}
+            <button
+              type="button"
+              onClick={() => setShowSearchBar(!showSearchBar)}
+            >
+              <FaSearch />
+            </button>
+          </div>
+          <Link to="/user/cart" className="flex gap-1 items-center">
             <FaShoppingCart size={18} />
             <span>12</span>
-          </div>
+          </Link>
           <div className="hidden md:block">
             <FaUser size={18} />
           </div>
