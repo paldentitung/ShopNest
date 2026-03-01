@@ -4,11 +4,14 @@ import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { SearchProvider } from "./Context/SearchContext.jsx";
+import { ModalProvider } from "./Context/ModalContext.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <SearchProvider>
-        <App />
+        <ModalProvider>
+          <App />
+        </ModalProvider>
       </SearchProvider>
     </BrowserRouter>
   </StrictMode>,
