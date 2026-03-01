@@ -63,6 +63,39 @@ exports.createProduct = async (req, res) => {
   }
 };
 
+exports.updateProduct = async (req, res) => {
+  try {
+    const productId = req.params.id;
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    const updates = req.body;
+    if (updates.name) {
+      updates.slug = slugify(updates.name, { lower: true });
+    }
+
+    if (req.file) {
+      const imagePath = `uploads/products/${req.file.filename}`;
+      updates.images = [imagePath];
+    }
+    const updatedProduct = await Product.findByIdAndUpdate(productId, updates, {
+      new: true,
+    });
+
+    res
+      .status(200)
+      .json({ message: "Updated product successfully", updatedProduct });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.deleteProduct = async (req, res) => {
   try {
     const productId = req.params.id;
