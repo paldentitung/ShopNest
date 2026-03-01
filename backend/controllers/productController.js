@@ -9,7 +9,7 @@ exports.getAllProduct = async (req, res) => {
       name: p.name,
       slug: p.slug,
       category: p.category || "Clothing",
-      images: `http://localhost:3000${p.images}`,
+      images: p.images.map((img) => `http://localhost:3000${img}`), // no extra '/'
       priceCents: p.priceCents,
       rating: p.rating,
       description: p.description,
