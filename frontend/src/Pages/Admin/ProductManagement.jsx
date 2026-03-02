@@ -5,10 +5,20 @@ import Modal from "../../Components/Modal";
 import { ModalContext } from "../../Context/ModalContext";
 import SecondaryButton from "../../Components/SecondaryButton";
 import { getAllProducts } from "../../Services/productApi";
-
+import { createProduct } from "../../Services/productApi";
 const ProductManagement = () => {
   const { setShowModal } = useContext(ModalContext);
   const [products, setProducts] = useState([]);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    category: "",
+    priceCents: "",
+    stock: "",
+    rating: "",
+    description: "",
+    imageFile: null,
+  });
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -19,12 +29,47 @@ const ProductManagement = () => {
     fetchProducts();
   }, []);
 
+  const handleChange = (e) => {
+    const { id, value, type } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [id]: type === "number" && value !== "" ? Number(value) : value,
+    }));
+  };
+  const handleFileChange = (e) => {
+    setFormData((prev) => ({ ...prev, imageFile: e.target.files[0] }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("category", formData.category);
+    data.append("priceCents", formData.priceCents);
+    data.append("stock", formData.stock);
+    data.append("rating", formData.rating);
+    data.append("description", formData.description);
+    if (formData.imageFile) {
+      data.append("image", formData.imageFile); // must match multer field name
+    }
+
+    try {
+      const response = await createProduct(data); // API call
+      console.log(response);
+      setShowModal(false);
+      // optionally refetch products
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <div className="w-full">
         <AdminHeader title="Product Management" />
         <div className="w-full max-w-7xl mx-auto mt-6 bg-white rounded-xl shadow border border-gray-100 overflow-x-scroll">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bg-white border-b border-gray-200">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bg-white border-b border-gray-200 sticky top-0 z-40">
             {/* Search Input */}
             <div className="relative flex-1 max-w-md">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -80,8 +125,8 @@ const ProductManagement = () => {
             </thead>
 
             <tbody className="divide-y">
-              {products.map((product) => (
-                <tr>
+              {products.map((product, index) => (
+                <tr key={index}>
                   <td className="px-6 py-4 font-medium text-gray-800">
                     {product.name}
                   </td>
@@ -168,7 +213,7 @@ const ProductManagement = () => {
             Add New Product
           </h2>
 
-          <form className="flex flex-col gap-5">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             {/* Product Name */}
             <div className="flex flex-col gap-1.5">
               <label
@@ -178,8 +223,10 @@ const ProductManagement = () => {
                 Product Name
               </label>
               <input
-                id="productName"
+                id="name"
                 type="text"
+                value={formData.name}
+                onChange={handleChange}
                 placeholder="e.g. Denim Jacket"
                 className="border border-gray-300 px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm"
               />
@@ -196,6 +243,8 @@ const ProductManagement = () => {
               <input
                 id="category"
                 type="text"
+                value={formData.category}
+                onChange={handleChange}
                 placeholder="e.g. Jacket, T-Shirt, Accessories"
                 className="border border-gray-300 px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm"
               />
@@ -211,8 +260,10 @@ const ProductManagement = () => {
                   Price (in cents)
                 </label>
                 <input
-                  id="price"
+                  id="priceCents"
                   type="number"
+                  value={formData.priceCents}
+                  onChange={handleChange}
                   placeholder="2999"
                   className="border border-gray-300 px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm"
                 />
@@ -228,6 +279,8 @@ const ProductManagement = () => {
                 <input
                   id="stock"
                   type="number"
+                  value={formData.stock}
+                  onChange={handleChange}
                   placeholder="50"
                   className="border border-gray-300 px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm"
                 />
@@ -240,12 +293,17 @@ const ProductManagement = () => {
                 >
                   Rating
                 </label>
-                <select className="border border-gray-300 px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm ">
-                  <option value="one-star">One Star</option>
-                  <option value="two-star">Two Star</option>
-                  <option value="three-star">Three Star</option>
-                  <option value="four-star">Four Star</option>
-                  <option value="five-star">Five Star</option>
+                <select
+                  id="rating"
+                  value={formData.rating}
+                  onChange={handleChange}
+                  className="border border-gray-300 px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm "
+                >
+                  <option value="1">One Star</option>
+                  <option value="2">Two Star</option>
+                  <option value="3">Three Star</option>
+                  <option value="4">Four Star</option>
+                  <option value="5">Five Star</option>
                 </select>
               </div>
             </div>
@@ -260,6 +318,8 @@ const ProductManagement = () => {
               </label>
               <textarea
                 id="description"
+                value={formData.description}
+                onChange={handleChange}
                 placeholder="Short product description..."
                 className="border border-gray-300 px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm min-h-25 resize-y"
                 rows={4}
@@ -278,6 +338,7 @@ const ProductManagement = () => {
                 <input
                   id="image"
                   type="file"
+                  onChange={handleFileChange}
                   accept="image/*"
                   className="hidden"
                 />
@@ -295,7 +356,7 @@ const ProductManagement = () => {
             {/* Buttons */}
             <div className="flex justify-end gap-3 mt-6">
               <SecondaryButton name="Cancel" />
-              <MainButton name="Add Product" />
+              <MainButton name="Add Product" type="submit" />
             </div>
           </form>
         </div>

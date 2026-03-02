@@ -12,3 +12,21 @@ export const getAllProducts = async () => {
     alert("error" + error);
   }
 };
+export const createProduct = async (formData) => {
+  try {
+    const res = await fetch("http://localhost:3000/api/products", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) {
+      throw new Error("error");
+    }
+
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Create Product Error:", error);
+    alert(error.message);
+  }
+};
