@@ -9,6 +9,7 @@ import { createProduct } from "../../Services/productApi";
 const ProductManagement = () => {
   const { setShowModal } = useContext(ModalContext);
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -79,12 +80,22 @@ const ProductManagement = () => {
     setProducts((prev) => prev.filter((p) => p._id !== id));
   };
 
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value.toLowerCase());
+  };
+
+  const filteredProducts = products.filter(
+    (product) =>
+      product.name.toLowerCase().includes(searchTerm) ||
+      (product.category && product.category.toLowerCase().includes(searchTerm)),
+  );
+
   return (
     <>
       <div className="w-full">
         <AdminHeader title="Product Management" />
-        <div className="w-full max-w-7xl mx-auto mt-6 bg-white rounded-xl shadow border border-gray-100 overflow-x-scroll">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="w-full max-w-7xl mx-auto mt-6 bg-white rounded-xl h-screen shadow border border-gray-100 overflow-x-scroll">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bg-white border-b border-gray-200 sticky top-0 z-10">
             {/* Search Input */}
             <div className="relative flex-1 max-w-md">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -105,6 +116,8 @@ const ProductManagement = () => {
 
               <input
                 type="search"
+                value={searchTerm}
+                onChange={handleSearch}
                 className={`
         w-full pl-11 pr-4 py-2.5 
         bg-gray-50 border border-gray-300 
@@ -140,7 +153,7 @@ const ProductManagement = () => {
             </thead>
 
             <tbody className="divide-y">
-              {products.map((product, index) => (
+              {filteredProducts.map((product, index) => (
                 <tr key={index}>
                   <td className="px-6 py-4 font-medium text-gray-800">
                     {product.name}
