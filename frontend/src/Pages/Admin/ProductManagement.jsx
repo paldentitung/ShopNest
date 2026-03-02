@@ -22,7 +22,6 @@ const ProductManagement = () => {
     category: "",
     priceCents: "",
     stock: "",
-    rating: "",
     description: "",
     imageFile: null,
   });
@@ -302,7 +301,7 @@ const ProductManagement = () => {
             </div>
 
             {/* Price & Stock – side by side on larger screens */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="flex flex-col gap-1.5">
                 <label
                   htmlFor="price"
@@ -335,27 +334,6 @@ const ProductManagement = () => {
                   placeholder="50"
                   className="border border-gray-300 px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm"
                 />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label
-                  htmlFor="description"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Rating
-                </label>
-                <select
-                  id="rating"
-                  value={formData.rating}
-                  onChange={handleChange}
-                  className="border border-gray-300 px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm "
-                >
-                  <option value="1">One Star</option>
-                  <option value="2">Two Star</option>
-                  <option value="3">Three Star</option>
-                  <option value="4">Four Star</option>
-                  <option value="5">Five Star</option>
-                </select>
               </div>
             </div>
 

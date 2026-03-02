@@ -12,7 +12,10 @@ exports.getAllProduct = async (req, res) => {
       category: p.category || "Clothing",
       images: p.images.map((img) => `http://localhost:3000/${img}`),
       priceCents: p.priceCents,
-      rating: p.rating,
+      rating: {
+        stars: Number(p.rating) || 0,
+        count: Number(p.reviewCount) || 0,
+      },
       description: p.description,
       variations: p.variations,
       stock: p.stock,
@@ -46,9 +49,9 @@ exports.createProduct = async (req, res) => {
       slug,
       category,
       priceCents: Number(priceCents),
-      rating: Number(rating),
+      rating: 0,
       description,
-      stock: Number(stock),
+      stock: 0,
       variations,
       images: imagePaths,
     });
@@ -84,9 +87,17 @@ exports.updateProduct = async (req, res) => {
       new: true,
     });
 
-    res
-      .status(200)
-      .json({ message: "Updated product successfully", updatedProduct });
+    res.status(200).json({
+      message: "Updated product successfully",
+      updatedProduct: {
+        ...updatedProduct.toObject(),
+        rating: {
+          stars: updatedProduct.rating ?? 0,
+          count: updatedProduct.reviewCount ?? 0,
+        },
+        images: updatedProduct.images || [],
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
