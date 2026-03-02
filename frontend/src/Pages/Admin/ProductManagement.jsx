@@ -4,12 +4,18 @@ import MainButton from "../../Components/MainButton";
 import Modal from "../../Components/Modal";
 import { ModalContext } from "../../Context/ModalContext";
 import SecondaryButton from "../../Components/SecondaryButton";
-import { deleteProduct, getAllProducts } from "../../Services/productApi";
-import { createProduct } from "../../Services/productApi";
+import {
+  deleteProduct,
+  getAllProducts,
+  updateProduct,
+  createProduct,
+} from "../../Services/productApi";
+
 const ProductManagement = () => {
   const { setShowModal } = useContext(ModalContext);
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isEditing, setIsEditing] = useState(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -56,20 +62,65 @@ const ProductManagement = () => {
     }
 
     try {
-      const response = await createProduct(data);
-      const newProduct = {
-        ...response.savedProduct,
-        images: response.savedProduct.images.map(
-          (img) => `http://localhost:3000/${img}`,
-        ),
-      };
+      if (!isEditing) {
+        const response = await createProduct(data);
 
-      setProducts((prev) => [...prev, newProduct]);
-      console.log(response);
+        const newProduct = {
+          ...response.savedProduct,
+          images:
+            response.savedProduct.images?.map(
+              (img) => `http://localhost:3000/${img}`,
+            ) || [],
+        };
+
+        setProducts((prev) => [...prev, newProduct]);
+      } else {
+        // Update
+        const response = await updateProduct(isEditing, data);
+
+        const updatedProduct = {
+          ...products.find((p) => p._id === isEditing), // keep old fields
+          ...response.updatedProduct, // overwrite updated fields
+          images:
+            response.updatedProduct.images?.map(
+              (img) => `http://localhost:3000/${img}`,
+            ) || products.find((p) => p._id === isEditing).images,
+        };
+        setProducts((prev) =>
+          prev.map((p) => (p._id === updatedProduct._id ? updatedProduct : p)),
+        );
+
+        setIsEditing(null);
+      }
       setShowModal(false);
+      setFormData({
+        name: "",
+        category: "",
+        priceCents: "",
+        stock: "",
+        rating: "",
+        description: "",
+        imageFile: null,
+      });
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleEdit = (product) => {
+    setIsEditing(product._id);
+
+    setFormData({
+      name: product.name,
+      category: product.category,
+      priceCents: product.priceCents,
+      stock: product.stock,
+      rating: product.rating,
+      description: product.description,
+      imageFile: null, // we only upload new image if needed
+    });
+
+    setShowModal(true);
   };
 
   const handleDelete = async (id) => {
@@ -154,7 +205,7 @@ const ProductManagement = () => {
 
             <tbody className="divide-y">
               {filteredProducts.map((product, index) => (
-                <tr key={index}>
+                <tr key={product._id}>
                   <td className="px-6 py-4 font-medium text-gray-800">
                     {product.name}
                   </td>
@@ -188,7 +239,10 @@ const ProductManagement = () => {
                   </td>
 
                   <td className="px-6 py-4 flex justify-center items-center mt-3 gap-2">
-                    <button className="px-3 py-1 text-xs rounded-md bg-blue-600 text-white hover:bg-blue-700">
+                    <button
+                      onClick={() => handleEdit(product)}
+                      className="px-3 py-1 text-xs rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                    >
                       Edit
                     </button>
                     <button
@@ -200,40 +254,6 @@ const ProductManagement = () => {
                   </td>
                 </tr>
               ))}
-              <tr>
-                <td className="px-6 py-4 font-medium text-gray-800">
-                  Denim Jacket
-                </td>
-                <td className="px-6 py-4">Jacket</td>
-                <td className="px-6 py-4">$29.99</td>
-
-                <td className="px-6 py-4">
-                  <div className="w-12 h-12 bg-gray-200 rounded-md">
-                    <img src="../login.svg" alt="" />
-                  </div>
-                </td>
-
-                <td className="px-6 py-4">
-                  <span className="px-3 py-1 rounded-full text-xs bg-green-100 text-green-700">
-                    In Stock
-                  </span>
-                </td>
-
-                <td className="px-6 py-4">
-                  <span className="px-3 py-1 rounded-full text-xs bg-blue-100 text-blue-700">
-                    Shipping
-                  </span>
-                </td>
-
-                <td className="px-6 py-4 flex justify-center items-center mt-3 gap-2">
-                  <button className="px-3 py-1 text-xs rounded-md bg-blue-600 text-white hover:bg-blue-700">
-                    Edit
-                  </button>
-                  <button className="px-3 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-600">
-                    Delete
-                  </button>
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -387,7 +407,10 @@ const ProductManagement = () => {
             {/* Buttons */}
             <div className="flex justify-end gap-3 mt-6">
               <SecondaryButton name="Cancel" />
-              <MainButton name="Add Product" type="submit" />
+              <MainButton
+                name={isEditing ? "Edit Product" : "Add Product"}
+                type="submit"
+              />
             </div>
           </form>
         </div>

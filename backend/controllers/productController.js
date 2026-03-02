@@ -67,24 +67,19 @@ exports.createProduct = async (req, res) => {
 exports.updateProduct = async (req, res) => {
   try {
     const productId = req.params.id;
-
     const product = await Product.findById(productId);
-
-    if (!product) {
-      return res.status(404).json({
-        message: "Product not found",
-      });
-    }
+    if (!product) return res.status(404).json({ message: "Product not found" });
 
     const updates = req.body;
-    if (updates.name) {
-      updates.slug = slugify(updates.name, { lower: true });
-    }
 
-    if (req.file) {
-      const imagePath = `uploads/products/${req.file.filename}`;
-      updates.images = [imagePath];
-    }
+    if (updates.priceCents) updates.priceCents = Number(updates.priceCents);
+    if (updates.stock) updates.stock = Number(updates.stock);
+    if (updates.rating) updates.rating = Number(updates.rating);
+
+    if (updates.name) updates.slug = slugify(updates.name, { lower: true });
+
+    if (req.file) updates.images = [`uploads/products/${req.file.filename}`];
+
     const updatedProduct = await Product.findByIdAndUpdate(productId, updates, {
       new: true,
     });

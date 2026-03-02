@@ -30,6 +30,26 @@ export const createProduct = async (formData) => {
     alert(error.message);
   }
 };
+
+export const updateProduct = async (id, productData) => {
+  try {
+    const res = await fetch(`http://localhost:3000/api/products/${id}`, {
+      method: "PUT",
+      body: productData,
+    });
+
+    if (!res.ok) {
+      throw new Error("error");
+    }
+
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Update Product Error:", error);
+    alert(error.message);
+  }
+};
+
 export const deleteProduct = async (id) => {
   try {
     const res = await fetch(`http://localhost:3000/api/products/${id}`, {
@@ -43,7 +63,7 @@ export const deleteProduct = async (id) => {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error("Create Product Error:", error);
+    console.error("Delete Product Error:", error);
     alert(error.message);
   }
 };
