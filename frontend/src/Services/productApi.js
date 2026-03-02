@@ -30,3 +30,20 @@ export const createProduct = async (formData) => {
     alert(error.message);
   }
 };
+export const deleteProduct = async (id) => {
+  try {
+    const res = await fetch(`http://localhost:3000/api/products/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) {
+      throw new Error("error");
+    }
+
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Create Product Error:", error);
+    alert(error.message);
+  }
+};

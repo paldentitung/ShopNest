@@ -6,6 +6,7 @@ exports.getAllProduct = async (req, res) => {
     const products = await Product.find();
 
     const orderedProducts = products.map((p) => ({
+      _id: p._id,
       name: p.name,
       slug: p.slug,
       category: p.category || "Clothing",

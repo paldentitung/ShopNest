@@ -4,7 +4,7 @@ import MainButton from "../../Components/MainButton";
 import Modal from "../../Components/Modal";
 import { ModalContext } from "../../Context/ModalContext";
 import SecondaryButton from "../../Components/SecondaryButton";
-import { getAllProducts } from "../../Services/productApi";
+import { deleteProduct, getAllProducts } from "../../Services/productApi";
 import { createProduct } from "../../Services/productApi";
 const ProductManagement = () => {
   const { setShowModal } = useContext(ModalContext);
@@ -51,17 +51,32 @@ const ProductManagement = () => {
     data.append("rating", formData.rating);
     data.append("description", formData.description);
     if (formData.imageFile) {
-      data.append("image", formData.imageFile); // must match multer field name
+      data.append("image", formData.imageFile);
     }
 
     try {
-      const response = await createProduct(data); // API call
+      const response = await createProduct(data);
+      const newProduct = {
+        ...response.savedProduct,
+        images: response.savedProduct.images.map(
+          (img) => `http://localhost:3000/${img}`,
+        ),
+      };
+
+      setProducts((prev) => [...prev, newProduct]);
       console.log(response);
       setShowModal(false);
-      // optionally refetch products
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this note")) return;
+
+    await deleteProduct(id);
+
+    setProducts((prev) => prev.filter((p) => p._id !== id));
   };
 
   return (
@@ -163,7 +178,10 @@ const ProductManagement = () => {
                     <button className="px-3 py-1 text-xs rounded-md bg-blue-600 text-white hover:bg-blue-700">
                       Edit
                     </button>
-                    <button className="px-3 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-600">
+                    <button
+                      onClick={() => handleDelete(product._id)}
+                      className="px-3 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-600"
+                    >
                       Delete
                     </button>
                   </td>
