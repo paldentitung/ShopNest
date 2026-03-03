@@ -18,6 +18,7 @@ import Review from "./Pages/User/Review";
 import Register from "./Pages/auth/Register";
 import Login from "./Pages/auth/Login";
 import PageNotFound from "./Components/PageNotFound";
+import CheckOutLayout from "./Layouts/CheckoutLayout";
 const App = () => {
   return (
     <Routes>
@@ -43,11 +44,41 @@ const App = () => {
         <Route path="about" element={<AboutPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="cart" element={<Cart />} />
-        <Route path="shipping" element={<Shipping />} />
-        <Route path="payment" element={<Payment />} />
         <Route path="Review" element={<Review />} />
       </Route>
+
+      <Route
+        path="cart"
+        element={
+          <CheckOutLayout>
+            <Cart />
+          </CheckOutLayout>
+        }
+      />
+      <Route
+        path="shipping"
+        element={
+          <CheckOutLayout>
+            <Shipping />
+          </CheckOutLayout>
+        }
+      />
+      <Route
+        path="payment"
+        element={
+          <CheckOutLayout>
+            <Payment />
+          </CheckOutLayout>
+        }
+      />
+      <Route
+        path="review"
+        element={
+          <CheckOutLayout>
+            <Review />
+          </CheckOutLayout>
+        }
+      />
     </Routes>
   );
 };

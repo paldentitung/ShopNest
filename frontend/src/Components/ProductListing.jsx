@@ -1,4 +1,5 @@
 import products from "../data/productData";
+import MainButton from "./MainButton";
 
 import ProductCard from "./ProductCard";
 const ProductListing = ({ products }) => {
@@ -16,6 +17,10 @@ const ProductListing = ({ products }) => {
             <ProductCard key={product.slug} product={product} />
           ))}
         </div>
+      </div>
+
+      <div className="flex justify-center items-center">
+        <MainButton name="Show More" />
       </div>
     </div>
   );

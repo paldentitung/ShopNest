@@ -1,7 +1,7 @@
 import React from "react";
 
 const Cart = () => {
-  return <div>Cart</div>;
+  return <section className=" min-h-screen"></section>;
 };
 
 export default Cart;
