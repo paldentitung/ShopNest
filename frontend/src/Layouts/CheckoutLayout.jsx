@@ -6,7 +6,7 @@ const CheckOutLayout = ({ children }) => {
   return (
     <div>
       <Header />
-      <main className="flex flex-col gap-10 mt-30">{children}</main>
+      <main className="flex flex-col gap-10 mt-25">{children}</main>
     </div>
   );
 };
