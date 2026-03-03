@@ -2,10 +2,12 @@ import React from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import MainButton from "../../Components/MainButton";
 import SecondaryButton from "../../Components/SecondaryButton";
+import CheckoutStepper from "../../Components/CheckoutStepper";
 const Cart = () => {
   return (
     <section className=" min-h-screen bg-(--color-background)">
-      <div className=" p-[4%] lg:px-[10%] lg:py-[3%] flex flex-col gap-4">
+      <div className="p-6 lg:px-[10%]  flex flex-col gap-4">
+        <CheckoutStepper currentStep={1} />
         <div className="flex gap-2 ">
           <h3 className=" text-2xl md:text-3xl font-bold">Shopping Cart</h3>
           <span className=" self-end">(4 items)</span>

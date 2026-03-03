@@ -1,7 +1,12 @@
 import React from "react";
+import CheckoutStepper from "../../Components/CheckoutStepper";
 
 const Review = () => {
-  return <div>Review</div>;
+  return (
+    <div>
+      <CheckoutStepper currentStep={4} />
+    </div>
+  );
 };
 
 export default Review;

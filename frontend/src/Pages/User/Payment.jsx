@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import MainButton from "../../Components/MainButton";
+import CheckoutStepper from "../../Components/CheckoutStepper";
 
 const Payment = () => {
   const [method, setMethod] = useState("card");
 
   return (
     <section className="bg-(--color-background) w-full min-h-screen py-10">
+      <CheckoutStepper currentStep={3} />
       <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-8 px-4">
         <div className="flex-1 bg-white shadow-lg rounded-2xl p-6 flex flex-col gap-6">
           <h2 className="text-xl font-semibold">Payment Method</h2>

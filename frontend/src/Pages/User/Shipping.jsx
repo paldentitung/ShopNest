@@ -1,9 +1,11 @@
 import React from "react";
 import SecondaryButton from "../../Components/SecondaryButton";
 import MainButton from "../../Components/MainButton";
+import CheckoutStepper from "../../Components/CheckoutStepper";
 const Shipping = () => {
   return (
     <section className="bg-(--color-background) min-h-screen w-full p-6 md:p-10">
+      <CheckoutStepper currentStep={2} />
       <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-10   ">
         <div className="flex flex-col gap-6 w-full lg:w-[70%]">
           <div className="bg-(--color-surface) p-5 rounded-md shadow-md ">
