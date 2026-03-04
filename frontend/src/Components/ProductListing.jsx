@@ -2,7 +2,7 @@ import products from "../data/productData";
 import MainButton from "./MainButton";
 
 import ProductCard from "./ProductCard";
-const ProductListing = ({ products }) => {
+const ProductListing = ({ products, isHidden = false }) => {
   return (
     <div className="bg-gray-50 min-h-screen py-10 px-4 flex flex-col gap-8">
       {/* Heading */}
@@ -20,7 +20,7 @@ const ProductListing = ({ products }) => {
       </div>
 
       <div className="flex justify-center items-center">
-        <MainButton name="Show More" />
+        {isHidden && <MainButton name="Show More" />}
       </div>
     </div>
   );

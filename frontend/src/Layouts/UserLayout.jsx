@@ -11,7 +11,7 @@ const UserLayout = () => {
   return (
     <div>
       <Header />
-      <main className="flex flex-col gap-10">
+      <main className="flex flex-col gap-10 mt-10">
         {showSearchBar && <SearchModal />}
         <Outlet />
       </main>
