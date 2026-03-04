@@ -57,10 +57,18 @@ const Header = () => {
           }`}
         >
           <ul className="flex gap-10 items-center">
-            <li>Home</li>
-            <li>Product</li>
-            <li>About</li>
-            <li>Contact</li>
+            <li>
+              <Link to="/user">Home</Link>
+            </li>
+            <li>
+              <Link to="/user/products">Product</Link>
+            </li>
+            <li>
+              <Link to="/user/about">About</Link>
+            </li>
+            <li>
+              <Link to="/user/contact">Contact</Link>
+            </li>
           </ul>
         </motion.nav>
 
@@ -84,14 +92,17 @@ const Header = () => {
             {/* Search Icon */}
             <button
               type="button"
+              className="cursor-pointer"
               onClick={() => setShowSearchBar(!showSearchBar)}
             >
               <FaSearch />
             </button>
           </div>
-          <Link to="/user/cart" className="flex gap-1 items-center">
-            <FaShoppingCart size={18} />
-            <span>12</span>
+          <Link to="/cart" className="flex gap-1 items-cente relative ">
+            <FaShoppingCart size={20} />
+            <span className="absolute -top-3 -right-4 bg-(--color-foreground)  text-white text-xs font-semibold px-1.5 py-0.5 rounded-full">
+              12
+            </span>
           </Link>
           <div className="hidden md:block">
             <FaUser size={18} />
