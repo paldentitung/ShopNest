@@ -54,3 +54,25 @@ exports.addToCart = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.removeFromCart = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { productId } = req.params;
+
+    const cart = await Cart.findOne({ userId });
+    if (!cart) return res.status(404).json({ message: "Cart not found" });
+
+    if (!Array.isArray(cart.items)) cart.items = [];
+
+    cart.items = cart.items.filter(
+      (item) => item.product.toString() !== productId,
+    );
+
+    await cart.save();
+
+    res.json(cart);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
