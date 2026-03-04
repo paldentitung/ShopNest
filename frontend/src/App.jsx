@@ -19,67 +19,95 @@ import Register from "./Pages/auth/Register";
 import Login from "./Pages/auth/Login";
 import PageNotFound from "./Components/PageNotFound";
 import CheckOutLayout from "./Layouts/CheckoutLayout";
+import { Toaster } from "react-hot-toast";
 const App = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/login" />} />
+    <>
+      <Toaster
+        toastOptions={{
+          duration: 4000,
+          position: "bottom-right",
 
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="*" element={<PageNotFound />} />
+          style: {
+            background: "#333",
+            color: "#fff",
+            fontSize: "16px",
+            borderRadius: "8px",
+            padding: "12px",
+          },
 
-      {/* admin */}
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="productmanagement" element={<ProductManagement />} />
-        <Route path="ordermanagement" element={<OrderManagement />} />
-        <Route path="usermanagement" element={<UserManagement />} />
-        <Route path="profile" element={<AdminProfile />} />
-      </Route>
+          success: {
+            style: { background: "green", color: "#fff" },
+          },
+          error: {
+            style: { background: "red", color: "#fff" },
+          },
+          loading: {
+            style: { background: "blue", color: "#fff" },
+          },
+        }}
+      />
 
-      {/* user */}
-      <Route path="/user" element={<UserLayout />}>
-        <Route index element={<Home />} /> {/* /user */}
-        <Route path="products" element={<ProductPage />} />
-        <Route path="about" element={<AboutPage />} />
-        <Route path="contact" element={<ContactPage />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="Review" element={<Review />} />
-      </Route>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
 
-      <Route
-        path="cart"
-        element={
-          <CheckOutLayout>
-            <Cart />
-          </CheckOutLayout>
-        }
-      />
-      <Route
-        path="shipping"
-        element={
-          <CheckOutLayout>
-            <Shipping />
-          </CheckOutLayout>
-        }
-      />
-      <Route
-        path="payment"
-        element={
-          <CheckOutLayout>
-            <Payment />
-          </CheckOutLayout>
-        }
-      />
-      <Route
-        path="review"
-        element={
-          <CheckOutLayout>
-            <Review />
-          </CheckOutLayout>
-        }
-      />
-    </Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<PageNotFound />} />
+
+        {/* admin */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="productmanagement" element={<ProductManagement />} />
+          <Route path="ordermanagement" element={<OrderManagement />} />
+          <Route path="usermanagement" element={<UserManagement />} />
+          <Route path="profile" element={<AdminProfile />} />
+        </Route>
+
+        {/* user */}
+        <Route path="/user" element={<UserLayout />}>
+          <Route index element={<Home />} /> {/* /user */}
+          <Route path="products" element={<ProductPage />} />
+          <Route path="about" element={<AboutPage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="Review" element={<Review />} />
+        </Route>
+
+        <Route
+          path="cart"
+          element={
+            <CheckOutLayout>
+              <Cart />
+            </CheckOutLayout>
+          }
+        />
+        <Route
+          path="shipping"
+          element={
+            <CheckOutLayout>
+              <Shipping />
+            </CheckOutLayout>
+          }
+        />
+        <Route
+          path="payment"
+          element={
+            <CheckOutLayout>
+              <Payment />
+            </CheckOutLayout>
+          }
+        />
+        <Route
+          path="review"
+          element={
+            <CheckOutLayout>
+              <Review />
+            </CheckOutLayout>
+          }
+        />
+      </Routes>
+    </>
   );
 };
 

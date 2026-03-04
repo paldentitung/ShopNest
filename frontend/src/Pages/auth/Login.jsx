@@ -28,11 +28,10 @@ const Login = () => {
           navigate("/user/");
         }
       } else {
-        alert(res.message || "Login failed");
+        toast.error(res.message || "Login failed");
       }
     } catch (error) {
-      console.error(error);
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
   };
   return (

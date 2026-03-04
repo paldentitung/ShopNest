@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 export const getAllProducts = async () => {
   try {
     const res = await fetch("http://localhost:3000/api/products");
@@ -9,7 +11,7 @@ export const getAllProducts = async () => {
     console.log(data);
     return data || [];
   } catch (error) {
-    alert("error" + error);
+    toast.error(error);
   }
 };
 export const createProduct = async (formData) => {
@@ -26,8 +28,7 @@ export const createProduct = async (formData) => {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error("Create Product Error:", error);
-    alert(error.message);
+    toast.error(error);
   }
 };
 
@@ -45,8 +46,7 @@ export const updateProduct = async (id, productData) => {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error("Update Product Error:", error);
-    alert(error.message);
+    toast.error(error);
   }
 };
 
@@ -63,7 +63,6 @@ export const deleteProduct = async (id) => {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error("Delete Product Error:", error);
-    alert(error.message);
+    toast.error(error);
   }
 };

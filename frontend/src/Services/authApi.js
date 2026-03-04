@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 export const register = async (UserData) => {
   try {
     const res = await fetch("http://localhost:3000/api/auth/register", {
@@ -10,7 +12,7 @@ export const register = async (UserData) => {
     const data = await res.json();
     return data;
   } catch (error) {
-    alert("error " + error);
+    toast.error("error" + error);
   }
 };
 
@@ -26,6 +28,6 @@ export const login = async (UserData) => {
     const data = await res.json();
     return data;
   } catch (error) {
-    alert("error " + error);
+    toast.error("error" + error);
   }
 };
