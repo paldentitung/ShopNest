@@ -18,7 +18,7 @@ const Register = () => {
     console.log(res);
 
     if (res.message === "User created") {
-      navigate("/login/user");
+      navigate("/user");
     } else {
       alert(res.message || "Registration failed");
     }
