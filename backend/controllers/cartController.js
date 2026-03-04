@@ -1,6 +1,19 @@
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 
+exports.getCart = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const cart = await Cart.findOne({ userId }).populate("items.product");
+
+    if (!cart) return res.status(200).json({ items: [] });
+
+    res.status(200).json(cart);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.addToCart = async (req, res) => {
   try {
     const userId = req.user.id;
