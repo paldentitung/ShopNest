@@ -1,5 +1,10 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { getCart, addToCart, removeFromCart } from "../Services/cartApi";
+import {
+  getCart,
+  addToCart,
+  removeFromCart,
+  updateCartQuantity,
+} from "../Services/cartApi";
 
 const CartContext = createContext();
 
@@ -21,7 +26,20 @@ export const CartProvider = ({ children }) => {
     setCartItems((prev) => prev.filter((item) => item._id !== cartItemId));
   };
 
-  const updateItemQuantity = async (productId, quantity) => {};
+  const updateItemQuantity = async (cartItemId, newQuantity) => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item._id === cartItemId ? { ...item, quantity: newQuantity } : item,
+      ),
+    );
+
+    try {
+      await updateCartQuantity(cartItemId, newQuantity);
+    } catch (error) {
+      console.error(error);
+      fetchCart();
+    }
+  };
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal =
@@ -50,6 +68,7 @@ export const CartProvider = ({ children }) => {
         fetchCart,
         cartLength,
         removeItem,
+        updateItemQuantity,
       }}
     >
       {children}

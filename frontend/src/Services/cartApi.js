@@ -45,6 +45,24 @@ export const addToCart = async (productData) => {
   }
 };
 
+export const updateCartQuantity = async (cartItemId, quantity) => {
+  try {
+    const res = await fetch(`http://localhost:3000/api/cart/${cartItemId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${userToken}`,
+      },
+      body: JSON.stringify({ quantity }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Something went wrong");
+    return data;
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
 export const removeFromCart = async (productId) => {
   try {
     const res = await fetch(`http://localhost:3000/api/cart/${productId}`, {

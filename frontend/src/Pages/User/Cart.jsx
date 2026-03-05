@@ -18,9 +18,21 @@ const Cart = () => {
     total,
     cartLength,
     removeItem,
+    updateItemQuantity,
   } = useCart();
 
   const navigate = useNavigate();
+
+  const increaseQuantity = (cartItemId) => {
+    const item = cartItems.find((i) => i._id === cartItemId);
+    if (item) updateItemQuantity(cartItemId, item.quantity + 1);
+  };
+
+  const decreaseQuantity = (cartItemId) => {
+    const item = cartItems.find((i) => i._id === cartItemId);
+    if (item && item.quantity > 1)
+      updateItemQuantity(cartItemId, item.quantity - 1);
+  };
   return (
     <section className=" min-h-screen bg-(--color-background)">
       <div className="p-6 lg:px-[10%]  flex flex-col gap-4">
@@ -57,13 +69,21 @@ const Cart = () => {
 
                   <div className="flex justify-between items-center mt-4 flex-wrap">
                     <div className="flex items-center  border border-(--color-border) rounded-lg  ">
-                      <button className="px-3 py-1  border-r border-(--color-border)">
+                      <button
+                        onClick={() => decreaseQuantity(item._id)}
+                        className="px-3 py-1  border-r border-(--color-border)"
+                      >
                         -
                       </button>
                       <span className="px-3 py-1  border-r border-(--color-border)">
                         {item.quantity}
                       </span>
-                      <button className="px-3 py-1  rounded-lg">+</button>
+                      <button
+                        onClick={() => increaseQuantity(item._id)}
+                        className="px-3 py-1  rounded-lg"
+                      >
+                        +
+                      </button>
                     </div>
 
                     <button

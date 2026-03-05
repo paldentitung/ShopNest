@@ -11,7 +11,7 @@ const Router = express.Router();
 
 Router.get("/", auth, getCart);
 Router.post("/", auth, addToCart);
-Router.put("/", auth, updateQuantity);
+Router.put("/:cartItemId", auth, updateQuantity);
 Router.delete("/:cartItemId", auth, removeFromCart);
 Router.post("/checkout", auth, checkout);
 
