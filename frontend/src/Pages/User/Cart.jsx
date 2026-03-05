@@ -16,6 +16,8 @@ const Cart = () => {
     removeItem,
     increaseQuantity,
     decreaseQuantity,
+    MAX_QTY,
+    MIN_QTY,
   } = useCart();
 
   const navigate = useNavigate();
@@ -59,7 +61,8 @@ const Cart = () => {
                       <div className="flex items-center  border border-(--color-border) rounded-lg  ">
                         <button
                           onClick={() => decreaseQuantity(item._id)}
-                          className="px-3 py-1  border-r border-(--color-border)"
+                          className={`px-3 py-1  border-r border-(--color-border) ${item.quantity >= MIN_QTY ? "cursor-not-allowed" : ""}  `}
+                          disabled={item.quantity <= MIN_QTY}
                         >
                           -
                         </button>
@@ -68,7 +71,8 @@ const Cart = () => {
                         </span>
                         <button
                           onClick={() => increaseQuantity(item._id)}
-                          className="px-3 py-1  rounded-lg"
+                          className={`px-3 py-1  rounded-lg ${item.quantity >= MAX_QTY ? "cursor-not-allowed" : ""} `}
+                          disabled={item.quantity >= MAX_QTY}
                         >
                           +
                         </button>

@@ -51,17 +51,22 @@ export const CartProvider = ({ children }) => {
   const total = subtotal + tax;
   const cartLength = cartItems.length;
 
+  const MIN_QTY = 1;
+  const MAX_QTY = 10;
+
   const increaseQuantity = (cartItemId) => {
     const item = cartItems.find((i) => i._id === cartItemId);
-    if (item) updateItemQuantity(cartItemId, item.quantity + 1);
+    if (item && item.quantity < MAX_QTY) {
+      updateItemQuantity(cartItemId, item.quantity + 1);
+    }
   };
 
   const decreaseQuantity = (cartItemId) => {
     const item = cartItems.find((i) => i._id === cartItemId);
-    if (item && item.quantity > 1)
+    if (item && item.quantity > MIN_QTY) {
       updateItemQuantity(cartItemId, item.quantity - 1);
+    }
   };
-
   useEffect(() => {
     fetchCart();
     console.log("cart data", cartItems);
@@ -83,6 +88,8 @@ export const CartProvider = ({ children }) => {
         updateItemQuantity,
         increaseQuantity,
         decreaseQuantity,
+        MAX_QTY,
+        MIN_QTY,
       }}
     >
       {children}

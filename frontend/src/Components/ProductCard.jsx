@@ -69,16 +69,17 @@ const ProductCard = ({ product }) => {
         </div>
 
         <div className="w-full py-3">
-          <input
-            type="number"
+          <select
             value={quantity}
-            min="1"
-            max="100"
-            onChange={(e) =>
-              setQuantity(Math.min(100, Math.max(1, Number(e.target.value))))
-            }
-            className="w-full p-2 outline-0 border border-(--color-border)"
-          />
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            className="w-full p-2 border rounded-md outline-none bg-white"
+          >
+            {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
+              <option key={num} value={num}>
+                {num}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="  ">
