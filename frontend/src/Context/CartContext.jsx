@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { getCart, addToCart } from "../Services/cartApi";
+import { getCart, addToCart, removeFromCart } from "../Services/cartApi";
 
 const CartContext = createContext();
 
@@ -16,7 +16,10 @@ export const CartProvider = ({ children }) => {
     fetchCart();
   };
 
-  const removeItem = async (productId) => {};
+  const removeItem = async (cartItemId) => {
+    await removeFromCart(cartItemId);
+    setCartItems((prev) => prev.filter((item) => item._id !== cartItemId));
+  };
 
   const updateItemQuantity = async (productId, quantity) => {};
 
@@ -32,6 +35,7 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     fetchCart();
+    console.log("cart data", cartItems);
   }, []);
 
   return (
@@ -45,6 +49,7 @@ export const CartProvider = ({ children }) => {
         addItem,
         fetchCart,
         cartLength,
+        removeItem,
       }}
     >
       {children}

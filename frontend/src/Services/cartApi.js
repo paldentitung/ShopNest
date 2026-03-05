@@ -15,6 +15,7 @@ export const getCart = async () => {
     if (!res.ok) {
       throw new Error(data.message || "Something went wrong");
     }
+    console.log("cartData", data);
     return data;
   } catch (error) {
     toast.error(error.message);
@@ -30,6 +31,28 @@ export const addToCart = async (productData) => {
         authorization: `Bearer ${userToken}`,
       },
       body: JSON.stringify(productData),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Something went wrong");
+    }
+
+    return data;
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
+export const removeFromCart = async (productId) => {
+  try {
+    const res = await fetch(`http://localhost:3000/api/cart/${productId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${userToken}`,
+      },
     });
 
     const data = await res.json();

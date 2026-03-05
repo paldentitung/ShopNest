@@ -10,7 +10,15 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { useCart } from "../../Context/CartContext";
 const Cart = () => {
-  const { cartItems, totalItems, subtotal, tax, total, cartLength } = useCart();
+  const {
+    cartItems,
+    totalItems,
+    subtotal,
+    tax,
+    total,
+    cartLength,
+    removeItem,
+  } = useCart();
 
   const navigate = useNavigate();
   return (
@@ -58,7 +66,10 @@ const Cart = () => {
                       <button className="px-3 py-1  rounded-lg">+</button>
                     </div>
 
-                    <button className="text-red-500 text-sm flex items-center gap-1">
+                    <button
+                      onClick={() => removeItem(item._id)}
+                      className="text-red-500 text-sm flex items-center gap-1"
+                    >
                       <FaTrashAlt />
                       <span className="hidden md:block">Remove</span>
                     </button>
