@@ -73,7 +73,10 @@ const ProductCard = ({ product }) => {
             type="number"
             value={quantity}
             min="1"
-            onChange={(e) => setQuantity(e.target.value)}
+            max="100"
+            onChange={(e) =>
+              setQuantity(Math.min(100, Math.max(1, Number(e.target.value))))
+            }
             className="w-full p-2 outline-0 border border-(--color-border)"
           />
         </div>
