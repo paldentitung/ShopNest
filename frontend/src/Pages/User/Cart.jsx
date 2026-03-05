@@ -63,7 +63,7 @@ const Cart = () => {
                       <div className="flex items-center  border border-(--color-border) rounded-lg  ">
                         <button
                           onClick={() => decreaseQuantity(item._id)}
-                          className={`px-3 py-1  border-r border-(--color-border) ${item.quantity >= MIN_QTY ? "cursor-not-allowed" : ""}  `}
+                          className={`px-3 py-1  border-r border-(--color-border) ${item.quantity <= MIN_QTY ? "cursor-not-allowed" : ""}  `}
                           disabled={item.quantity <= MIN_QTY}
                         >
                           -
