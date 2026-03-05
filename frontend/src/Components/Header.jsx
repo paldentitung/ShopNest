@@ -9,6 +9,7 @@ import {
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { SearchContext } from "../Context/SearchContext";
+import { useCart } from "../Context/CartContext";
 const Header = () => {
   const [isScroll, setIsScroll] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -23,6 +24,7 @@ const Header = () => {
   }, []);
 
   const { showSearchBar, setShowSearchBar } = useContext(SearchContext);
+  const { totalItems } = useCart();
   return (
     <>
       <div className="fixed top-0 left-0 w-full z-50 flex justify-between items-center p-6 ">
@@ -101,7 +103,7 @@ const Header = () => {
           <Link to="/cart" className="flex gap-1 items-cente relative ">
             <FaShoppingCart size={20} />
             <span className="absolute -top-3 -right-4 bg-(--color-foreground)  text-white text-xs font-semibold px-1.5 py-0.5 rounded-full">
-              12
+              {totalItems}
             </span>
           </Link>
           <div className="hidden md:block">
