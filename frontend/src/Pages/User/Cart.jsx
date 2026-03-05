@@ -7,34 +7,10 @@ import { useEffect } from "react";
 import { getCart } from "../../Services/cartApi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { useCart } from "../../Context/CartContext";
 const Cart = () => {
-  const [cartData, setCartDatat] = useState([]);
-  useEffect(() => {
-    const fetchCartData = async () => {
-      try {
-        const data = await getCart();
-        setCartDatat(data.items);
-        console.log(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchCartData();
-  }, []);
-
-  const subTotalCents = cartData.reduce((total, item) => {
-    return total + item.product.priceCents * item.quantity;
-  }, 0);
-  const subTotal = subTotalCents / 100;
-
-  const tax = subTotal * 0.14;
-
-  const total = subTotal + tax;
-
-  const totalItems = cartData.reduce((sum, item) => {
-    return sum + item.quantity;
-  }, 0);
+  const { cartItems, totalItems, subtotal, tax, total, cartLength } = useCart();
 
   const navigate = useNavigate();
   return (
@@ -43,12 +19,12 @@ const Cart = () => {
         <CheckoutStepper currentStep={1} />
         <div className="flex gap-2 ">
           <h3 className=" text-2xl md:text-3xl font-bold">Shopping Cart</h3>
-          <span className=" self-end">({cartData.length} items)</span>
+          <span className=" self-end">({cartLength} items)</span>
         </div>
 
         <div className="w-full  flex flex-col lg:flex-row gap-10">
           <div className="w-full lg:w-[75%] bg-white shadow-sm rounded-2xl p-5">
-            {cartData.map((item) => (
+            {cartItems.map((item) => (
               <div
                 key={item._id}
                 className="flex gap-5 border-b border-(--color-border) pb-4"
@@ -97,12 +73,12 @@ const Cart = () => {
             <div className="flex flex-col gap-3">
               <div className="flex justify-between items-center">
                 <span className="text-sm">Subtotal ({totalItems})</span>
-                <span className="text-sm">{subTotal}</span>
+                <span className="text-sm">{subtotal}</span>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-sm">Tax(14%)</span>
-                <span className="text-sm ">+${tax}</span>
+                <span className="text-sm ">+${tax.toFixed(2)}</span>
               </div>
             </div>
 

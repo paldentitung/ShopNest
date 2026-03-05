@@ -5,14 +5,17 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { SearchProvider } from "./Context/SearchContext.jsx";
 import { ModalProvider } from "./Context/ModalContext.jsx";
+import { CartProvider } from "./Context/CartContext.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <SearchProvider>
-        <ModalProvider>
-          <App />
-        </ModalProvider>
-      </SearchProvider>
+      <CartProvider>
+        <SearchProvider>
+          <ModalProvider>
+            <App />
+          </ModalProvider>
+        </SearchProvider>
+      </CartProvider>
     </BrowserRouter>
   </StrictMode>,
 );
