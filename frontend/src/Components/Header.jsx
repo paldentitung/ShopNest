@@ -106,9 +106,9 @@ const Header = () => {
               {totalItems}
             </span>
           </Link>
-          <div className="hidden md:block">
+          <Link to="/user/profile" className="hidden md:block">
             <FaUser size={18} />
-          </div>
+          </Link>
           <div
             onClick={() => setShowMenu(!showMenu)}
             className="block md:hidden"
