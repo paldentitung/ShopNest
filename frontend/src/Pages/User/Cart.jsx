@@ -6,6 +6,7 @@ import CheckoutStepper from "../../Components/CheckoutStepper";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 import { FaShoppingBag, FaArrowRight } from "react-icons/fa";
+import toast from "react-hot-toast";
 const Cart = () => {
   const {
     cartItems,
@@ -34,7 +35,7 @@ const Cart = () => {
           </div>
 
           <div className="w-full  flex flex-col lg:flex-row gap-10">
-            <div className="w-full lg:w-[75%] bg-white shadow-sm rounded-2xl p-5">
+            <div className="w-full lg:w-[75%]  bg-white shadow-sm rounded-2xl p-5">
               {cartItems.map((item) => (
                 <div
                   key={item._id}
@@ -80,8 +81,11 @@ const Cart = () => {
                       </div>
 
                       <button
-                        onClick={() => removeItem(item._id)}
-                        className="text-red-500 text-sm flex items-center gap-1"
+                        onClick={() => {
+                          removeItem(item._id);
+                          toast.success("Product Remove from cart");
+                        }}
+                        className="text-red-500 text-sm flex items-center gap-1 cursor-pointer"
                       >
                         <FaTrashAlt />
                         <span className="hidden md:block">Remove</span>
@@ -127,8 +131,7 @@ const Cart = () => {
         </div>
       ) : (
         <div className="flex items-center justify-center min-h-[60vh] px-4">
-          <div className="relative text-center max-w-sm w-full bg-stone-50 border border-stone-200 rounded-sm px-10 py-14 overflow-hidden">
-            {/* Floating cart icon */}
+          <div className="relative text-center max-w-sm w-full bg-stone-50 border border-stone-200 rounded-sm shadow-md px-10 py-14 overflow-hidden">
             <div
               className="mx-auto mb-7 w-20 h-20 rounded-full bg-stone-100 flex items-center justify-center relative animate-bounce"
               style={{ animationDuration: "3s" }}
@@ -142,19 +145,16 @@ const Cart = () => {
               />
             </div>
 
-            {/* Heading */}
             <h3 className="text-2xl font-serif font-semibold text-stone-800 mb-2 tracking-tight">
               Your cart is empty
             </h3>
 
-            {/* Subtext */}
             <p className="text-sm text-stone-400 font-light leading-relaxed mb-7">
               Looks like you haven't added anything yet.
               <br />
               Find something you'll love.
             </p>
 
-            {/* Divider */}
             <div className="w-10 h-px bg-stone-300 mx-auto mb-7" />
 
             <MainButton
@@ -162,7 +162,6 @@ const Cart = () => {
               onClick={() => navigate("/user/products")}
             />
 
-            {/* Corner decoration */}
             <span className="absolute bottom-3 right-4 text-[10px] uppercase tracking-widest text-stone-300">
               ∅ empty
             </span>

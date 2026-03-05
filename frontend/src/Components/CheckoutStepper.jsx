@@ -22,7 +22,7 @@ export default function CheckoutStepper({ currentStep }) {
               className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all duration-200
                 ${
                   isActive
-                    ? "bg-indigo-600 text-white border-indigo-600 shadow-sm"
+                    ? "bg-(--color-foreground) text-white  shadow-sm"
                     : isCompleted
                       ? "bg-indigo-50 text-indigo-600 border-indigo-200"
                       : "bg-white text-gray-400 border-gray-200 opacity-60"

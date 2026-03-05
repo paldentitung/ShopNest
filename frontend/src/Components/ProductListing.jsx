@@ -1,8 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import products from "../data/productData";
 import MainButton from "./MainButton";
 
 import ProductCard from "./ProductCard";
 const ProductListing = ({ products, isHidden = false }) => {
+  const navigate = useNavigate();
   return (
     <div className="bg-gray-50 min-h-screen py-10 px-4 flex flex-col gap-8">
       {/* Heading */}
@@ -20,7 +22,12 @@ const ProductListing = ({ products, isHidden = false }) => {
       </div>
 
       <div className="flex justify-center items-center">
-        {isHidden && <MainButton name="Show More" />}
+        {isHidden && (
+          <MainButton
+            name="Show More"
+            onClick={() => navigate("/user/products")}
+          />
+        )}
       </div>
     </div>
   );

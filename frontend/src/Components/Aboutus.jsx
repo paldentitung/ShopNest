@@ -1,7 +1,9 @@
 import React from "react";
 import MainButton from "./MainButton";
+import { useNavigate } from "react-router-dom";
 
 const Aboutus = () => {
+  const navigate = useNavigate();
   return (
     <section className="flex justify-evenly flex-col-reverse md:flex-row gap-5 mt-10 p-5 w-full max-w-7xl mx-auto h-auto md:h-[60vh]">
       <div className="flex flex-col space-y-5">
@@ -28,7 +30,10 @@ const Aboutus = () => {
           management, and order processing.
         </p>
         <div>
-          <MainButton name="Latest Product" />
+          <MainButton
+            name="Latest Product"
+            onClick={() => navigate("/user/products")}
+          />
         </div>{" "}
       </div>
       {/* image */}

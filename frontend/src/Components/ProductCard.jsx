@@ -7,6 +7,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useCart } from "../Context/CartContext";
+import toast from "react-hot-toast";
 const ProductCard = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const ratingImages = {
@@ -19,6 +20,7 @@ const ProductCard = ({ product }) => {
 
   const handleAddItem = () => {
     addItem(product._id, Number(quantity));
+    toast.success("Product Added");
   };
   return (
     <motion.div
@@ -61,7 +63,7 @@ const ProductCard = ({ product }) => {
         </div>
 
         {/* Price */}
-        <div className="flex items-center justify-between my-3">
+        <div className="flex items-center justify-between my-1">
           <span className="text-lg font-bold text-gray-900">
             ${product.priceCents / 100}
           </span>
@@ -72,7 +74,7 @@ const ProductCard = ({ product }) => {
           <select
             value={quantity}
             onChange={(e) => setQuantity(Number(e.target.value))}
-            className="w-full p-2 border rounded-md outline-none bg-white"
+            className="w-full p-2 border border-(--color-border) rounded-md outline-none bg-white cursor-pointer"
           >
             {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
               <option key={num} value={num}>
