@@ -5,11 +5,26 @@ import rating40 from "../assets/ratings/rating-40.png";
 import SecondaryButton from "./SecondaryButton";
 import { FaShoppingCart } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { addToCart } from "../Services/cartApi";
+import { useState } from "react";
 const ProductCard = ({ product }) => {
+  const [quantity, setQuantity] = useState(1);
   const ratingImages = {
     4.0: rating40,
     4.5: rating45,
     5.0: rating50,
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      await addToCart({
+        productId: product._id,
+        quantity: Number(quantity),
+      });
+      console.log("Added to cart");
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <motion.div
@@ -59,12 +74,25 @@ const ProductCard = ({ product }) => {
           <SecondaryButton name="View" />
         </div>
 
+        <div className="w-full py-3">
+          <input
+            type="number"
+            value={quantity}
+            min="1"
+            onChange={(e) => setQuantity(e.target.value)}
+            className="w-full p-2 outline-0 border border-(--color-border)"
+          />
+        </div>
+
         <div className="  ">
-          <button className="px-6 flex items-center justify-center gap-4 relative w-full py-3 bg-(--color-foreground) text-(--color-surface) rounded-md border border-(--color-border) transition-all duration-300 hover:cursor-pointer opacity-90 hover:opacity-100 ">
+          <button
+            onClick={() => handleAddToCart()}
+            className="px-6 flex items-center justify-center gap-4 relative w-full py-3 bg-(--color-foreground) text-(--color-surface) rounded-md border border-(--color-border) transition-all duration-300 hover:cursor-pointer opacity-90 hover:opacity-100 "
+          >
             <span>
               <FaShoppingCart />
             </span>
-            <span>Buy</span>
+            <span>Add to cart</span>
           </button>
         </div>
       </div>
