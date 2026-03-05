@@ -5,8 +5,8 @@ import rating40 from "../assets/ratings/rating-40.png";
 import SecondaryButton from "./SecondaryButton";
 import { FaShoppingCart } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { addToCart } from "../Services/cartApi";
 import { useState } from "react";
+import { useCart } from "../Context/CartContext";
 const ProductCard = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const ratingImages = {
@@ -15,16 +15,10 @@ const ProductCard = ({ product }) => {
     5.0: rating50,
   };
 
-  const handleAddToCart = async () => {
-    try {
-      await addToCart({
-        productId: product._id,
-        quantity: Number(quantity),
-      });
-      console.log("Added to cart");
-    } catch (error) {
-      console.error(error);
-    }
+  const { addItem } = useCart();
+
+  const handleAddItem = () => {
+    addItem(product._id, Number(quantity));
   };
   return (
     <motion.div
@@ -86,7 +80,7 @@ const ProductCard = ({ product }) => {
 
         <div className="  ">
           <button
-            onClick={() => handleAddToCart()}
+            onClick={handleAddItem}
             className="px-6 flex items-center justify-center gap-4 relative w-full py-3 bg-(--color-foreground) text-(--color-surface) rounded-md border border-(--color-border) transition-all duration-300 hover:cursor-pointer opacity-90 hover:opacity-100 "
           >
             <span>
