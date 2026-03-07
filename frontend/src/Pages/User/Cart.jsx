@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 import { FaShoppingBag, FaArrowRight } from "react-icons/fa";
 import toast from "react-hot-toast";
+import BackButton from "../../Components/BackButton";
 const Cart = () => {
   const {
     cartItems,
@@ -28,7 +29,10 @@ const Cart = () => {
     <section className=" min-h-screen bg-(--color-background)">
       {cartItems.length > 0 ? (
         <div className="p-6 lg:px-[10%]  flex flex-col gap-4">
-          <CheckoutStepper currentStep={1} />
+          <div className="flex items-center">
+            <BackButton />
+            <CheckoutStepper currentStep={1} />
+          </div>
           <div className="flex gap-2 ">
             <h3 className=" text-2xl md:text-3xl font-bold">Shopping Cart</h3>
             <span className=" self-end">({cartLength} items)</span>
