@@ -122,3 +122,20 @@ exports.deleteProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.search = async (req, res) => {
+  try {
+    const { query } = req.query;
+
+    const filter = {};
+
+    if (query) {
+      filter.name = { $regex: query, $options: "i" };
+    }
+
+    const products = await Product.find(filter).limit(50);
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
