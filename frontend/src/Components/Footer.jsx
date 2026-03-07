@@ -55,7 +55,14 @@ const Footer = () => {
       >
         <div className="flex justify-between flex-col md:flex-row gap-6 ">
           <div className="flex flex-col gap-2">
-            <h2 className="text-lg md:text-2xl font-semibold">ShopNest</h2>
+            <Link to="/user/" className="flex items-center gap-1">
+              <span
+                className={`bg-(--color-background) text-black w-10 h-10  flex justify-center items-center rounded-full italic  `}
+              >
+                SN
+              </span>
+              <h2 className="text-lg md:text-2xl font-semibold">ShopNest</h2>
+            </Link>
             <p className="text-sm">
               Modern fashion, built for the future of online shopping.
             </p>
