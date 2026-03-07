@@ -1,6 +1,6 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { searchProduct } from "../Services/productApi";
-
+import { debounce } from "lodash";
 export const SearchContext = createContext();
 
 export const SearchProvider = ({ children }) => {
@@ -8,15 +8,28 @@ export const SearchProvider = ({ children }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [results, setResults] = useState([]);
 
-  const fetchSearch = async () => {
-    const res = await searchProduct(search);
+  const fetchSearch = async (query) => {
+    if (query.trim() == "") {
+      setResults([]);
+      return;
+    }
+    const res = await searchProduct(query);
     setResults(res);
   };
 
+  const debouncedSearch = useCallback(
+    debounce((query) => fetchSearch(query), 400),
+    [],
+  );
+
   useEffect(() => {
-    if (search.trim() !== "") {
-      fetchSearch();
-    } else {
+    debouncedSearch(search);
+    return () => debouncedSearch.cancel();
+  }, [search, debouncedSearch]);
+
+  useEffect(() => {
+    if (!showSearchBar) {
+      setSearch("");
       setResults([]);
     }
   }, [search]);
