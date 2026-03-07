@@ -27,7 +27,7 @@ const Header = () => {
   const { totalItems } = useCart();
   return (
     <>
-      <div className="fixed top-0 left-0 w-full z-50 flex justify-between items-center p-6 ">
+      <div className="fixed top-0 left-0 w-full z-50 flex justify-between items-center p-6  ">
         {/* Logo */}
         <motion.div
           initial={{ x: -50, opacity: 0 }}
@@ -39,7 +39,14 @@ const Header = () => {
               : "bg-(--color-surface)]/30 text-(--color-foreground) border-(--color-border)"
           }`}
         >
-          <h1 className="text-2xl font-bold">ShopNest</h1>
+          <Link to="/user/" className="flex items-center gap-1">
+            <span
+              className={`bg-(--color-foreground) text-white w-10 h-10  flex justify-center items-center rounded-full italic  `}
+            >
+              SN
+            </span>
+            <h1 className="text-2xl font-bold">ShopNest</h1>
+          </Link>
         </motion.div>
 
         {/* Navbar */}
@@ -52,7 +59,7 @@ const Header = () => {
             damping: 20,
             delay: 0.1,
           }}
-          className={`hidden md:block backdrop-blur-xl border rounded-3xl px-10 py-3 transition-colors duration-300 ${
+          className={`hidden lg:block backdrop-blur-xl border rounded-3xl px-10 py-3 transition-colors duration-300 ${
             isScroll
               ? "bg-(--color-foreground) text-(--color-surface) border-(--color-foreground)"
               : "bg-(--color-surface)]/30 text-(--color-foreground) border-(--color-border)"
@@ -111,7 +118,7 @@ const Header = () => {
           </Link>
           <div
             onClick={() => setShowMenu(!showMenu)}
-            className="block md:hidden"
+            className="block lg:hidden"
           >
             <FaBars />
           </div>
