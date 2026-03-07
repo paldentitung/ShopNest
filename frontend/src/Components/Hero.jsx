@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import MainButton from "./MainButton";
 
 const Hero = () => {
   // simple animation variant for images
@@ -10,7 +11,7 @@ const Hero = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8 mt-10">
-      <div className="text-center mb-12">
+      <div className="text-center mb-12 flex flex-col space-y-1">
         <h1 className="text-2xl md:text-4xl font-bold text-gray-900">
           Shop the Future Today
         </h1>
@@ -18,6 +19,9 @@ const Hero = () => {
           Discover the latest trends and must-have products delivered to your
           doorstep
         </p>
+        <div>
+          <MainButton name="View Products" />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
