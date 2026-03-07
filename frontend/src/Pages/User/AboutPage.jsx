@@ -2,8 +2,10 @@ import React from "react";
 import MainButton from "../../Components/MainButton";
 import Aboutus from "../../Components/Aboutus";
 import SecondaryButton from "../../Components/SecondaryButton";
+import { useNavigate } from "react-router-dom";
 
 const AboutPage = () => {
+  const navigate = useNavigate();
   return (
     <div className="bg-gray-50 min-h-screen text-gray-800 mt-10">
       <div className="py-16 px-6 max-w-5xl mx-auto">
@@ -28,7 +30,10 @@ const AboutPage = () => {
       <section className="bg-(--color-foreground) text-white py-16 px-6 text-center">
         <h2 className="text-3xl font-bold mb-4">Explore Our Collection</h2>
         <p className="mb-6">Join our journey and find products you’ll love.</p>
-        <SecondaryButton name="Shop Now" />
+        <SecondaryButton
+          name="Shop Now"
+          onClick={() => navigate("/user/products")}
+        />
       </section>
 
       {/* Products Highlight */}
