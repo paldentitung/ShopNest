@@ -21,7 +21,7 @@ exports.Register = async (req, res) => {
     await user.save();
     res.status(201).json({ message: "User created" });
   } catch (error) {
-    res.status(500).json({ error: error.meessage });
+    res.status(500).json({ error: error.message });
   }
 };
 
