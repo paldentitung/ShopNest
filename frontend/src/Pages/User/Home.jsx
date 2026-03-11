@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div>
       <Hero />
-      <ProductPage isHidden={true} />
+      <ProductPage isHidden={true} productLimit={6} />
       <Aboutus />
       <Contact />
     </div>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { getAllProducts } from "../../Services/productApi";
 import { useEffect } from "react";
 import ProductListing from "../../Components/ProductListing";
-const ProductPage = ({ isHidden }) => {
+const ProductPage = ({ isHidden, isShow, productLimit }) => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchProducts = async () => {
@@ -13,9 +13,17 @@ const ProductPage = ({ isHidden }) => {
     };
     fetchProducts();
   }, []);
+
+  const displayedProducts = productLimit
+    ? products.slice(0, productLimit)
+    : products;
   return (
     <div>
-      <ProductListing products={products} isHidden={isHidden} />
+      <ProductListing
+        products={displayedProducts}
+        isHidden={isHidden}
+        productLimt={productLimit}
+      />
     </div>
   );
 };
