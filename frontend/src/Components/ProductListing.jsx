@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import products from "../data/productData";
 import MainButton from "./MainButton";
 
 import ProductCard from "./ProductCard";
