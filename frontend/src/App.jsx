@@ -17,6 +17,7 @@ import Payment from "./Pages/User/Payment";
 import Review from "./Pages/User/Review";
 import Register from "./Pages/auth/Register";
 import Login from "./Pages/auth/Login";
+import ProductDetails from "./Pages/User/ProductDetails";
 import PageNotFound from "./Components/PageNotFound";
 import CheckOutLayout from "./Layouts/CheckoutLayout";
 import { Toaster } from "react-hot-toast";
@@ -71,6 +72,7 @@ const App = () => {
           <Route path="about" element={<AboutPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="productdetails" element={<ProductDetails />} />
           <Route path="Review" element={<Review />} />
         </Route>
 
