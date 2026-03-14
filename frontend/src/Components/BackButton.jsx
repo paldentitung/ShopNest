@@ -12,7 +12,7 @@ const BackButton = () => {
   return (
     <button
       onClick={handleBack}
-      className="flex items-center  gap-2 px-3 py-1 rounded-md cursor-pointer"
+      className="flex items-center  gap-2 px-3 py-1 border rounded-md cursor-pointer"
     >
       <FaArrowLeft size={20} />
       <span className="text-sm font-medium">Back</span>

@@ -6,6 +6,7 @@ import rating45 from "../../assets/ratings/rating-45.png";
 import rating50 from "../../assets/ratings/rating-50.png";
 import { useParams } from "react-router-dom";
 import { getAllProducts } from "../../Services/productApi";
+import ReactMarkdown from "react-markdown";
 
 const ProductDetails = () => {
   const { slug } = useParams();
@@ -39,10 +40,11 @@ const ProductDetails = () => {
   const mainImage = selectedImage || product.images[0];
 
   return (
-    <div className="mt-10 min-h-screen flex flex-col items-center px-[8%] my-5">
+    <div className="mt-10 min-h-screen flex flex-col items-center px-[8%] my-10">
       <div className="w-full max-w-6xl">
-        <BackButton />
-
+        <div className="mt-10">
+          <BackButton />
+        </div>
         <div className="flex flex-col lg:flex-row gap-10 mt-6">
           {/* LEFT SIDE - IMAGES */}
           <div className="w-full lg:w-1/2 flex flex-col gap-4">
@@ -94,9 +96,32 @@ const ProductDetails = () => {
               )}
             </div>
 
-            <p className="text-gray-700 leading-relaxed">
-              {product.description}
-            </p>
+            <div className="space-y-4 text-gray-700">
+              <ReactMarkdown
+                components={{
+                  h1: ({ node, ...props }) => (
+                    <h1
+                      className="text-2xl font-semibold text-gray-900"
+                      {...props}
+                    />
+                  ),
+                  h2: ({ node, ...props }) => (
+                    <h2 className="text-xl font-semibold mt-4" {...props} />
+                  ),
+                  p: ({ node, ...props }) => (
+                    <p className="leading-relaxed" {...props} />
+                  ),
+                  ul: ({ node, ...props }) => (
+                    <ul className="list-disc pl-5 space-y-1" {...props} />
+                  ),
+                  li: ({ node, ...props }) => (
+                    <li className="text-gray-700" {...props} />
+                  ),
+                }}
+              >
+                {product.description}
+              </ReactMarkdown>
+            </div>
 
             <div>
               {product.stock > 0 ? (
