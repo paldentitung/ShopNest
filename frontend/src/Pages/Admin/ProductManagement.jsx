@@ -384,7 +384,10 @@ const ProductManagement = () => {
 
             {/* Buttons */}
             <div className="flex justify-end gap-3 mt-6">
-              <SecondaryButton name="Cancel" />
+              <SecondaryButton
+                name="Cancel"
+                onClick={() => setShowModal(false)}
+              />
               <MainButton
                 name={isEditing ? "Edit Product" : "Add Product"}
                 type="submit"
