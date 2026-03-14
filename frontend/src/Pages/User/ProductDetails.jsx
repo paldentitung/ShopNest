@@ -7,6 +7,8 @@ import rating50 from "../../assets/ratings/rating-50.png";
 import { useParams } from "react-router-dom";
 import { getAllProducts } from "../../Services/productApi";
 import ReactMarkdown from "react-markdown";
+import { useCart } from "../../Context/CartContext";
+import toast from "react-hot-toast";
 
 const ProductDetails = () => {
   const { slug } = useParams();
@@ -39,6 +41,12 @@ const ProductDetails = () => {
 
   const mainImage = selectedImage || product.images[0];
 
+  const { addItem } = useCart();
+
+  const handleAddItem = () => {
+    addItem(product._id, 1);
+    toast.success("Product Added");
+  };
   return (
     <div className="mt-10 min-h-screen flex flex-col items-center px-[8%] my-10">
       <div className="w-full max-w-6xl">
@@ -132,7 +140,11 @@ const ProductDetails = () => {
             </div>
 
             <div className="pt-4">
-              <MainButton name="Add to Cart" disabled={product.stock === 0} />
+              <MainButton
+                name="Add to Cart"
+                onClick={handleAddItem}
+                disabled={product.stock === 0}
+              />
             </div>
           </div>
         </div>
