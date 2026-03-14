@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useCart } from "../Context/CartContext";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 const ProductCard = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const ratingImages = {
@@ -22,6 +23,8 @@ const ProductCard = ({ product }) => {
     addItem(product._id, Number(quantity));
     toast.success("Product Added");
   };
+
+  const navigate = useNavigate();
   return (
     <motion.div
       key={product.id}
@@ -67,7 +70,10 @@ const ProductCard = ({ product }) => {
           <span className="text-lg font-bold text-gray-900">
             ${product.priceCents / 100}
           </span>
-          <SecondaryButton name="View" />
+          <SecondaryButton
+            name="View"
+            onClick={() => navigate(`/user/productdetails/${product.slug}`)}
+          />
         </div>
 
         <div className="w-full py-3">
