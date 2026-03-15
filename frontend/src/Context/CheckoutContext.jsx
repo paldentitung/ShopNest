@@ -1,5 +1,6 @@
 import { createContext, useState, useMemo } from "react";
 import { useCart } from "./CartContext";
+import { useNavigate } from "react-router-dom";
 
 export const CheckoutContext = createContext();
 
@@ -23,8 +24,9 @@ export const CheckoutProvider = ({ children }) => {
     cvc: "",
   });
   const [method, setMethod] = useState("card");
+  const navigate = useNavigate();
 
-  const { total } = useCart();
+  const { total, cartItems, removeItem, setCartItems } = useCart();
   const updateShipping = (method) => {
     setShippingMethod(method);
     if (method === "standard") setShippingCost(0);
@@ -41,6 +43,20 @@ export const CheckoutProvider = ({ children }) => {
     const { name, value } = e.target;
     setShippingFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  const placeOrder = async () => {
+    try {
+      await Promise.all(cartItems.map((item) => removeItem(item._id)));
+
+      setCartItems([]);
+
+      alert("Order placed successfully!");
+      navigate("/user");
+    } catch (error) {
+      console.error("Failed to place order:", error);
+      alert("Something went wrong, please try again.");
+    }
+  };
   return (
     <CheckoutContext.Provider
       value={{
@@ -55,6 +71,7 @@ export const CheckoutProvider = ({ children }) => {
         setCardDetails,
         method,
         setMethod,
+        placeOrder,
       }}
     >
       {children}

@@ -8,7 +8,7 @@ import MainButton from "../../Components/MainButton";
 
 const Review = () => {
   const navigate = useNavigate();
-  const { cartItems, total, cartLength } = useCart();
+  const { cartItems, total, cartLength, setCartItems } = useCart();
   const {
     shippingFormData,
     shippingMethod,
@@ -16,6 +16,7 @@ const Review = () => {
     totalWithShipping,
     paymentMethod,
     cardDetails,
+    placeOrder,
   } = useContext(CheckoutContext);
 
   return (
@@ -64,13 +65,7 @@ const Review = () => {
             )}
           </div>
 
-          <MainButton
-            name="Place Order"
-            onClick={() => {
-              alert("Order placed successfully!");
-              navigate("/user");
-            }}
-          />
+          <MainButton name="Place Order" onClick={placeOrder} />
         </div>
 
         <div className="w-full lg:w-[30%] bg-white shadow-lg rounded-2xl p-5 flex flex-col gap-3 h-100 overflow-y-scroll sticky top-10 z-30">
