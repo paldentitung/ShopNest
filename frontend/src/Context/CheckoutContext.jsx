@@ -16,6 +16,14 @@ export const CheckoutProvider = ({ children }) => {
     zip: "",
     country: "",
   });
+  const [cardDetails, setCardDetails] = useState({
+    cardholder: "",
+    cardNumber: "",
+    expiry: "",
+    cvc: "",
+  });
+  const [method, setMethod] = useState("card");
+
   const { total } = useCart();
   const updateShipping = (method) => {
     setShippingMethod(method);
@@ -43,6 +51,10 @@ export const CheckoutProvider = ({ children }) => {
         shippingFormData,
         setShippingFormData,
         handleChange,
+        cardDetails,
+        setCardDetails,
+        method,
+        setMethod,
       }}
     >
       {children}

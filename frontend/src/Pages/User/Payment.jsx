@@ -1,18 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import MainButton from "../../Components/MainButton";
 import CheckoutStepper from "../../Components/CheckoutStepper";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../Context/CartContext";
+import { CheckoutContext } from "../../Context/CheckoutContext";
+import BackButton from "../../Components/BackButton";
 
 const Payment = () => {
-  const [method, setMethod] = useState("card");
+  const navigate = useNavigate();
+  const { cartItems, total, cartLength } = useCart();
+  const {
+    shippingMethod,
+    shippingCost,
+    totalWithShipping,
+    handleChange,
+    cardDetails,
+    setCardDetails,
+    method,
+    setMethod,
+  } = useContext(CheckoutContext);
 
   return (
     <section className="bg-(--color-background) w-full min-h-screen py-10">
-      <CheckoutStepper currentStep={3} />
+      <div className="flex items-center gap-4 w-full max-w-6xl mx-auto px-4">
+        <BackButton />
+        <CheckoutStepper currentStep={3} />
+      </div>
       <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-8 px-4">
         <div className="flex-1 bg-white shadow-lg rounded-2xl p-6 flex flex-col gap-6">
           <h2 className="text-xl font-semibold">Payment Method</h2>
 
           <div className="flex flex-col gap-4">
+            {/* Card */}
             <label className="flex items-center gap-3 cursor-pointer">
               <input
                 type="radio"
@@ -27,31 +46,41 @@ const Payment = () => {
               <div className="flex flex-col gap-4 mt-4">
                 <input
                   type="text"
+                  name="cardholder"
                   placeholder="Cardholder Name"
+                  value={cardDetails.cardholder}
+                  onChange={handleChange}
                   className="p-3 border border-gray-300 rounded-md outline-none
                              transition-all duration-200
                              focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
-
                 <input
                   type="text"
+                  name="cardNumber"
                   placeholder="Card Number"
+                  value={cardDetails.cardNumber}
+                  onChange={handleChange}
                   className="p-3 border border-gray-300 rounded-md outline-none
                              transition-all duration-200
                              focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
-
                 <div className="grid grid-cols-2 gap-4">
                   <input
                     type="text"
+                    name="expiry"
                     placeholder="MM / YY"
+                    value={cardDetails.expiry}
+                    onChange={handleChange}
                     className="p-3 border border-gray-300 rounded-md outline-none
                                transition-all duration-200
                                focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                   <input
                     type="text"
+                    name="cvc"
                     placeholder="CVC"
+                    value={cardDetails.cvc}
+                    onChange={handleChange}
                     className="p-3 border border-gray-300 rounded-md outline-none
                                transition-all duration-200
                                focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -77,60 +106,59 @@ const Payment = () => {
               </div>
             )}
           </div>
+
+          <MainButton
+            name="Proceed to Review"
+            onClick={() => {
+              navigate("/review");
+            }}
+          />
         </div>
 
-        <div className="w-full lg:w-[30%] bg-white shadow-lg rounded-2xl p-5 flex flex-col gap-4 h-fit sticky top-10 z-30">
+        {/* Order Summary */}
+        <div className="w-full lg:w-[30%] bg-white shadow-lg rounded-2xl p-5 flex flex-col gap-3 h-100 overflow-y-scroll sticky top-10 z-30">
           <h2 className="text-center font-semibold text-lg">Order Summary</h2>
 
           <div className="flex flex-col gap-3">
-            {[1, 2, 3].map((item) => (
+            {cartItems.map((item) => (
               <div
-                key={item}
-                className="flex items-center gap-2 p-2 rounded-md"
+                key={item.product.id}
+                className="flex items-center gap-2 p-1 rounded-md shadow-xs"
               >
-                <div>
-                  <img
-                    src="https://via.placeholder.com/40"
-                    alt="product"
-                    className="w-10 h-10 rounded border"
-                  />
-                </div>
+                <img
+                  src={`http://localhost:3000/${item.product.images[0]}`}
+                  alt=""
+                  className="w-10 h-10 object-contain"
+                />
                 <div className="flex-1 flex items-center justify-between">
-                  <div>
-                    <span className="font-semibold text-sm">
-                      Air Max Sneakers
-                    </span>
-                    <p className="text-xs text-gray-400">Size 10 · White</p>
-                  </div>
-                  <div className="font-semibold text-sm">$199.99</div>
+                  <span className="font-semibold text-sm">
+                    {item.product.name}
+                  </span>
+                  <span className="font-semibold text-sm">
+                    ${item.product.priceCents / 100}
+                  </span>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="flex flex-col gap-3 mt-3">
-            <div className="flex justify-between text-sm">
-              <span>Subtotal (9 items)</span>
-              <span>$1000.00</span>
-            </div>
-
-            <div className="flex justify-between text-sm">
-              <span>Shipping</span>
-              <span className="text-lime-700">Free</span>
-            </div>
-
-            <div className="flex justify-between text-sm">
-              <span>Discount</span>
-              <span className="text-lime-700">-$25.00</span>
-            </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm">Subtotal ({cartLength} items)</span>
+            <span className="text-sm">${total.toFixed(2)}</span>
           </div>
-
-          <div className="border-t pt-3 flex justify-between items-center">
+          <div className="flex justify-between items-center">
+            <span className="text-sm">Shipping({shippingMethod})</span>
+            <span className="text-sm text-lime-700">
+              {shippingCost === 0 ? "Free" : `$${shippingCost.toFixed(2)}`}
+            </span>
+          </div>
+          <div className="border border-(--color-border)"></div>
+          <div className="flex justify-between items-center">
             <span className="text-sm">Total</span>
-            <span className="text-xl font-semibold">$975.00</span>
+            <span className="text-lg md:text-2xl font-semibold">
+              ${totalWithShipping.toFixed(2)}
+            </span>
           </div>
-
-          <MainButton name="Pay Now (Demo)" />
         </div>
       </div>
     </section>
