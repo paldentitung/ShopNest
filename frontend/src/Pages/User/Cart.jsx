@@ -124,7 +124,10 @@ const Cart = () => {
                 </span>
               </div>
 
-              <MainButton name="Checkout" />
+              <MainButton
+                name="Checkout"
+                onClick={() => navigate("/shipping")}
+              />
 
               <SecondaryButton
                 name="Continue Shopping"

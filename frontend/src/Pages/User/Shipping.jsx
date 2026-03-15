@@ -1,8 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SecondaryButton from "../../Components/SecondaryButton";
 import MainButton from "../../Components/MainButton";
 import CheckoutStepper from "../../Components/CheckoutStepper";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../Context/CartContext";
 const Shipping = () => {
+  const {
+    cartItems,
+    totalItems,
+    subtotal,
+    tax,
+    total,
+    cartLength,
+    removeItem,
+    increaseQuantity,
+    decreaseQuantity,
+    MAX_QTY,
+    MIN_QTY,
+  } = useCart();
+
+  const navigate = useNavigate();
+  const [shippingMethod, setShippingMethod] = useState("standard");
+  const [shippingCost, setShippingCost] = useState(0);
+
+  useEffect(() => {
+    if (shippingMethod === "standard") setShippingCost(0);
+    else if (shippingMethod === "express") setShippingCost(9.99);
+    else setShippingCost(24.99);
+  }, [shippingMethod]);
+
   return (
     <section className="bg-(--color-background) min-h-screen w-full p-6 md:p-10">
       <CheckoutStepper currentStep={2} />
@@ -157,9 +183,16 @@ const Shipping = () => {
             <div className="text-lg font-semibold mb-4">Shipping Method</div>
 
             <div className="flex flex-col space-y-3">
-              <div className="flex items-center gap-4 border border-gray-300 p-3 rounded-md shadow-xs">
+              <div
+                onClick={() => setShippingMethod("standard")}
+                className={`flex items-center gap-4 border border-gray-300 p-3 rounded-md  shadow-xs cursor-pointer ${shippingMethod === "standard" ? "bg-orange-100" : ""} `}
+              >
                 <div>
-                  <img src="" alt="" className="w-10 h-10 border" />
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/1048/1048325.png"
+                    alt="Standard shipping"
+                    className="w-10 h-10 object-contain"
+                  />
                 </div>
                 <div className=" flex-1 flex items-center justify-between">
                   <div>
@@ -174,9 +207,16 @@ const Shipping = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 border border-gray-300 p-3 rounded-md  shadow-xs">
+              <div
+                onClick={() => setShippingMethod("express")}
+                className={`flex items-center gap-4 border border-gray-300 p-3 rounded-md  shadow-xs cursor-pointer ${shippingMethod === "express" ? "bg-orange-100" : ""} `}
+              >
                 <div>
-                  <img src="" alt="" className="w-10 h-10 border" />
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/3126/3126647.png"
+                    alt="Express shipping"
+                    className="w-10 h-10 object-contain"
+                  />
                 </div>
                 <div className=" flex-1 flex items-center justify-between">
                   <div>
@@ -191,9 +231,16 @@ const Shipping = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 border border-gray-300 p-3 rounded-md shadow-xs">
+              <div
+                onClick={() => setShippingMethod("overnight")}
+                className={`flex items-center gap-4 border border-gray-300 p-3 rounded-md  shadow-xs cursor-pointer ${shippingMethod === "overnight" ? "bg-orange-100" : ""} `}
+              >
                 <div>
-                  <img src="" alt="" className="w-10 h-10 border" />
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/3081/3081648.png"
+                    alt="Overnight delivery"
+                    className="w-10 h-10 object-contain"
+                  />
                 </div>
                 <div className=" flex-1 flex items-center justify-between">
                   <div>
@@ -212,70 +259,44 @@ const Shipping = () => {
           <MainButton name="Continue to Payment" />
         </div>
 
-        <div className="  w-full lg:w-[30%] bg-white  shadow-lg rounded-2xl p-5 flex flex-col gap-3 h-100 sticky top-10 z-30 ">
+        <div className="  w-full lg:w-[30%] bg-white  shadow-lg rounded-2xl p-5 flex flex-col gap-3 h-100 overflow-y-scroll sticky top-10 z-30 ">
           <h2 className="text-center font-semibold text-lg">Order Summary</h2>
 
           <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-2  p-1 rounded-md  shadow-xs">
-              <div>
-                <img src="" alt="" className="w-10 h-10 border" />
-              </div>
-              <div className=" flex-1 flex items-center justify-between">
+            {cartItems.map((item) => (
+              <div className="flex items-center gap-2  p-1 rounded-md  shadow-xs">
                 <div>
-                  <span className="font-semibold text-sm ">
-                    Air Max Sneakers
-                  </span>
-                  <p className="text-xs text-gray-400">Size 10 · White</p>
+                  <img
+                    src={`http://localhost:3000/${item.product.images[0]}`}
+                    alt=""
+                    className="w-10 h-10 object-contain"
+                  />
                 </div>
-                <div className="font-semibold   text-sm">$199.99</div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2  p-1 rounded-md  shadow-xs">
-              <div>
-                <img src="" alt="" className="w-10 h-10 border" />
-              </div>
-              <div className=" flex-1 flex items-center justify-between">
-                <div>
-                  <span className="font-semibold text-sm ">
-                    Air Max Sneakers
-                  </span>
-                  <p className="text-xs text-gray-400">Size 10 · White</p>
+                <div className=" flex-1 flex items-center justify-between">
+                  <div>
+                    <span className="font-semibold text-sm ">
+                      {item.product.name}
+                    </span>
+                  </div>
+                  <div className="font-semibold   text-sm">
+                    ${item.product.priceCents / 100}
+                  </div>
                 </div>
-                <div className="font-semibold   text-sm">$199.99</div>
               </div>
-            </div>
-
-            <div className="flex items-center gap-2  p-1 rounded-md  shadow-xs">
-              <div>
-                <img src="" alt="" className="w-10 h-10 border" />
-              </div>
-              <div className=" flex-1 flex items-center justify-between">
-                <div>
-                  <span className="font-semibold text-sm ">
-                    Air Max Sneakers
-                  </span>
-                  <p className="text-xs text-gray-400">Size 10 · White</p>
-                </div>
-                <div className="font-semibold   text-sm">$199.99</div>
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm">Subtotal (9 items)</span>
-              <span className="text-sm">$10000</span>
+              <span className="text-sm">Subtotal ({cartLength} items)</span>
+              <span className="text-sm">${total.toFixed(2)}</span>
             </div>
 
             <div className="flex justify-between items-center">
-              <span className="text-sm">Shipping</span>
-              <span className="text-sm text-lime-700">Free</span>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span className="text-sm">Discount</span>
-              <span className="text-sm text-lime-700">-$25.00</span>
+              <span className="text-sm">Shipping({shippingMethod})</span>
+              <span className="text-sm text-lime-700">
+                {shippingCost === 0 ? "Free" : `$${shippingCost.toFixed(2)}`}
+              </span>
             </div>
           </div>
 
