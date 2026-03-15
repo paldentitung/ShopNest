@@ -41,18 +41,35 @@ const Shipping = () => {
       icon: "https://cdn-icons-png.flaticon.com/512/3081/3081648.png",
     },
   ];
+
+  const handleContinue = () => {
+    const { fullname, phone, address1, city, state, zip, country } =
+      shippingFormData;
+
+    if (
+      !fullname ||
+      !phone ||
+      !address1 ||
+      !city ||
+      !state ||
+      !zip ||
+      !country
+    ) {
+      alert("Please fill in all required fields before continuing.");
+      return;
+    }
+
+    navigate("/payment");
+  };
   return (
     <section className="bg-(--color-background) min-h-screen w-full p-6 md:p-10">
       <CheckoutStepper currentStep={2} />
 
       <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-10">
-        {/* Left Side */}
         <div className="flex flex-col gap-6 w-full lg:w-[70%]">
-          {/* Shipping Address Form */}
           <div className="bg-(--color-surface) p-5 rounded-md shadow-md">
             <div className="text-lg font-semibold mb-4">Shipping Address</div>
             <form className="w-full flex flex-col space-y-4">
-              {/* Full Name */}
               <div className="flex flex-col gap-1">
                 <label htmlFor="fullname" className="text-sm text-gray-600">
                   Full Name
@@ -61,6 +78,7 @@ const Shipping = () => {
                   type="text"
                   id="fullname"
                   name="fullname"
+                  required
                   value={shippingFormData.fullname}
                   onChange={handleChange}
                   placeholder="Enter your full name"
@@ -68,7 +86,6 @@ const Shipping = () => {
                 />
               </div>
 
-              {/* Phone */}
               <div className="flex flex-col gap-1">
                 <label htmlFor="phone" className="text-sm text-gray-600">
                   Phone Number
@@ -76,6 +93,7 @@ const Shipping = () => {
                 <input
                   type="tel"
                   id="phone"
+                  required
                   name="phone"
                   value={shippingFormData.phone}
                   onChange={handleChange}
@@ -84,7 +102,6 @@ const Shipping = () => {
                 />
               </div>
 
-              {/* Address 1 */}
               <div className="flex flex-col gap-1">
                 <label htmlFor="address1" className="text-sm text-gray-600">
                   Address Line 1
@@ -92,6 +109,7 @@ const Shipping = () => {
                 <input
                   type="text"
                   id="address1"
+                  required
                   name="address1"
                   value={shippingFormData.address1}
                   onChange={handleChange}
@@ -109,6 +127,7 @@ const Shipping = () => {
                   type="text"
                   id="address2"
                   name="address2"
+                  required
                   value={shippingFormData.address2}
                   onChange={handleChange}
                   placeholder="Apartment, suite, etc"
@@ -124,12 +143,14 @@ const Shipping = () => {
                   value={shippingFormData.city}
                   onChange={handleChange}
                   placeholder="City"
+                  required
                   className="p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <select
                   name="state"
                   value={shippingFormData.state}
                   onChange={handleChange}
+                  required
                   className="p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Select…</option>
@@ -140,6 +161,7 @@ const Shipping = () => {
                 <input
                   type="text"
                   name="zip"
+                  required
                   value={shippingFormData.zip}
                   onChange={handleChange}
                   placeholder="ZIP"
@@ -152,6 +174,7 @@ const Shipping = () => {
                 name="country"
                 value={shippingFormData.country}
                 onChange={handleChange}
+                required
                 className="p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select Country…</option>
@@ -191,10 +214,7 @@ const Shipping = () => {
             </div>
           </div>
 
-          <MainButton
-            name="Continue to Payment"
-            onClick={() => navigate("/payment")}
-          />
+          <MainButton name="Continue to Payment" onClick={handleContinue} />
         </div>
 
         {/* Right Side - Order Summary */}
@@ -202,9 +222,9 @@ const Shipping = () => {
           <h2 className="text-center font-semibold text-lg">Order Summary</h2>
 
           <div className="flex flex-col gap-3">
-            {cartItems.map((item) => (
+            {cartItems.map((item, index) => (
               <div
-                key={item.product.id}
+                key={item.product._id || index}
                 className="flex items-center gap-2 p-1 rounded-md shadow-xs"
               >
                 <img
