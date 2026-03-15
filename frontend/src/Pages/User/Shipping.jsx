@@ -1,45 +1,59 @@
-import React, { useState, useEffect } from "react";
-import SecondaryButton from "../../Components/SecondaryButton";
+import React, { useContext } from "react";
 import MainButton from "../../Components/MainButton";
 import CheckoutStepper from "../../Components/CheckoutStepper";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
+import { CheckoutContext } from "../../Context/CheckoutContext";
+
 const Shipping = () => {
-  const {
-    cartItems,
-    totalItems,
-    subtotal,
-    tax,
-    total,
-    cartLength,
-    removeItem,
-    increaseQuantity,
-    decreaseQuantity,
-    MAX_QTY,
-    MIN_QTY,
-  } = useCart();
+  const { cartItems, total, cartLength } = useCart();
 
   const navigate = useNavigate();
-  const [shippingMethod, setShippingMethod] = useState("standard");
-  const [shippingCost, setShippingCost] = useState(0);
+  const {
+    shippingMethod,
+    shippingCost,
+    totalWithShipping,
+    updateShipping,
+    shippingFormData,
+    handleChange,
+  } = useContext(CheckoutContext);
 
-  useEffect(() => {
-    if (shippingMethod === "standard") setShippingCost(0);
-    else if (shippingMethod === "express") setShippingCost(9.99);
-    else setShippingCost(24.99);
-  }, [shippingMethod]);
-
+  const shippingData = [
+    {
+      method: "standard",
+      label: "Standard Shipping",
+      price: 0,
+      desc: "Arrives in 5–7 business days",
+      icon: "https://cdn-icons-png.flaticon.com/512/1048/1048325.png",
+    },
+    {
+      method: "express",
+      label: "Express Shipping",
+      price: 9.99,
+      desc: "Arrives in 2–3 business days",
+      icon: "https://cdn-icons-png.flaticon.com/512/3126/3126647.png",
+    },
+    {
+      method: "overnight",
+      label: "Overnight Delivery",
+      price: 24.99,
+      desc: "Order by 2 PM for next-day arrival",
+      icon: "https://cdn-icons-png.flaticon.com/512/3081/3081648.png",
+    },
+  ];
   return (
     <section className="bg-(--color-background) min-h-screen w-full p-6 md:p-10">
       <CheckoutStepper currentStep={2} />
-      <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-10   ">
-        <div className="flex flex-col gap-6 w-full lg:w-[70%]">
-          <div className="bg-(--color-surface) p-5 rounded-md shadow-md ">
-            <div className="text-lg font-semibold mb-4">Shipping Address</div>
 
+      <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-10">
+        {/* Left Side */}
+        <div className="flex flex-col gap-6 w-full lg:w-[70%]">
+          {/* Shipping Address Form */}
+          <div className="bg-(--color-surface) p-5 rounded-md shadow-md">
+            <div className="text-lg font-semibold mb-4">Shipping Address</div>
             <form className="w-full flex flex-col space-y-4">
               {/* Full Name */}
-              <div className="relative flex flex-col gap-1">
+              <div className="flex flex-col gap-1">
                 <label htmlFor="fullname" className="text-sm text-gray-600">
                   Full Name
                 </label>
@@ -47,16 +61,15 @@ const Shipping = () => {
                   type="text"
                   id="fullname"
                   name="fullname"
+                  value={shippingFormData.fullname}
+                  onChange={handleChange}
                   placeholder="Enter your full name"
-                  className="p-3 border border-gray-300 rounded-md outline-none
-                   transition-all duration-200 ease-in-out
-                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                   placeholder:text-gray-400"
+                  className="p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               {/* Phone */}
-              <div className="relative flex flex-col gap-1">
+              <div className="flex flex-col gap-1">
                 <label htmlFor="phone" className="text-sm text-gray-600">
                   Phone Number
                 </label>
@@ -64,16 +77,15 @@ const Shipping = () => {
                   type="tel"
                   id="phone"
                   name="phone"
+                  value={shippingFormData.phone}
+                  onChange={handleChange}
                   placeholder="98XXXXXXXX"
-                  className="p-3 border border-gray-300 rounded-md outline-none
-                   transition-all duration-200 ease-in-out
-                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                   placeholder:text-gray-400"
+                  className="p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               {/* Address 1 */}
-              <div className="relative flex flex-col gap-1">
+              <div className="flex flex-col gap-1">
                 <label htmlFor="address1" className="text-sm text-gray-600">
                   Address Line 1
                 </label>
@@ -81,16 +93,15 @@ const Shipping = () => {
                   type="text"
                   id="address1"
                   name="address1"
+                  value={shippingFormData.address1}
+                  onChange={handleChange}
                   placeholder="Street name, house no"
-                  className="p-3 border border-gray-300 rounded-md outline-none
-                   transition-all duration-200 ease-in-out
-                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                   placeholder:text-gray-400"
+                  className="p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               {/* Address 2 */}
-              <div className="relative flex flex-col gap-1">
+              <div className="flex flex-col gap-1">
                 <label htmlFor="address2" className="text-sm text-gray-600">
                   Address Line 2 (Optional)
                 </label>
@@ -98,212 +109,137 @@ const Shipping = () => {
                   type="text"
                   id="address2"
                   name="address2"
+                  value={shippingFormData.address2}
+                  onChange={handleChange}
                   placeholder="Apartment, suite, etc"
-                  className="p-3 border border-gray-300 rounded-md outline-none
-                   transition-all duration-200 ease-in-out
-                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                   placeholder:text-gray-400"
+                  className="p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
-              {/* Grid Section */}
+              {/* City, State, ZIP */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="relative flex flex-col gap-1">
-                  <label htmlFor="city" className="text-sm text-gray-600">
-                    City
-                  </label>
-                  <input
-                    type="text"
-                    id="city"
-                    name="city"
-                    placeholder="Kathmandu"
-                    className="p-3 border border-gray-300 rounded-md outline-none
-                     transition-all duration-200 ease-in-out
-                     focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                     placeholder:text-gray-400"
-                  />
-                </div>
-
-                <div className="relative flex flex-col gap-1">
-                  <label htmlFor="state" className="text-sm text-gray-600">
-                    State / Province
-                  </label>
-                  <select
-                    id="state"
-                    name="state"
-                    className="p-3 border border-gray-300 rounded-md outline-none
-                     transition-all duration-200 ease-in-out
-                     focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  >
-                    <option value="">Select…</option>
-                    <option>Nepal</option>
-                    <option>California</option>
-                    <option>New York</option>
-                  </select>
-                </div>
-
-                <div className="relative flex flex-col gap-1">
-                  <label htmlFor="zip" className="text-sm text-gray-600">
-                    ZIP / Postal
-                  </label>
-                  <input
-                    type="text"
-                    id="zip"
-                    name="zip"
-                    placeholder="44600"
-                    className="p-3 border border-gray-300 rounded-md outline-none
-                     transition-all duration-200 ease-in-out
-                     focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                     placeholder:text-gray-400"
-                  />
-                </div>
+                <input
+                  type="text"
+                  name="city"
+                  value={shippingFormData.city}
+                  onChange={handleChange}
+                  placeholder="City"
+                  className="p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <select
+                  name="state"
+                  value={shippingFormData.state}
+                  onChange={handleChange}
+                  className="p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select…</option>
+                  <option>Nepal</option>
+                  <option>California</option>
+                  <option>New York</option>
+                </select>
+                <input
+                  type="text"
+                  name="zip"
+                  value={shippingFormData.zip}
+                  onChange={handleChange}
+                  placeholder="ZIP"
+                  className="p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
+                />
               </div>
 
               {/* Country */}
-              <div className="relative flex flex-col gap-1">
-                <label htmlFor="country" className="text-sm text-gray-600">
-                  Country
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  className="p-3 border border-gray-300 rounded-md outline-none
-                   transition-all duration-200 ease-in-out
-                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="">Select country…</option>
-                  <option>Nepal</option>
-                  <option>United States</option>
-                  <option>India</option>
-                </select>
-              </div>
+              <select
+                name="country"
+                value={shippingFormData.country}
+                onChange={handleChange}
+                className="p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select Country…</option>
+                <option>Nepal</option>
+                <option>United States</option>
+                <option>India</option>
+              </select>
             </form>
           </div>
+
+          {/* Shipping Method */}
           <div className="bg-(--color-surface) p-5 rounded-md shadow-lg flex flex-col space-y-5">
             <div className="text-lg font-semibold mb-4">Shipping Method</div>
-
             <div className="flex flex-col space-y-3">
-              <div
-                onClick={() => setShippingMethod("standard")}
-                className={`flex items-center gap-4 border border-gray-300 p-3 rounded-md  shadow-xs cursor-pointer ${shippingMethod === "standard" ? "bg-orange-100" : ""} `}
-              >
-                <div>
+              {shippingData.map(({ method, label, price, desc, icon }) => (
+                <div
+                  key={method}
+                  onClick={() => updateShipping(method)}
+                  className={`flex items-center gap-4 border border-gray-300 p-3 rounded-md cursor-pointer ${shippingMethod === method ? "bg-orange-100" : ""}`}
+                >
                   <img
-                    src="https://cdn-icons-png.flaticon.com/512/1048/1048325.png"
-                    alt="Standard shipping"
+                    src={icon}
+                    alt={label}
                     className="w-10 h-10 object-contain"
                   />
-                </div>
-                <div className=" flex-1 flex items-center justify-between">
-                  <div>
-                    <span className="font-semibold text-sm ">
-                      Standard Shipping
-                    </span>
-                    <p className="text-xs text-gray-400">
-                      Arrives in 5–7 business days
-                    </p>
+                  <div className="flex-1 flex items-center justify-between">
+                    <div>
+                      <span className="font-semibold text-sm">{label}</span>
+                      <p className="text-xs text-gray-400">{desc}</p>
+                    </div>
+                    <div className="font-semibold md:text-lg">
+                      {price === 0 ? "Free" : `$${price}`}
+                    </div>
                   </div>
-                  <div className="text-lime-700  md:text-lg">Free</div>
                 </div>
-              </div>
-
-              <div
-                onClick={() => setShippingMethod("express")}
-                className={`flex items-center gap-4 border border-gray-300 p-3 rounded-md  shadow-xs cursor-pointer ${shippingMethod === "express" ? "bg-orange-100" : ""} `}
-              >
-                <div>
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/512/3126/3126647.png"
-                    alt="Express shipping"
-                    className="w-10 h-10 object-contain"
-                  />
-                </div>
-                <div className=" flex-1 flex items-center justify-between">
-                  <div>
-                    <span className="font-semibold text-sm ">
-                      Express Shipping
-                    </span>
-                    <p className="text-xs text-gray-400">
-                      Arrives in 2–3 business days
-                    </p>
-                  </div>
-                  <div className="font-semibold  md:text-lg">$9.99</div>
-                </div>
-              </div>
-
-              <div
-                onClick={() => setShippingMethod("overnight")}
-                className={`flex items-center gap-4 border border-gray-300 p-3 rounded-md  shadow-xs cursor-pointer ${shippingMethod === "overnight" ? "bg-orange-100" : ""} `}
-              >
-                <div>
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/512/3081/3081648.png"
-                    alt="Overnight delivery"
-                    className="w-10 h-10 object-contain"
-                  />
-                </div>
-                <div className=" flex-1 flex items-center justify-between">
-                  <div>
-                    <span className="font-semibold text-sm ">
-                      Overnight Delivery
-                    </span>
-                    <p className="text-xs text-gray-400">
-                      Order by 2 PM for next-day arrival
-                    </p>
-                  </div>
-                  <div className="font-semibold  md:text-lg">$24.99</div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
-          <MainButton name="Continue to Payment" />
+
+          <MainButton
+            name="Continue to Payment"
+            onClick={() => navigate("/payment")}
+          />
         </div>
 
-        <div className="  w-full lg:w-[30%] bg-white  shadow-lg rounded-2xl p-5 flex flex-col gap-3 h-100 overflow-y-scroll sticky top-10 z-30 ">
+        {/* Right Side - Order Summary */}
+        <div className="w-full lg:w-[30%] bg-white shadow-lg rounded-2xl p-5 flex flex-col gap-3 h-100 overflow-y-scroll sticky top-10 z-30">
           <h2 className="text-center font-semibold text-lg">Order Summary</h2>
 
           <div className="flex flex-col gap-3">
             {cartItems.map((item) => (
-              <div className="flex items-center gap-2  p-1 rounded-md  shadow-xs">
-                <div>
-                  <img
-                    src={`http://localhost:3000/${item.product.images[0]}`}
-                    alt=""
-                    className="w-10 h-10 object-contain"
-                  />
-                </div>
-                <div className=" flex-1 flex items-center justify-between">
-                  <div>
-                    <span className="font-semibold text-sm ">
-                      {item.product.name}
-                    </span>
-                  </div>
-                  <div className="font-semibold   text-sm">
+              <div
+                key={item.product.id}
+                className="flex items-center gap-2 p-1 rounded-md shadow-xs"
+              >
+                <img
+                  src={`http://localhost:3000/${item.product.images[0]}`}
+                  alt=""
+                  className="w-10 h-10 object-contain"
+                />
+                <div className="flex-1 flex items-center justify-between">
+                  <span className="font-semibold text-sm">
+                    {item.product.name}
+                  </span>
+                  <span className="font-semibold text-sm">
                     ${item.product.priceCents / 100}
-                  </div>
+                  </span>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="flex flex-col gap-3">
-            <div className="flex justify-between items-center">
-              <span className="text-sm">Subtotal ({cartLength} items)</span>
-              <span className="text-sm">${total.toFixed(2)}</span>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span className="text-sm">Shipping({shippingMethod})</span>
-              <span className="text-sm text-lime-700">
-                {shippingCost === 0 ? "Free" : `$${shippingCost.toFixed(2)}`}
-              </span>
-            </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm">Subtotal ({cartLength} items)</span>
+            <span className="text-sm">${total.toFixed(2)}</span>
           </div>
-
+          <div className="flex justify-between items-center">
+            <span className="text-sm">Shipping({shippingMethod})</span>
+            <span className="text-sm text-lime-700">
+              {shippingCost === 0 ? "Free" : `$${shippingCost.toFixed(2)}`}
+            </span>
+          </div>
           <div className="border border-(--color-border)"></div>
           <div className="flex justify-between items-center">
             <span className="text-sm">Total</span>
-            <span className="text-lg md:text-2xl font-semibold">$250.00</span>
+            <span className="text-lg md:text-2xl font-semibold">
+              ${totalWithShipping.toFixed(2)}
+            </span>
           </div>
         </div>
       </div>
