@@ -18,7 +18,7 @@ const ProductPage = ({ isHidden, isShow, productLimit }) => {
     ? products.slice(0, productLimit)
     : products;
   return (
-    <div>
+    <div className="mt-10">
       <ProductListing
         products={displayedProducts}
         isHidden={isHidden}

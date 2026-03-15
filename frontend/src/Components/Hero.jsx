@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import MainButton from "./MainButton";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
   // simple animation variant for images
@@ -8,6 +9,8 @@ const Hero = () => {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0 },
   };
+
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8 mt-10">
@@ -20,7 +23,10 @@ const Hero = () => {
           doorstep
         </p>
         <div>
-          <MainButton name="View Products" />
+          <MainButton
+            name="View Products"
+            onClick={() => navigate("/user/products")}
+          />
         </div>
       </div>
 
