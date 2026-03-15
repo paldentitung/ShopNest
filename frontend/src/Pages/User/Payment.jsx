@@ -20,6 +20,22 @@ const Payment = () => {
     setMethod,
   } = useContext(CheckoutContext);
 
+  const handleContinue = () => {
+    if (method === "card") {
+      const { cardholder, cardNumber, expiry, cvc } = cardDetails;
+      if (!cardholder || !cardNumber || !expiry || !cvc) {
+        alert("Please fill in all card details before proceeding.");
+        return;
+      }
+    }
+
+    if (!method) {
+      alert("Please select a payment method.");
+      return;
+    }
+
+    navigate("/review");
+  };
   return (
     <section className="bg-(--color-background) w-full min-h-screen py-10">
       <div className="flex items-center gap-4 w-full max-w-6xl mx-auto px-4">
@@ -107,12 +123,7 @@ const Payment = () => {
             )}
           </div>
 
-          <MainButton
-            name="Proceed to Review"
-            onClick={() => {
-              navigate("/review");
-            }}
-          />
+          <MainButton name="Proceed to Review" onClick={handleContinue} />
         </div>
 
         {/* Order Summary */}
