@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useEffect } from "react";
 import { SearchContext } from "../Context/SearchContext";
+import { Link } from "react-router-dom";
 
 const SearchModal = () => {
   const { showSearchBar, setShowSearchBar, setSearch, results } =
@@ -41,21 +42,30 @@ const SearchModal = () => {
           {/* Search Results */}
           <ul className="fixed top-48 left-1/2 -translate-x-1/2 z-50 w-full max-w-2xl lg:max-w-4xl flex flex-col gap-4 px-4 py-2 rounded-2xl bg-white shadow-lg ">
             {results.map((item) => (
-              <li className="flex items-center gap-4 p-3 hover:bg-gray-100 rounded-lg cursor-pointer transition">
-                <img
-                  src={`http://localhost:3000/${item.images[0]}`}
-                  alt="Laptop"
-                  className="w-20 h-20 object-cover rounded-md"
-                />
-                <div className="flex flex-col">
-                  <span className="font-semibold text-gray-800">
-                    {item.name}
-                  </span>
-                  <span className="text-gray-500">
-                    ${item.priceCents / 100}
-                  </span>
-                </div>
-              </li>
+              <Link
+                key={item._id}
+                to={`/user/productdetails/${item.slug}`}
+                onClick={() => {
+                  setShowSearchBar(false);
+                  setSearch("");
+                }}
+              >
+                <li className="flex items-center gap-4 p-3 hover:bg-gray-100 rounded-lg cursor-pointer transition">
+                  <img
+                    src={`http://localhost:3000/${item.images[0]}`}
+                    alt="Laptop"
+                    className="w-20 h-20 object-cover rounded-md"
+                  />
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-gray-800">
+                      {item.name}
+                    </span>
+                    <span className="text-gray-500">
+                      ${item.priceCents / 100}
+                    </span>
+                  </div>
+                </li>
+              </Link>
             ))}
           </ul>
         </>

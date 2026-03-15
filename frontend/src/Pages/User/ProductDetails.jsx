@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 
 const ProductDetails = () => {
   const { slug } = useParams();
+  const { addItem } = useCart();
 
   const [products, setProducts] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -40,8 +41,6 @@ const ProductDetails = () => {
     return <div className="text-center mt-20">Product not found</div>;
 
   const mainImage = selectedImage || product.images[0];
-
-  const { addItem } = useCart();
 
   const handleAddItem = () => {
     addItem(product._id, 1);
