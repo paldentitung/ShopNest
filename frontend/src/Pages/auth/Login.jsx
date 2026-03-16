@@ -23,7 +23,7 @@ const Login = () => {
         localStorage.setItem("ShopNext-user", JSON.stringify(res.user));
         // redirect based on role
         if (res.user.role === "admin") {
-          navigate("/admin/dashboard");
+          navigate("/admin/");
         } else {
           navigate("/user/");
         }
