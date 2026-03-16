@@ -1,6 +1,7 @@
 import { createContext, useState, useMemo } from "react";
 import { useCart } from "./CartContext";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export const CheckoutContext = createContext();
 
@@ -50,7 +51,12 @@ export const CheckoutProvider = ({ children }) => {
 
       setCartItems([]);
 
-      alert("Order placed successfully!");
+      Swal.fire({
+        title: "Order has been placed!",
+        icon: "success",
+        draggable: true,
+      });
+
       navigate("/user");
     } catch (error) {
       console.error("Failed to place order:", error);
