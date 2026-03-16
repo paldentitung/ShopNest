@@ -1,4 +1,5 @@
 import React from "react";
+import toast from "react-hot-toast";
 import {
   FaEdit,
   FaCog,
@@ -12,7 +13,16 @@ import {
   FaGift,
   FaEnvelope,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 const Profile = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("ShopNext-token");
+    localStorage.removeItem("ShopNext-user");
+    toast.success("Logged out successfully!");
+
+    navigate("/login");
+  };
   return (
     <section className="mt-10 bg-gray-100 p-6 flex flex-col gap-5 w-full max-w-7xl mx-auto ">
       <div className="bg-white flex gap-2 p-6 rounded-md  shadow">
@@ -43,7 +53,7 @@ const Profile = () => {
         <button className="flex items-center gap-2">
           <FaUserPlus /> Follow
         </button>
-        <button className="flex items-center gap-2">
+        <button onClick={handleLogout} className="flex items-center gap-2">
           <FaSignOutAlt /> Logout
         </button>
       </div>
