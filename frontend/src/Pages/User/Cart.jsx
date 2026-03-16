@@ -131,7 +131,7 @@ const Cart = () => {
 
               <SecondaryButton
                 name="Continue Shopping"
-                onClick={() => navigate("/user/products")}
+                onClick={() => navigate("/products")}
               />
             </div>
           </div>
@@ -166,7 +166,7 @@ const Cart = () => {
 
             <MainButton
               name="View Products"
-              onClick={() => navigate("/user/products")}
+              onClick={() => navigate("/products")}
             />
 
             <span className="absolute bottom-3 right-4 text-[10px] uppercase tracking-widest text-stone-300">
