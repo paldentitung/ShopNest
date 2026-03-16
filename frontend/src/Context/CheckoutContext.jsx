@@ -44,23 +44,50 @@ export const CheckoutProvider = ({ children }) => {
     const { name, value } = e.target;
     setShippingFormData((prev) => ({ ...prev, [name]: value }));
   };
+  const userToken = localStorage.getItem("ShopNext-token");
 
   const placeOrder = async () => {
+    const payload = {
+      items: cartItems.map((item) => ({
+        productId: item.product._id,
+        name: item.product.name,
+        price: item.product.priceCents / 100,
+        quantity: item.quantity,
+        size: item.selectedSize,
+        color: item.selectedColor,
+      })),
+      shippingAddress: {
+        name: shippingFormData.fullname,
+        phone: shippingFormData.phone,
+        city: shippingFormData.city,
+        address: `${shippingFormData.address1}${shippingFormData.address2 ? ", " + shippingFormData.address2 : ""}`,
+      },
+      paymentMethod: method === "card" ? "Online" : "COD",
+      totalAmount: totalWithShipping,
+    };
+
     try {
-      await Promise.all(cartItems.map((item) => removeItem(item._id)));
-
-      setCartItems([]);
-
-      Swal.fire({
-        title: "Order has been placed!",
-        icon: "success",
-        draggable: true,
+      const res = await fetch("http://localhost:3000/api/cart/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify(payload),
       });
 
-      navigate("/user");
+      if (!res.ok) throw new Error("Order creation failed");
+
+      const order = await res.json();
+
+      Swal.fire({ title: "Order placed!", icon: "success" }).then(() => {
+        navigate("/user");
+      });
+
+      setCartItems([]);
     } catch (error) {
-      console.error("Failed to place order:", error);
-      alert("Something went wrong, please try again.");
+      console.error(error);
+      alert("Failed to place order.");
     }
   };
   return (
