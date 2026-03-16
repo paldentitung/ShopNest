@@ -1,6 +1,6 @@
 import React from "react";
 import MainButton from "../../Components/MainButton";
-import { FaGoogle, FaFacebook } from "react-icons/fa";
+import { FaGoogle, FaFacebook, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../Services/authApi";
@@ -8,7 +8,7 @@ import { login } from "../../Services/authApi";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -71,15 +71,23 @@ const Login = () => {
                 required
               />
             </div>
-            <div className="w-full max-w-sm flex flex-col gap-1 ">
+            <div className="w-full max-w-sm flex flex-col gap-1 relative ">
               <label htmlFor="password">Password</label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 onChange={(e) => setPassword(e.target.value)}
                 className="border border-(--color-border) p-2 outline-0 rounded-md shadow transition-all duration-300 focus:ring-2 focus:ring-(--color-foreground) focus:ring-offset-2  focus:ring-offset-white  "
                 required
               />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className=" absolute top-10 right-2"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
             </div>
             <button type="button" className="text-[13px] ml-auto md:pr-10">
               Forgot password?
