@@ -32,7 +32,7 @@ const Aboutus = () => {
         <div>
           <MainButton
             name="Latest Product"
-            onClick={() => navigate("/user/products")}
+            onClick={() => navigate("/products")}
           />
         </div>{" "}
       </div>

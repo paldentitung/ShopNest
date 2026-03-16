@@ -25,7 +25,7 @@ const Hero = () => {
         <div>
           <MainButton
             name="View Products"
-            onClick={() => navigate("/user/products")}
+            onClick={() => navigate("/products")}
           />
         </div>
       </div>
