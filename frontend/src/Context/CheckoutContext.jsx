@@ -67,7 +67,7 @@ export const CheckoutProvider = ({ children }) => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/api/cart/checkout", {
+      const res = await fetch("http://localhost:3000/api/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
