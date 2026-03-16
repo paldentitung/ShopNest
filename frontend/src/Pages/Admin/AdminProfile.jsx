@@ -1,5 +1,5 @@
 import React from "react";
-import AdminHeader from "../../Components/AdminHeader";
+import AdminHeader from "./AdminHeader";
 import { FaEdit, FaKey, FaSignOutAlt, FaUser } from "react-icons/fa";
 
 const AdminProfile = () => {

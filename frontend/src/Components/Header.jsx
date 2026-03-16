@@ -39,7 +39,7 @@ const Header = () => {
               : "bg-(--color-surface)]/30 text-(--color-foreground) border-(--color-border)"
           }`}
         >
-          <Link to="/user/" className="flex items-center gap-1">
+          <Link to="/" className="flex items-center gap-1">
             <span
               className={`bg-(--color-foreground) text-white w-10 h-10  flex justify-center items-center rounded-full italic  `}
             >

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import AdminHeader from "../../Components/AdminHeader";
+import AdminHeader from "./AdminHeader";
 import MainButton from "../../Components/MainButton";
 import Modal from "../../Components/Modal";
 import { ModalContext } from "../../Context/ModalContext";

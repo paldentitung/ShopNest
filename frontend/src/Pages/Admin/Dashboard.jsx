@@ -15,9 +15,7 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
-import MainButton from "../../Components/MainButton";
-import SecondaryButton from "../../Components/SecondaryButton";
-import AdminHeader from "../../Components/AdminHeader";
+import AdminHeader from "./AdminHeader";
 const Dashboard = () => {
   const overviewCards = [
     {
