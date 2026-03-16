@@ -99,12 +99,6 @@ const Login = () => {
               Login
             </button>
 
-            <div className="flex items-center text-[14px] text-gray-500 gap-2 my-4 w-full max-w-sm">
-              <span className="flex-1 border-b border-gray-400"></span>
-              <span className="px-2">Or Login with</span>
-              <span className="flex-1 border-b border-gray-400"></span>
-            </div>
-
             <div className="text-sm mt-8 flex items-center gap-3">
               Don't have an account?
               <Link to="/register">Signup</Link>

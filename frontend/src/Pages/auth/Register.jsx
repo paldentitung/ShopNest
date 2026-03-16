@@ -1,26 +1,33 @@
 import React from "react";
 import MainButton from "../../Components/MainButton";
-import { FaGoogle, FaFacebook } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import { register } from "../../Services/authApi";
 import { useState } from "react";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import toast from "react-hot-toast";
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      return toast.error("Passwords should match");
+    }
+
     const res = await register({ username, email, password });
     console.log(res);
 
     if (res.message === "User created") {
-      navigate("/user");
+      toast.success("Registration successful!");
+      navigate("/login");
     } else {
-      alert(res.message || "Registration failed");
+      toast.error(res.message || "Registration failed");
     }
   };
   return (
@@ -86,25 +93,43 @@ const Register = () => {
             </div>
 
             {/* Password */}
-            <div className="w-full max-w-sm flex flex-col gap-1">
+            <div className="w-full max-w-sm flex flex-col gap-1 relative ">
               <label htmlFor="password">Password</label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 onChange={(e) => setPassword(e.target.value)}
-                className="border border-(--color-border) p-2 outline-0 rounded-md shadow transition-all duration-300 focus:ring-2 focus:ring-(--color-foreground) focus:ring-offset-2 focus:ring-offset-white"
+                className="border border-(--color-border) p-2 outline-0 rounded-md shadow transition-all duration-300 focus:ring-2 focus:ring-(--color-foreground) focus:ring-offset-2  focus:ring-offset-white  "
                 required
               />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className=" absolute top-10 right-2"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
             </div>
 
             {/* Confirm Password */}
-            <div className="w-full max-w-sm flex flex-col gap-1">
-              <label htmlFor="confirmPassword">Confirm Password</label>
+            <div className="w-full max-w-sm flex flex-col gap-1 relative ">
+              <label htmlFor="confirm-password">Confirm Password</label>
               <input
-                type="password"
-                name="confirmPassword"
-                className="border border-(--color-border) p-2 outline-0 rounded-md shadow transition-all duration-300 focus:ring-2 focus:ring-(--color-foreground) focus:ring-offset-2 focus:ring-offset-white"
+                type={showPassword ? "text" : "password"}
+                name="confirm-password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="border border-(--color-border) p-2 outline-0 rounded-md shadow transition-all duration-300 focus:ring-2 focus:ring-(--color-foreground) focus:ring-offset-2  focus:ring-offset-white  "
+                required
               />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className=" absolute top-10 right-2"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
             </div>
 
             {/* Register button */}
@@ -115,17 +140,10 @@ const Register = () => {
               Register
             </button>
 
-            {/* Or login with */}
-            <div className="flex items-center text-[14px] text-gray-500 gap-2 my-4 w-full max-w-sm">
-              <span className="flex-1 border-b border-gray-400"></span>
-              <span className="px-2">Or Register with</span>
-              <span className="flex-1 border-b border-gray-400"></span>
-            </div>
-
             {/* Link to login */}
             <div className="text-sm mt-8 flex items-center gap-3">
               Already have an account?
-              <Link to="/login/user">Login</Link>
+              <Link to="/login">Login</Link>
             </div>
           </form>
         </div>
