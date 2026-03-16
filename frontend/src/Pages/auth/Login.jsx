@@ -20,7 +20,7 @@ const Login = () => {
 
       if (res.token) {
         localStorage.setItem("ShopNext-token", res.token); // save JWT
-
+        localStorage.setItem("ShopNext-user", JSON.stringify(res.user));
         // redirect based on role
         if (res.user.role === "admin") {
           navigate("/admin/dashboard");

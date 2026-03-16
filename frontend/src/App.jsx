@@ -21,6 +21,8 @@ import ProductDetails from "./Pages/User/ProductDetails";
 import PageNotFound from "./Components/PageNotFound";
 import CheckOutLayout from "./Layouts/CheckoutLayout";
 import { Toaster } from "react-hot-toast";
+import ProtectedRoute from "./Components/ProtectedRoute";
+
 const App = () => {
   return (
     <>
@@ -28,7 +30,6 @@ const App = () => {
         toastOptions={{
           duration: 4000,
           position: "bottom-right",
-
           style: {
             background: "#333",
             color: "#fff",
@@ -36,28 +37,29 @@ const App = () => {
             borderRadius: "8px",
             padding: "12px",
           },
-
-          success: {
-            style: { background: "green", color: "#fff" },
-          },
-          error: {
-            style: { background: "red", color: "#fff" },
-          },
-          loading: {
-            style: { background: "blue", color: "#fff" },
-          },
+          success: { style: { background: "green", color: "#fff" } },
+          error: { style: { background: "red", color: "#fff" } },
+          loading: { style: { background: "blue", color: "#fff" } },
         }}
       />
 
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-
+        {/* Auth routes */}
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+
+        {/* 404 */}
         <Route path="*" element={<PageNotFound />} />
 
-        {/* admin */}
-        <Route path="/admin" element={<AdminLayout />}>
+        {/* Admin routes (protected) */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Dashboard />} />
           <Route path="productmanagement" element={<ProductManagement />} />
           <Route path="ordermanagement" element={<OrderManagement />} />
@@ -65,47 +67,67 @@ const App = () => {
           <Route path="profile" element={<AdminProfile />} />
         </Route>
 
-        {/* user */}
-        <Route path="/user" element={<UserLayout />}>
-          <Route index element={<Home />} /> {/* /user */}
+        {/* Public user routes (wrapped in UserLayout) */}
+        <Route path="/" element={<UserLayout />}>
+          <Route index element={<Home />} />
           <Route path="products" element={<ProductPage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="contact" element={<ContactPage />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="productdetails/:slug" element={<ProductDetails />} />
-          <Route path="Review" element={<Review />} />
         </Route>
 
+        {/* Protected user routes */}
         <Route
-          path="cart"
+          path="/user"
           element={
-            <CheckOutLayout>
-              <Cart />
-            </CheckOutLayout>
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <UserLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="profile" element={<Profile />} />
+          <Route path="productdetails/:slug" element={<ProductDetails />} />
+          <Route path="review" element={<Review />} />
+        </Route>
+
+        {/* Protected checkout routes */}
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <CheckOutLayout>
+                <Cart />
+              </CheckOutLayout>
+            </ProtectedRoute>
           }
         />
         <Route
-          path="shipping"
+          path="/shipping"
           element={
-            <CheckOutLayout>
-              <Shipping />
-            </CheckOutLayout>
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <CheckOutLayout>
+                <Shipping />
+              </CheckOutLayout>
+            </ProtectedRoute>
           }
         />
         <Route
-          path="payment"
+          path="/payment"
           element={
-            <CheckOutLayout>
-              <Payment />
-            </CheckOutLayout>
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <CheckOutLayout>
+                <Payment />
+              </CheckOutLayout>
+            </ProtectedRoute>
           }
         />
         <Route
-          path="review"
+          path="/review"
           element={
-            <CheckOutLayout>
-              <Review />
-            </CheckOutLayout>
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <CheckOutLayout>
+                <Review />
+              </CheckOutLayout>
+            </ProtectedRoute>
           }
         />
       </Routes>

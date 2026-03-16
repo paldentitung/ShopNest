@@ -67,16 +67,16 @@ const Header = () => {
         >
           <ul className="flex gap-10 items-center">
             <li>
-              <Link to="/user">Home</Link>
+              <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/user/products">Product</Link>
+              <Link to="/products">Product</Link>
             </li>
             <li>
-              <Link to="/user/about">About</Link>
+              <Link to="/about">About</Link>
             </li>
             <li>
-              <Link to="/user/contact">Contact</Link>
+              <Link to="/contact">Contact</Link>
             </li>
           </ul>
         </motion.nav>
