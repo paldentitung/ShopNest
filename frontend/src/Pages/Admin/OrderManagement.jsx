@@ -12,6 +12,37 @@ const OrderManagement = () => {
     };
     fetchOrders();
   }, []);
+
+  const handleStatusChange = async (orderId, newStatus) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/orders/${orderId}/status`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ orderStatus: newStatus }),
+        },
+      );
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text);
+      }
+
+      const updatedOrder = await res.json();
+
+      // Update local state
+      setOrders((prev) =>
+        prev.map((o) => (o._id === updatedOrder._id ? updatedOrder : o)),
+      );
+
+      console.log(`Order status updated to ${newStatus}`);
+    } catch (error) {
+      console.error("Error updating order:", error.message);
+      alert("Failed to update order status");
+    }
+  };
+
   return (
     <div className="w-full">
       <AdminHeader title="Order Management" />
@@ -52,15 +83,18 @@ const OrderManagement = () => {
                 </td>
 
                 <td className="px-6 py-4">
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs ${
-                      order.orderStatus === "pending"
-                        ? "bg-blue-100 text-blue-700"
-                        : "bg-purple-100 text-purple-700"
-                    }`}
+                  <select
+                    className="border border-(--color-border) px-3 py-1 rounded-md shadow transition-all duration-300 outline-0 cursor-pointer"
+                    value={order.orderStatus}
+                    onChange={(e) =>
+                      handleStatusChange(order._id, e.target.value)
+                    }
                   >
-                    {order.orderStatus}
-                  </span>
+                    <option value="pending">Pending</option>
+                    <option value="placed">Placed</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="completed">Completed</option>
+                  </select>
                 </td>
               </tr>
             ))}
