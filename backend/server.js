@@ -17,11 +17,13 @@ const ProductRoute = require("./routes/productRoute");
 const AuthRoute = require("./routes/AuthRoute");
 const CartRoute = require("./routes/cartRoute");
 const CheckoutRoute = require("./routes/checkoutRoute");
+const OrderRoute = require("./routes/orderRoute");
 // define routes
 app.use("/api/products", ProductRoute);
 app.use("/api/auth", AuthRoute);
 app.use("/api/cart", CartRoute);
 app.use("/api/checkout", CheckoutRoute);
+app.use("/api/orders", OrderRoute);
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);
