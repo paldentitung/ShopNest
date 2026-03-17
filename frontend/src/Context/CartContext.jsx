@@ -47,7 +47,7 @@ export const CartProvider = ({ children }) => {
       (sum, item) => sum + item.product.priceCents * item.quantity,
       0,
     ) / 100;
-  const tax = subtotal * 0.14;
+  const tax = subtotal * 0.13;
   const total = subtotal + tax;
   const cartLength = cartItems.length;
 

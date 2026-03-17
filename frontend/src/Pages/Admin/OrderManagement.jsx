@@ -1,22 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
+import { getOrders } from "../../Services/ordersApi";
 const OrderManagement = () => {
-  const orders = [
-    {
-      id: "102002",
-      customer: "John Doe",
-      total: 299.99,
-      payment: "Paid",
-      status: "Pending",
-    },
-    {
-      id: "102003",
-      customer: "Jane Smith",
-      total: 149.99,
-      payment: "Pending",
-      status: "Shipped",
-    },
-  ];
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const res = await getOrders();
+      console.log("order", res);
+      setOrders(res);
+    };
+    fetchOrders();
+  }, []);
   return (
     <div className="w-full">
       <AdminHeader title="Order Management" />
@@ -35,32 +30,36 @@ const OrderManagement = () => {
 
           <tbody>
             {orders.map((order) => (
-              <tr key={order.id}>
+              <tr key={order._id}>
                 <td className="px-6 py-4 font-medium text-gray-800">
-                  {order.id}
+                  {order._id}
                 </td>
-                <td className="px-6 py-4">{order.customer}</td>
-                <td className="px-6 py-4">${order.total}</td>
+
+                <td className="px-6 py-4">{order.userId.username}</td>
+
+                <td className="px-6 py-4">${order.totalAmount.toFixed(2)}</td>
+
                 <td className="px-6 py-4">
                   <span
                     className={`px-3 py-1 rounded-full text-xs ${
-                      order.payment === "Paid"
+                      order.paymentStatus === "paid"
                         ? "bg-green-100 text-green-700"
                         : "bg-yellow-100 text-yellow-700"
                     }`}
                   >
-                    {order.payment}
+                    {order.paymentStatus}
                   </span>
                 </td>
+
                 <td className="px-6 py-4">
                   <span
                     className={`px-3 py-1 rounded-full text-xs ${
-                      order.status === "Pending"
+                      order.orderStatus === "pending"
                         ? "bg-blue-100 text-blue-700"
                         : "bg-purple-100 text-purple-700"
                     }`}
                   >
-                    {order.status}
+                    {order.orderStatus}
                   </span>
                 </td>
               </tr>

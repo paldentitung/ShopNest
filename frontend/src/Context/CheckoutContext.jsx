@@ -40,6 +40,8 @@ export const CheckoutProvider = ({ children }) => {
     [total, shippingCost],
   );
 
+  console.log("total", totalWithShipping);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setShippingFormData((prev) => ({ ...prev, [name]: value }));
@@ -50,20 +52,18 @@ export const CheckoutProvider = ({ children }) => {
     const payload = {
       items: cartItems.map((item) => ({
         productId: item.product._id,
-        name: item.product.name,
-        price: item.product.priceCents / 100,
         quantity: item.quantity,
         size: item.selectedSize,
         color: item.selectedColor,
       })),
+      shippingMethod,
+      paymentMethod: method === "card" ? "Online" : "COD",
       shippingAddress: {
         name: shippingFormData.fullname,
         phone: shippingFormData.phone,
         city: shippingFormData.city,
         address: `${shippingFormData.address1}${shippingFormData.address2 ? ", " + shippingFormData.address2 : ""}`,
       },
-      paymentMethod: method === "card" ? "Online" : "COD",
-      totalAmount: totalWithShipping,
     };
 
     try {
