@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaSearch,
   FaUser,
@@ -16,6 +16,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import AdminHeader from "./AdminHeader";
+import { useOrders } from "../../Hooks/useOrders";
 const Dashboard = () => {
   const overviewCards = [
     {
@@ -69,38 +70,10 @@ const Dashboard = () => {
     Cancelled: "bg-red-100 text-red-800",
   };
 
-  const recentOrders = [
-    {
-      id: "12345",
-      customer: "John Doe",
-      total: 120.0,
-      status: "Shipping",
-    },
-    {
-      id: "12346",
-      customer: "Jane Smith",
-      total: 250.0,
-      status: "Delivered",
-    },
-    {
-      id: "12347",
-      customer: "Mike Johnson",
-      total: 80.0,
-      status: "Pending",
-    },
-    {
-      id: "12348",
-      customer: "Alice Brown",
-      total: 150.0,
-      status: "Cancelled",
-    },
-    {
-      id: "12349",
-      customer: "Chris Lee",
-      total: 200.0,
-      status: "Shipping",
-    },
-  ];
+  const { loading, error, setSearchTerm, filteredOrders } = useOrders();
+
+  if (loading) return <p>Loading orders...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
 
   return (
     <div className="flex flex-col ">
@@ -216,6 +189,7 @@ const Dashboard = () => {
               <input
                 type="search"
                 placeholder="search..."
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-8 pr-2  py-2 w-full outline-0 rounded-sm border border-(--color-border) transition-all duration-300 focus:ring  focus:ring-(--color-foreground)"
               />
               <FaSearch className=" absolute top-3 mx-2" />
@@ -223,17 +197,19 @@ const Dashboard = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {recentOrders.map((order) => (
+            {filteredOrders.map((order) => (
               <div
-                key={order.id}
+                key={order._id}
                 className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200 bg-gray-50/40"
               >
                 <div className="flex items-start justify-between gap-4 mb-3">
                   <div>
                     <div className="text-xs text-gray-500 uppercase tracking-wide">
-                      Order ID
+                      order
                     </div>
-                    <div className="font-medium text-gray-900">{order.id}</div>
+                    <div className="font-medium text-gray-900">
+                      {order._id.slice(0, 10)}
+                    </div>
                   </div>
 
                   <div className="text-right">
@@ -241,7 +217,7 @@ const Dashboard = () => {
                       Total
                     </div>
                     <div className="font-semibold text-emerald-600">
-                      ${order.total.toFixed(2)}
+                      ${order.totalAmount.toFixed(2)}
                     </div>
                   </div>
                 </div>
@@ -252,7 +228,7 @@ const Dashboard = () => {
                       Customer
                     </div>
                     <div className="font-medium text-gray-800">
-                      {order.customer}
+                      {order.userId.username}
                     </div>
                   </div>
 
@@ -261,20 +237,14 @@ const Dashboard = () => {
                       Status
                     </div>
                     <span
-                      className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${statusColors[order.status]}`}
+                      className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                        statusColors[order.orderStatus.trim()] ||
+                        "bg-gray-100 text-gray-800"
+                      }`}
                     >
-                      {order.status}
+                      {order.orderStatus}
                     </span>
                   </div>
-                </div>
-
-                <div className="flex items-center justify-end gap-3 pt-2 border-t border-gray-100">
-                  <button className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-                    View
-                  </button>
-                  <button className="px-3 py-1.5 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors shadow-sm">
-                    Edit
-                  </button>
                 </div>
               </div>
             ))}

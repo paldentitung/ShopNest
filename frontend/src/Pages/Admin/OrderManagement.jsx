@@ -1,69 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AdminHeader from "./AdminHeader";
-import { getOrders } from "../../Services/ordersApi";
+import { useOrders } from "../../Hooks/useOrders";
+
 const OrderManagement = () => {
-  const [orders, setOrders] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  useEffect(() => {
-    const fetchOrders = async () => {
-      const res = await getOrders();
-      console.log("order", res);
-      setOrders(res);
-    };
-    fetchOrders();
-  }, []);
+  const {
+    orders,
+    loading,
+    error,
+    updateOrderStatus,
+    setSearchTerm,
+    setStatusFilter,
+    searchTerm,
+    statusFilter,
+    filteredOrders,
+  } = useOrders();
 
-  const userToken = localStorage.getItem("ShopNext-token");
+  if (loading) return <p>Loading orders...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
 
-  const handleStatusChange = async (orderId, newStatus) => {
-    try {
-      const res = await fetch(
-        `http://localhost:3000/api/orders/${orderId}/status`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${userToken}`,
-          },
-          body: JSON.stringify({ orderStatus: newStatus }),
-        },
-      );
-
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text);
-      }
-
-      const updatedOrder = await res.json();
-
-      setOrders((prev) =>
-        prev.map((o) =>
-          o._id === updatedOrder._id
-            ? { ...o, orderStatus: updatedOrder.orderStatus }
-            : o,
-        ),
-      );
-
-      console.log(`Order status updated to ${newStatus}`);
-    } catch (error) {
-      console.error("Error updating order:", error.message);
-      alert("Failed to update order status");
-    }
-  };
-
-  const filteredOrders = orders.filter(
-    (order) =>
-      order.userId?.username
-        ?.toLowerCase()
-        .includes(searchTerm.toLowerCase()) &&
-      (statusFilter === "" || order.orderStatus === statusFilter),
-  );
   return (
     <div className="w-full">
       <AdminHeader title="Order Management" />
 
       <div className="w-full max-w-7xl mx-auto mt-6 bg-white rounded-xl shadow border border-gray-100 overflow-hidden">
+        {/* Search & Filter */}
         <div className="flex justify-between items-center p-4">
           <div className="relative flex-1 max-w-md">
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -86,21 +46,15 @@ const OrderManagement = () => {
               type="search"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className={`
-        w-full pl-11 pr-4 py-2.5 
-        bg-gray-50 border border-gray-300 
-        rounded-lg text-gray-900 
-        placeholder-gray-500 
-        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-        transition-all duration-200 shadow-sm
-      `}
-              placeholder="Search products by name, category..."
+              className="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm"
+              placeholder="Search by customer..."
             />
           </div>
+
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="border border-(--color-border) w-full max-w-50 px-3 py-1 rounded-md shadow transition-all duration-300 outline-0 cursor-pointer"
+            className="border border-gray-300 w-full max-w-50 px-3 py-1 rounded-md shadow transition-all duration-300 outline-0 cursor-pointer"
           >
             <option value="">All</option>
             <option value="pending">Pending</option>
@@ -110,6 +64,7 @@ const OrderManagement = () => {
           </select>
         </div>
 
+        {/* Orders Table */}
         <table className="w-full text-sm text-left">
           <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
             <tr>
@@ -120,7 +75,6 @@ const OrderManagement = () => {
               <th className="px-6 py-4">Order Status</th>
             </tr>
           </thead>
-
           <tbody>
             {filteredOrders.length > 0 ? (
               filteredOrders.map((order) => (
@@ -143,10 +97,10 @@ const OrderManagement = () => {
                   </td>
                   <td className="px-6 py-4">
                     <select
-                      className="border border-(--color-border) px-3 py-1 rounded-md shadow transition-all duration-300 outline-0 cursor-pointer"
+                      className="border border-gray-300 px-3 py-1 rounded-md shadow transition-all duration-300 outline-0 cursor-pointer"
                       value={order.orderStatus}
                       onChange={(e) =>
-                        handleStatusChange(order._id, e.target.value)
+                        updateOrderStatus(order._id, e.target.value)
                       }
                     >
                       <option value="pending">Pending</option>
