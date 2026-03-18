@@ -28,7 +28,7 @@ exports.updateOrderStatus = async (req, res) => {
 
     await Notification.create({
       userId: order.userId,
-      message: `Your order ${order._id} status changed to ${orderStatus}`,
+      message: `Good news! Your order is now ${orderStatus}.`,
       type: "info",
     });
 

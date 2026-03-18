@@ -5,14 +5,19 @@ import {
   FaTimes,
   FaBars,
   FaSearch,
+  FaBell,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { SearchContext } from "../Context/SearchContext";
 import { useCart } from "../Context/CartContext";
+import { getNotifications } from "../Services/notificationApi";
+import NotificationPanel from "./NotificationPanel";
 const Header = () => {
   const [isScroll, setIsScroll] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [notification, setNotification] = useState([]);
+  const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +26,14 @@ const Header = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const res = await getNotifications();
+      setNotification(res);
+    };
+    fetchNotifications();
   }, []);
 
   const { showSearchBar, setShowSearchBar } = useContext(SearchContext);
@@ -107,6 +120,18 @@ const Header = () => {
               <FaSearch />
             </button>
           </div>
+          <button
+            type="button"
+            className="relative"
+            onClick={() => setShowNotification(true)}
+          >
+            <FaBell size={20} />
+            {notification.length > 0 && (
+              <span className="absolute -top-3 -right-3 bg-(--color-foreground)  text-white text-xs font-semibold px-1.5 py-0.5 rounded-full">
+                {notification.filter((n) => !n.read).length}
+              </span>
+            )}
+          </button>
           <Link to="/cart" className="flex gap-1 items-cente relative ">
             <FaShoppingCart size={20} />
             <span className="absolute -top-3 -right-4 bg-(--color-foreground)  text-white text-xs font-semibold px-1.5 py-0.5 rounded-full">
@@ -125,6 +150,12 @@ const Header = () => {
         </motion.div>
       </div>
 
+      <NotificationPanel
+        setShowNotification={setShowNotification}
+        notification={notification}
+        showNotification={showNotification}
+      />
+
       {showMenu && (
         <div className=" fixed inset-0 bg-(--color-background) h-full w-full flex flex-col gap-4 z-50 justify-center items-center ">
           <nav className={``}>
@@ -140,7 +171,7 @@ const Header = () => {
             className=" absolute top-5 right-5 text-lg"
           >
             <FaTimes />
-          </div>{" "}
+          </div>
         </div>
       )}
     </>
