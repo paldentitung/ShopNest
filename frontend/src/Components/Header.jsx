@@ -154,6 +154,7 @@ const Header = () => {
         setShowNotification={setShowNotification}
         notification={notification}
         showNotification={showNotification}
+        setNotification={setNotification}
       />
 
       {showMenu && (
