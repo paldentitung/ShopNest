@@ -1,22 +1,53 @@
 import React from "react";
 import Contact from "../../Components/Contact";
+import { motion } from "framer-motion";
 
 const ContactPage = () => {
+  // Animation variants
+  const sectionVariant = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (i = 0) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, delay: i * 0.1, ease: "easeOut" },
+    }),
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen text-gray-800 mt-10">
       {/* Hero Section */}
-      <section className="bg-(--color-foreground) text-white py-20 px-6 text-center">
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={sectionVariant}
+        className="bg-(--color-foreground) text-white py-20 px-6 text-center"
+      >
         <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
         <p className="text-lg md:text-xl max-w-2xl mx-auto">
           Have questions or need help? We’re here to assist you.
         </p>
-      </section>
+      </motion.section>
 
-      <section className="py-8 px-6 max-w-6xl mx-auto">
+      {/* Contact Form Section */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={sectionVariant}
+        className="py-8 px-6 max-w-6xl mx-auto"
+      >
         <Contact />
-      </section>
-      {/* Optional Map Section */}
-      <section className="py-8 px-6 max-w-6xl mx-auto">
+      </motion.section>
+
+      {/* Map Section */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={sectionVariant}
+        className="py-8 px-6 max-w-6xl mx-auto"
+      >
         <h2 className="text-3xl font-semibold mb-6 text-center">Find Us</h2>
         <div className="w-full h-64 md:h-96 rounded overflow-hidden shadow-md">
           <iframe
@@ -27,7 +58,7 @@ const ContactPage = () => {
             allowFullScreen
           ></iframe>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };
