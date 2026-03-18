@@ -1,6 +1,5 @@
 const Notification = require("../models/Notification");
 
-// Get notifications for the logged-in user
 exports.getNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find({
@@ -13,12 +12,11 @@ exports.getNotifications = async (req, res) => {
   }
 };
 
-// Create a notification for a user
 exports.createNotification = async (req, res) => {
-  const { message, type } = req.body; // userId not needed; get from req.user
+  const { message, type } = req.body;
   try {
     const notification = new Notification({
-      userId: req.user.id, // assign logged-in user
+      userId: req.user.id,
       message,
       type,
     });
@@ -29,7 +27,6 @@ exports.createNotification = async (req, res) => {
   }
 };
 
-// Mark notification as read
 exports.readNotification = async (req, res) => {
   try {
     const notification = await Notification.findByIdAndUpdate(

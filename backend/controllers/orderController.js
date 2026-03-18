@@ -11,7 +11,6 @@ exports.getOrders = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 exports.updateOrderStatus = async (req, res) => {
   try {
     const { id } = req.params;
@@ -28,7 +27,7 @@ exports.updateOrderStatus = async (req, res) => {
     }
 
     await Notification.create({
-      userId: req.user,
+      userId: order.userId,
       message: `Your order ${order._id} status changed to ${orderStatus}`,
       type: "info",
     });

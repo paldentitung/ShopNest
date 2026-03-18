@@ -14,13 +14,18 @@ const OrderManagement = () => {
     fetchOrders();
   }, []);
 
+  const userToken = localStorage.getItem("ShopNext-token");
+
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       const res = await fetch(
         `http://localhost:3000/api/orders/${orderId}/status`,
         {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${userToken}`,
+          },
           body: JSON.stringify({ orderStatus: newStatus }),
         },
       );
