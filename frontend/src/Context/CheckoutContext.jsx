@@ -81,7 +81,7 @@ export const CheckoutProvider = ({ children }) => {
       const order = await res.json();
 
       Swal.fire({ title: "Order placed!", icon: "success" }).then(() => {
-        navigate("/user");
+        navigate("/");
       });
 
       setCartItems([]);
