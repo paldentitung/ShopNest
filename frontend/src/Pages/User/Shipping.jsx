@@ -46,15 +46,7 @@ const Shipping = () => {
     const { fullname, phone, address1, city, state, zip, country } =
       shippingFormData;
 
-    if (
-      !fullname ||
-      !phone ||
-      !address1 ||
-      !city ||
-      !state ||
-      !zip ||
-      !country
-    ) {
+    if (!fullname || !phone || !address1 || !city || !country) {
       alert("Please fill in all required fields before continuing.");
       return;
     }
@@ -91,7 +83,7 @@ const Shipping = () => {
                   Phone Number
                 </label>
                 <input
-                  type="tel"
+                  type="number"
                   id="phone"
                   required
                   name="phone"
@@ -127,7 +119,6 @@ const Shipping = () => {
                   type="text"
                   id="address2"
                   name="address2"
-                  required
                   value={shippingFormData.address2}
                   onChange={handleChange}
                   placeholder="Apartment, suite, etc"
@@ -143,7 +134,6 @@ const Shipping = () => {
                   value={shippingFormData.city}
                   onChange={handleChange}
                   placeholder="City"
-                  required
                   className="p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <select
@@ -161,7 +151,6 @@ const Shipping = () => {
                 <input
                   type="text"
                   name="zip"
-                  required
                   value={shippingFormData.zip}
                   onChange={handleChange}
                   placeholder="ZIP"
@@ -174,7 +163,6 @@ const Shipping = () => {
                 name="country"
                 value={shippingFormData.country}
                 onChange={handleChange}
-                required
                 className="p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select Country…</option>

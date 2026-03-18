@@ -7,7 +7,6 @@ const {
   readNotification,
 } = require("../controllers/notificationController");
 
-// All routes require auth
 router.get("/", auth, getNotifications);
 router.post("/", auth, createNotification);
 router.patch("/:id/read", auth, readNotification);
