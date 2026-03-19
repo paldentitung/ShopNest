@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const Footer = () => {
   const navLinks = [
     { id: "home", label: "Home", path: "/" },
-    { id: "product", label: "Product", path: "/product" },
+    { id: "product", label: "Product", path: "/products" },
     { id: "about", label: "About", path: "/about" },
     { id: "contact", label: "Contact", path: "/contact" },
   ];
