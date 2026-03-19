@@ -4,13 +4,14 @@ import { FaGoogle, FaFacebook, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../Services/authApi";
-
+import { useAuth } from "../../Hooks/useAuth";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  const { loginUser } = useAuth();
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -19,9 +20,8 @@ const Login = () => {
       console.log(res);
 
       if (res.token) {
-        localStorage.setItem("ShopNext-token", res.token); // save JWT
-        localStorage.setItem("ShopNext-user", JSON.stringify(res.user));
-        // redirect based on role
+        loginUser(res.token, res.user);
+
         if (res.user.role === "admin") {
           navigate("/admin/");
         } else {
