@@ -1,8 +1,8 @@
 import React from "react";
 import AdminHeader from "./AdminHeader";
 import { FaEdit, FaKey, FaSignOutAlt, FaUser } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useAuth } from "../../Hooks/useAuth";
 const AdminProfile = () => {
   // These would come from auth context / state in real app
   const admin = {
@@ -11,15 +11,7 @@ const AdminProfile = () => {
     avatar: "/hero-image-1.jpg", // or use a placeholder like https://ui-avatars.com/api/?name=Nami
   };
 
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem("ShopNext-token");
-    localStorage.removeItem("ShopNext-user");
-    toast.success("Logged out successfully!");
-
-    navigate("/login");
-  };
-
+  const { logoutUser } = useAuth();
   return (
     <div className="min-h-screen bg-gray-50">
       <AdminHeader title="Admin Profile" />
@@ -55,7 +47,9 @@ const AdminProfile = () => {
                     Edit Profile
                   </button>
                   <button
-                    onClick={handleLogout}
+                    onClick={() => {
+                      logoutUser();
+                    }}
                     className="inline-flex items-center px-5 py-2.5 bg-red-600 text-white rounded-lg shadow hover:bg-red-700 transition font-medium"
                   >
                     <FaSignOutAlt className="mr-2" />

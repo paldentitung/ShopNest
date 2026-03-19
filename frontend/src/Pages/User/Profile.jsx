@@ -14,15 +14,9 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Hooks/useAuth";
 const Profile = () => {
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem("ShopNext-token");
-    localStorage.removeItem("ShopNext-user");
-    toast.success("Logged out successfully!");
-
-    navigate("/login");
-  };
+  const { logoutUser } = useAuth();
   return (
     <section className="mt-10 bg-gray-100 p-6 flex flex-col gap-5 w-full max-w-7xl mx-auto ">
       <div className="bg-white flex gap-2 p-6 rounded-md  shadow">
@@ -53,7 +47,7 @@ const Profile = () => {
         <button className="flex items-center gap-2">
           <FaUserPlus /> Follow
         </button>
-        <button onClick={handleLogout} className="flex items-center gap-2">
+        <button onClick={logoutUser} className="flex items-center gap-2">
           <FaSignOutAlt /> Logout
         </button>
       </div>
