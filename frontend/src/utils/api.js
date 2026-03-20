@@ -7,7 +7,9 @@ export const apiFetch = async (endpoint, options = {}) => {
     if (!userToken) return toast.error("user token not found");
 
     const headers = {
-      "Content-Type": "application/json",
+      ...(options.body instanceof FormData
+        ? {}
+        : { "Content-Type": "application/json" }),
       ...(userToken && { authorization: `Bearer ${userToken}` }),
       ...options.headers,
     };

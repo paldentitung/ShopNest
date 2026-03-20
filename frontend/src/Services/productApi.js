@@ -1,70 +1,30 @@
 import toast from "react-hot-toast";
+import { apiFetch } from "../utils/api";
 
 export const getAllProducts = async () => {
-  try {
-    const res = await fetch("http://localhost:3000/api/products");
-
-    if (!res.ok) {
-      throw new Error("error");
-    }
-    const data = await res.json();
-    console.log(data);
-    return data || [];
-  } catch (error) {
-    toast.error(error);
-  }
+  const data = await apiFetch("/products");
+  return data || { items: [] };
 };
+
 export const createProduct = async (formData) => {
-  try {
-    const res = await fetch("http://localhost:3000/api/products", {
-      method: "POST",
-      body: formData,
-    });
+  const data = await apiFetch("/products", {
+    method: "POST",
+    body: formData,
+  });
 
-    if (!res.ok) {
-      throw new Error("error");
-    }
-
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    toast.error(error);
-  }
+  return data;
 };
-
 export const updateProduct = async (id, productData) => {
-  try {
-    const res = await fetch(`http://localhost:3000/api/products/${id}`, {
-      method: "PUT",
-      body: productData,
-    });
-
-    if (!res.ok) {
-      throw new Error("error");
-    }
-
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    toast.error(error);
-  }
+  return await apiFetch(`/products/${id}`, {
+    method: "PUT",
+    body: productData,
+  });
 };
 
 export const deleteProduct = async (id) => {
-  try {
-    const res = await fetch(`http://localhost:3000/api/products/${id}`, {
-      method: "DELETE",
-    });
-
-    if (!res.ok) {
-      throw new Error("error");
-    }
-
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    toast.error(error);
-  }
+  return await apiFetch(`/products/${id}`, {
+    method: "DELETE",
+  });
 };
 
 export const searchProduct = async (query) => {

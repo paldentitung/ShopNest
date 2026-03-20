@@ -8,7 +8,10 @@ import {
   FaCheckCircle,
   FaBell,
 } from "react-icons/fa";
-import { readNotification } from "../Services/notificationApi";
+import {
+  readNotification,
+  getNotifications,
+} from "../Services/notificationApi";
 
 const TYPE_CONFIG = {
   info: {

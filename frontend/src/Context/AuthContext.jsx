@@ -1,4 +1,3 @@
-// AuthContext.js
 import { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext();
@@ -8,7 +7,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.getItem("ShopNest-token"),
   );
   const [user, setUser] = useState(() => {
-    const stored = localStorage.getItem("ShopNext-user");
+    const stored = localStorage.getItem("ShopNest-user");
     return stored ? JSON.parse(stored) : null;
   });
 

@@ -1,57 +1,31 @@
+// utils/notifications.js
+import { apiFetch } from "../utils/api";
+
+// Get all notifications
 export const getNotifications = async () => {
-  const userToken = localStorage.getItem("ShopNext-token");
-
   try {
-    if (!userToken) {
-      return []; // ✅
-    }
-
-    const res = await fetch("http://localhost:3000/api/notifications", {
-      headers: {
-        authorization: `Bearer ${userToken}`,
-      },
-    });
-    if (res.status === 401) {
-      localStorage.removeItem("ShopNext-token");
-      throw new Error("UNAUTHORIZED");
-      return;
-    }
-
-    const data = await res.json();
-
-    console.log("notification data", data);
-
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to fetch");
-    }
-
-    return data.notifications || data || [];
+    const data = await apiFetch("/notifications");
+    console.log("Notification data:", data);
+    // Always return an array
+    return data?.notifications || data || [];
   } catch (error) {
-    console.error(error);
+    console.error("Failed to fetch notifications:", error);
     return [];
   }
 };
+
+// Mark a notification as read
 export const readNotification = async (id) => {
-  const userToken = localStorage.getItem("ShopNext-token");
+  if (!id) return null;
 
   try {
-    if (!userToken) {
-      console.log("No token found, skipping API call");
-      return { items: [] };
-    }
-    const res = await fetch(
-      `http://localhost:3000/api/notifications/${id}/read`,
-      {
-        method: "PATCH",
-        headers: { authorization: `Bearer ${userToken}` },
-      },
-    );
-
-    const data = await res.json();
-    console.log("read notificaton ", data);
+    const data = await apiFetch(`/notifications/${id}/read`, {
+      method: "PATCH",
+    });
+    console.log("Read notification:", data);
     return data;
   } catch (error) {
-    console.error(error);
-    return null; // ✅
+    console.error("Failed to mark notification as read:", error);
+    return null;
   }
 };

@@ -46,7 +46,7 @@ export const CheckoutProvider = ({ children }) => {
     const { name, value } = e.target;
     setShippingFormData((prev) => ({ ...prev, [name]: value }));
   };
-  const userToken = localStorage.getItem("ShopNext-token");
+  const userToken = localStorage.getItem("ShopNest-token");
 
   const placeOrder = async () => {
     const payload = {

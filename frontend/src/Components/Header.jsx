@@ -29,12 +29,17 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
+    const userToken = localStorage.getItem("ShopNest-token");
+
+    if (!userToken) {
+      console.log("=== EARLY RETURN - NO TOKEN ===");
+      return;
+    }
     const fetchNotifications = async () => {
       const res = await getNotifications();
       setNotification(res);
     };
-    const userToken = localStorage.getItem("ShopNest-Token");
-    if (!userToken) return;
+
     fetchNotifications();
   }, []);
 

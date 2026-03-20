@@ -35,7 +35,7 @@ export const useOrders = () => {
   );
 
   const updateOrderStatus = async (orderId, newStatus) => {
-    const userToken = localStorage.getItem("ShopNext-token");
+    const userToken = localStorage.getItem("ShopNest-token");
     const res = await fetch(
       `http://localhost:3000/api/orders/${orderId}/status`,
       {
