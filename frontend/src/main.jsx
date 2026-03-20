@@ -8,19 +8,22 @@ import { ModalProvider } from "./Context/ModalContext.jsx";
 import { CartProvider } from "./Context/CartContext.jsx";
 import { CheckoutProvider } from "./Context/CheckoutContext.jsx";
 import { AuthProvider } from "./Context/AuthContext.jsx";
+import { AdminProvider } from "./Context/AdminContext.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <CartProvider>
-          <CheckoutProvider>
-            <SearchProvider>
-              <ModalProvider>
-                <App />
-              </ModalProvider>
-            </SearchProvider>
-          </CheckoutProvider>
-        </CartProvider>
+        <AdminProvider>
+          <CartProvider>
+            <CheckoutProvider>
+              <SearchProvider>
+                <ModalProvider>
+                  <App />
+                </ModalProvider>
+              </SearchProvider>
+            </CheckoutProvider>
+          </CartProvider>
+        </AdminProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
