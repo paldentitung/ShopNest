@@ -29,6 +29,8 @@ export const AdminProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    const userToken = localStorage.getItem("ShopNest-token");
+    if (!userToken) return;
     fetchUsers();
   }, []);
 

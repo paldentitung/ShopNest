@@ -5,7 +5,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() =>
-    localStorage.getItem("ShopNext-token"),
+    localStorage.getItem("ShopNest-token"),
   );
   const [user, setUser] = useState(() => {
     const stored = localStorage.getItem("ShopNext-user");
@@ -13,8 +13,8 @@ export const AuthProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("ShopNext-user");
-    const storedToken = localStorage.getItem("ShopNext-token");
+    const storedUser = localStorage.getItem("ShopNest-user");
+    const storedToken = localStorage.getItem("ShopNest-token");
     if (storedToken && storedUser) {
       setToken(storedToken);
       setUser(JSON.parse(storedUser));
@@ -22,15 +22,15 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const loginUser = (token, user) => {
-    localStorage.setItem("ShopNext-token", token);
-    localStorage.setItem("ShopNext-user", JSON.stringify(user));
+    localStorage.setItem("ShopNest-token", token);
+    localStorage.setItem("ShopNest-user", JSON.stringify(user));
     setToken(token);
     setUser(user);
   };
 
   const logoutUser = () => {
-    localStorage.removeItem("ShopNext-token");
-    localStorage.removeItem("ShopNext-user");
+    localStorage.removeItem("ShopNest-token");
+    localStorage.removeItem("ShopNest-user");
     setToken(null);
     setUser(null);
   };
