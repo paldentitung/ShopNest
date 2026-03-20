@@ -18,7 +18,7 @@ const Login = () => {
 
     try {
       const res = await login({ email, password });
-      console.log(res);
+      //console.log(res);
 
       if (res.token) {
         loginUser(res.token, res.user);

@@ -33,6 +33,8 @@ const Header = () => {
       const res = await getNotifications();
       setNotification(res);
     };
+    const userToken = localStorage.getItem("ShopNest-Token");
+    if (!userToken) return;
     fetchNotifications();
   }, []);
 

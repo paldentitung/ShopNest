@@ -11,6 +11,11 @@ export const getNotifications = async () => {
         authorization: `Bearer ${userToken}`,
       },
     });
+    if (res.status === 401) {
+      localStorage.removeItem("ShopNext-token");
+      throw new Error("UNAUTHORIZED");
+      return;
+    }
 
     const data = await res.json();
 
@@ -20,10 +25,10 @@ export const getNotifications = async () => {
       throw new Error(data.message || "Failed to fetch");
     }
 
-    return data.notifications || data || []; // ✅ flexible
+    return data.notifications || data || [];
   } catch (error) {
     console.error(error);
-    return []; // ✅
+    return [];
   }
 };
 export const readNotification = async (id) => {

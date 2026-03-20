@@ -68,6 +68,8 @@ export const CartProvider = ({ children }) => {
     }
   };
   useEffect(() => {
+    const userToken = localStorage.getItem("ShopNest-Token");
+    if (!userToken) return;
     fetchCart();
     console.log("cart data", cartItems);
   }, []);

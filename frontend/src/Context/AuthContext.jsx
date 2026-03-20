@@ -35,6 +35,15 @@ export const AuthProvider = ({ children }) => {
     navigate("/login");
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("ShopNext-token");
+    const user = JSON.parse(localStorage.getItem("ShopNext-user"));
+
+    if (token && user) {
+      setToken(token);
+      setUser(user);
+    }
+  }, []);
   return (
     <AuthContext.Provider value={{ token, user, loginUser, logoutUser }}>
       {children}
