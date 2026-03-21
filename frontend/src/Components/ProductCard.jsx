@@ -100,7 +100,7 @@ const ProductCard = ({ product }) => {
         <motion.button
           whileTap={{ scale: 0.97 }}
           onClick={handleAddItem}
-          className="flex items-center justify-center gap-2.5 w-full py-3 rounded-xl bg-gray-900 text-white text-sm font-semibold tracking-wide transition-all duration-200 hover:bg-gray-700 active:scale-95"
+          className="flex items-center justify-center gap-2.5 w-full py-3 rounded-xl bg-gray-900 text-white text-sm font-semibold tracking-wide transition-all duration-200 hover:bg-gray-700 active:scale-95 hover:cursor-pointer"
         >
           <FaShoppingCart className="text-base" />
           <span>Add to Cart</span>
