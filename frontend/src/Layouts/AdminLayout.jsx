@@ -1,16 +1,23 @@
-import React from "react";
+// AdminLayout.jsx
+import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
-import SideBar from "../Pages/Admin/SideBar";
+import AdminSidebar from "../Pages/Admin/AdminSidebar";
+import { SideBarContext } from "../Context/SideBarContext";
+import { motion } from "framer-motion";
 
 const AdminLayout = () => {
+  const { isExpanded } = useContext(SideBarContext);
+
   return (
     <div className="flex">
-      <aside className="w-70">
-        <SideBar />
-      </aside>
-      <main className="flex-1">
+      <AdminSidebar />
+      <motion.main
+        animate={{ marginLeft: isExpanded ? 256 : 72 }}
+        transition={{ type: "spring", stiffness: 250, damping: 30 }}
+        className="flex-1 min-h-screen bg-gray-50 p-6"
+      >
         <Outlet />
-      </main>
+      </motion.main>
     </div>
   );
 };

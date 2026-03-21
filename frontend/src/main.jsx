@@ -9,6 +9,8 @@ import { CartProvider } from "./Context/CartContext.jsx";
 import { CheckoutProvider } from "./Context/CheckoutContext.jsx";
 import { AuthProvider } from "./Context/AuthContext.jsx";
 import { AdminProvider } from "./Context/AdminContext.jsx";
+import { SideBarProvider } from "./Context/SideBarContext.jsx";
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
@@ -18,7 +20,9 @@ createRoot(document.getElementById("root")).render(
             <CheckoutProvider>
               <SearchProvider>
                 <ModalProvider>
-                  <App />
+                  <SideBarProvider>
+                    <App />
+                  </SideBarProvider>
                 </ModalProvider>
               </SearchProvider>
             </CheckoutProvider>
