@@ -22,6 +22,7 @@ import PageNotFound from "./Components/PageNotFound";
 import CheckOutLayout from "./Layouts/CheckoutLayout";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./Components/ProtectedRoute";
+import ContactManagement from "./Pages/Admin/ContactManagement";
 
 const App = () => {
   return (
@@ -64,6 +65,8 @@ const App = () => {
           <Route path="productmanagement" element={<ProductManagement />} />
           <Route path="ordermanagement" element={<OrderManagement />} />
           <Route path="usermanagement" element={<UserManagement />} />
+          <Route path="contactmanagement" element={<ContactManagement />} />
+
           <Route path="profile" element={<AdminProfile />} />
         </Route>
 
