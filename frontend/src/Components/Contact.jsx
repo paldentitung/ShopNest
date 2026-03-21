@@ -1,8 +1,13 @@
-import React from "react";
 import MainButton from "./MainButton";
 import { motion } from "framer-motion";
-
+import { useState } from "react";
+import toast from "react-hot-toast";
 const Contact = () => {
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
   // Variants for fade + slide animation
   const slideVariant = {
     hidden: (direction = 0) => ({
@@ -14,6 +19,56 @@ const Contact = () => {
       x: 0,
       transition: { duration: 0.7, ease: "easeOut" },
     },
+  };
+
+  const createContact = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return toast.error(data.message || "Something went wrong");
+      }
+
+      toast.success("Message sent!");
+
+      setUserData({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } catch (error) {
+      toast.error("Server error");
+    }
+  };
+  const handleForm = async (e) => {
+    e.preventDefault();
+
+    const { name, email, message } = userData;
+
+    if (!name || !email || !message) {
+      return toast.error("All fields are required");
+    }
+
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(email)) {
+      return toast.error("Invalid email");
+    }
+
+    await createContact();
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setUserData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -49,7 +104,7 @@ const Contact = () => {
         variants={slideVariant}
         viewport={{ once: true }}
       >
-        <form className="flex flex-col space-y-5">
+        <form onSubmit={handleForm} className="flex flex-col space-y-5">
           <div className="flex flex-col gap-1">
             <label htmlFor="fullname" className="text-sm font-medium">
               Full Name *
@@ -57,6 +112,9 @@ const Contact = () => {
             <input
               id="fullname"
               type="text"
+              name="name"
+              value={userData.name}
+              onChange={handleChange}
               placeholder="Enter your full name"
               className="border border-(--color-border) p-3 rounded-md outline-none focus:ring-2 focus:ring-black"
               required
@@ -70,6 +128,9 @@ const Contact = () => {
             <input
               id="email"
               type="email"
+              name="email"
+              value={userData.email}
+              onChange={handleChange}
               placeholder="Enter your email address"
               className="border border-(--color-border) p-3 rounded-md outline-none focus:ring-2 focus:ring-black"
               required
@@ -83,6 +144,9 @@ const Contact = () => {
             <textarea
               id="message"
               rows={4}
+              name="message"
+              value={userData.message}
+              onChange={handleChange}
               placeholder="Write your message here..."
               className="border border-(--color-border) p-3 rounded-md outline-none focus:ring-2 focus:ring-black"
               required
