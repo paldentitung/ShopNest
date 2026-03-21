@@ -97,7 +97,7 @@ const Contact = () => {
 
       {/* Contact Form */}
       <motion.div
-        className="w-full md:w-1/2"
+        className="w-full md:w-1/2 overflow-hidden"
         custom={1}
         initial="hidden"
         whileInView="visible"

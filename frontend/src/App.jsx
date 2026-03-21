@@ -28,19 +28,53 @@ const App = () => {
   return (
     <>
       <Toaster
+        position="bottom-right"
         toastOptions={{
           duration: 4000,
-          position: "bottom-right",
           style: {
-            background: "#333",
-            color: "#fff",
-            fontSize: "16px",
-            borderRadius: "8px",
-            padding: "12px",
+            background: "#1f2937",
+            color: "#f9fafb",
+            fontSize: "13px",
+            fontWeight: "500",
+            borderRadius: "12px",
+            padding: "12px 16px",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            maxWidth: "360px",
           },
-          success: { style: { background: "green", color: "#fff" } },
-          error: { style: { background: "red", color: "#fff" } },
-          loading: { style: { background: "blue", color: "#fff" } },
+          success: {
+            style: {
+              background: "#1f2937",
+              color: "#f9fafb",
+              border: "1px solid rgba(52,211,153,0.3)",
+            },
+            iconTheme: {
+              primary: "#34d399",
+              secondary: "#1f2937",
+            },
+          },
+          error: {
+            style: {
+              background: "#1f2937",
+              color: "#f9fafb",
+              border: "1px solid rgba(248,113,113,0.3)",
+            },
+            iconTheme: {
+              primary: "#f87171",
+              secondary: "#1f2937",
+            },
+          },
+          loading: {
+            style: {
+              background: "#1f2937",
+              color: "#f9fafb",
+              border: "1px solid rgba(251,191,36,0.3)",
+            },
+            iconTheme: {
+              primary: "#fbbf24",
+              secondary: "#1f2937",
+            },
+          },
         }}
       />
 
