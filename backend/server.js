@@ -20,6 +20,7 @@ const CheckoutRoute = require("./routes/checkoutRoute");
 const OrderRoute = require("./routes/orderRoute");
 const NotificationRoute = require("./routes/notificationRoute");
 const UserRoute = require("./routes/userRoute");
+const ContactRoute = require("./routes/contactRoute");
 // define routes
 app.use("/api/products", ProductRoute);
 app.use("/api/auth", AuthRoute);
@@ -28,6 +29,7 @@ app.use("/api/checkout", CheckoutRoute);
 app.use("/api/orders", OrderRoute);
 app.use("/api/notifications", NotificationRoute);
 app.use("/api/user", UserRoute);
+app.use("/api/contact", ContactRoute);
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);
