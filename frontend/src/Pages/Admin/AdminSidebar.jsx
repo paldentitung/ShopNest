@@ -123,7 +123,7 @@ const AdminSidebar = ({ mobile }) => {
 
                 {/* Tooltip when collapsed */}
                 {!isExpanded && (
-                  <div className="pointer-events-none fixed ml-[72px] -translate-y-[calc(50%+18px)] z-[200] opacity-0 group-hover/nav:opacity-100 transition-opacity duration-150">
+                  <div className="pointer-events-none fixed ml-18 -translate-y-[calc(50%+18px)] z-[200] opacity-0 group-hover/nav:opacity-100 transition-opacity duration-150">
                     <div className="relative bg-gray-800 text-white text-xs font-medium px-3 py-1.5 rounded-lg whitespace-nowrap shadow-lg">
                       {item.name}
                       <span className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-gray-800" />

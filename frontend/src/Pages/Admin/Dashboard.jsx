@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   FaSearch,
   FaUser,
@@ -17,239 +17,246 @@ import {
 } from "recharts";
 import AdminHeader from "./AdminHeader";
 import { useOrders } from "../../Hooks/useOrders";
+
+const overviewCards = [
+  {
+    id: 1,
+    title: "Total Products",
+    count: 320,
+    icon: FaTshirt,
+    bg: "bg-blue-50",
+    iconColor: "text-blue-500",
+  },
+  {
+    id: 2,
+    title: "Total Revenue",
+    count: "$32,000",
+    icon: FaMoneyBillWave,
+    bg: "bg-amber-50",
+    iconColor: "text-amber-500",
+  },
+  {
+    id: 3,
+    title: "Total Orders",
+    count: 90,
+    icon: FaShoppingBag,
+    bg: "bg-emerald-50",
+    iconColor: "text-emerald-500",
+  },
+  {
+    id: 4,
+    title: "New Customers",
+    count: 120,
+    icon: FaUser,
+    bg: "bg-purple-50",
+    iconColor: "text-purple-500",
+  },
+];
+
+const salesData = [
+  { date: "Feb 1", revenue: 2000 },
+  { date: "Feb 2", revenue: 1500 },
+  { date: "Feb 3", revenue: 1800 },
+  { date: "Feb 4", revenue: 2200 },
+];
+
+const topProducts = [
+  { rank: 1, name: "Denim Jacket", sales: 850 },
+  { rank: 2, name: "Blue T-Shirt", sales: 120 },
+  { rank: 3, name: "Red Hoodie", sales: 85 },
+];
+
+const statusColors = {
+  Shipping: "bg-blue-50 text-blue-700 border border-blue-200",
+  Delivered: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+  Pending: "bg-amber-50 text-amber-700 border border-amber-200",
+  Cancelled: "bg-red-50 text-red-600 border border-red-200",
+};
+
 const Dashboard = () => {
-  const overviewCards = [
-    {
-      id: 1,
-      title: "Total Products",
-      count: 320,
-      icon: FaTshirt,
-      color: "blue",
-    },
-    {
-      id: 2,
-      title: "Total Revenue",
-      count: 32000,
-      icon: FaShoppingBag,
-      color: "orange",
-    },
-    {
-      id: 3,
-      title: "Total Orders",
-      count: 90,
-      icon: FaMoneyBillWave,
-      color: "green",
-    },
-    {
-      id: 4,
-      title: "New Customers",
-      count: 120,
-      icon: FaUser,
-      color: "gray",
-    },
-  ];
-
-  const salesData = [
-    { date: "2026-02-01", revenue: 2000 },
-    { date: "2026-02-02", revenue: 1500 },
-    { date: "2026-02-03", revenue: 1800 },
-    { date: "2026-02-04", revenue: 2200 },
-  ];
-
-  const topProducts = [
-    { name: "Blue T-Shirt", totalSold: 120 },
-    { name: "Red Hoodie", totalSold: 85 },
-    { name: "Black Jeans", totalSold: 70 },
-    { name: "Sneakers", totalSold: 50 },
-  ];
-
-  const statusColors = {
-    Shipping: "bg-blue-100 text-blue-800",
-    Delivered: "bg-green-100 text-green-800",
-    Pending: "bg-yellow-100 text-yellow-800",
-    Cancelled: "bg-red-100 text-red-800",
-  };
-
   const { loading, error, setSearchTerm, filteredOrders } = useOrders();
 
-  if (loading) return <p>Loading orders...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (loading)
+    return <p className="p-6 text-gray-400 text-sm">Loading orders...</p>;
+  if (error) return <p className="p-6 text-red-500 text-sm">{error}</p>;
 
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col">
       <AdminHeader title="Dashboard" />
 
-      <main className="bg-(--color-background) min-h-screen p-6">
-        {/* overview cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-4">
+      <main className="bg-gray-50 min-h-screen p-6 flex flex-col gap-6">
+        {/* Overview Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {overviewCards.map((card) => {
             const Icon = card.icon;
             return (
               <div
                 key={card.id}
-                className="flex justify-center gap-3 items-center border border-(--color-border) p-5 rounded-md shadow bg-white min-h-32 max-h-40 transition-all duration-300 hover:shadow-lg hover:-translate-y-2"
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-shadow duration-200"
               >
-                <div>
-                  <Icon size={50} color={card.color} />
+                <div
+                  className={`w-12 h-12 rounded-xl ${card.bg} flex items-center justify-center shrink-0`}
+                >
+                  <Icon className={`text-xl ${card.iconColor}`} />
                 </div>
-                <div className="text-center">
-                  <span>{card.title}</span>
-                  <h3 className="text-lg md:text-3xl">{card.count}</h3>
+                <div>
+                  <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">
+                    {card.title}
+                  </p>
+                  <h3 className="text-2xl font-bold text-gray-900 mt-0.5">
+                    {card.count}
+                  </h3>
                 </div>
               </div>
             );
           })}
         </div>
-        {/*  */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 mt-5 gap-10">
-          <div className="bg-white p-3 rounded-md shadow">
-            <span className="p-3 font-semibold">Sales Overview</span>
-            <ResponsiveContainer width="100%" height={300}>
+
+        {/* Charts Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Sales Chart */}
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+            <h4 className="text-sm font-semibold text-gray-800 mb-4">
+              Sales Overview
+            </h4>
+            <ResponsiveContainer width="100%" height={260}>
               <LineChart
                 data={salesData}
-                margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
+                margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
               >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis
+                  dataKey="date"
+                  tick={{ fontSize: 11, fill: "#9ca3af" }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis
+                  tick={{ fontSize: 11, fill: "#9ca3af" }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <Tooltip
+                  contentStyle={{
+                    borderRadius: "12px",
+                    border: "1px solid #e5e7eb",
+                    fontSize: "12px",
+                  }}
+                  cursor={{ stroke: "#f3f4f6", strokeWidth: 2 }}
+                />
                 <Line
                   type="monotone"
                   dataKey="revenue"
-                  stroke="#FF9800"
-                  strokeWidth={3}
+                  stroke="#f59e0b"
+                  strokeWidth={2.5}
+                  dot={{ r: 4, fill: "#f59e0b", strokeWidth: 0 }}
+                  activeDot={{ r: 6 }}
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
-          {/* top selling products */}
-          <div className=" bg-white p-3 flex flex-col gap-5">
-            <h4 className="font-semibold">Top Selling Products</h4>
 
-            <div className="flex flex-col gap-3 border-b border-b-(--color-border) p-2">
-              <div className="flex gap-6 ">
-                <div className="h-16 w-16">
-                  <img
-                    src="/aboutus-image.jpg"
-                    alt=""
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <div className="flex justify-between items-center w-full">
-                  <div>
-                    <span>1</span>,<span> Denim jacket</span>
+          {/* Top Products */}
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col gap-4">
+            <h4 className="text-sm font-semibold text-gray-800">
+              Top Selling Products
+            </h4>
+            <div className="flex flex-col gap-3">
+              {topProducts.map((product) => (
+                <div key={product.rank} className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 shrink-0">
+                    <img
+                      src="/aboutus-image.jpg"
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                  <span>850 sales</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-3 border-b border-b-(--color-border) p-2">
-              <div className="flex gap-6  ">
-                <div className="h-16 w-16">
-                  <img
-                    src="/aboutus-image.jpg"
-                    alt=""
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <div className="flex justify-between items-center w-full ">
-                  <div>
-                    <span>1</span>,<span> Denim jacket</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-800 truncate">
+                      {product.name}
+                    </p>
+                    <div className="w-full h-1.5 bg-gray-100 rounded-full mt-1.5 overflow-hidden">
+                      <div
+                        className="h-full bg-amber-400 rounded-full"
+                        style={{ width: `${(product.sales / 850) * 100}%` }}
+                      />
+                    </div>
                   </div>
-                  <span>850 sales</span>
+                  <span className="text-xs text-gray-400 font-medium whitespace-nowrap shrink-0">
+                    {product.sales} sold
+                  </span>
                 </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-3 border-b border-b-(--color-border) p-2">
-              <div className="flex gap-6  ">
-                <div className="h-16 w-16">
-                  <img
-                    src="/aboutus-image.jpg"
-                    alt=""
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <div className="flex justify-between items-center w-full ">
-                  <div>
-                    <span>1</span>,<span> Denim jacket</span>
-                  </div>
-                  <span>850 sales</span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
 
-        <section className="mt-5 bg-white p-6 flex flex-col gap-6">
-          <div className="flex justify-between items-center">
-            <h5 className="font-semibold">Recent Orders</h5>
-            <div className="w-full max-w-110 relative">
+        {/* Recent Orders */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col gap-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <h4 className="text-sm font-semibold text-gray-800">
+              Recent Orders
+            </h4>
+            <div className="relative w-full sm:max-w-72">
+              <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 text-xs" />
               <input
                 type="search"
-                placeholder="search..."
+                placeholder="Search orders…"
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-8 pr-2  py-2 w-full outline-0 rounded-sm border border-(--color-border) transition-all duration-300 focus:ring  focus:ring-(--color-foreground)"
+                className="w-full pl-8 pr-4 py-2 text-sm border border-gray-200 rounded-xl outline-none bg-gray-50 text-gray-700 placeholder-gray-300 focus:ring-2 focus:ring-gray-200 transition"
               />
-              <FaSearch className=" absolute top-3 mx-2" />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filteredOrders.map((order) => (
               <div
                 key={order._id}
-                className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200 bg-gray-50/40"
+                className="border border-gray-100 rounded-xl p-4 flex flex-col gap-3 hover:shadow-sm transition-shadow duration-200 bg-gray-50/50"
               >
-                <div className="flex items-start justify-between gap-4 mb-3">
+                <div className="flex items-start justify-between gap-2">
                   <div>
-                    <div className="text-xs text-gray-500 uppercase tracking-wide">
-                      order
-                    </div>
-                    <div className="font-medium text-gray-900">
-                      {order._id.slice(0, 10)}
-                    </div>
+                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">
+                      Order
+                    </p>
+                    <p className="text-sm font-semibold text-gray-900 font-mono">
+                      #{order._id.slice(0, 8)}
+                    </p>
                   </div>
-
-                  <div className="text-right">
-                    <div className="text-xs text-gray-500 uppercase tracking-wide">
-                      Total
-                    </div>
-                    <div className="font-semibold text-emerald-600">
-                      ${order.totalAmount.toFixed(2)}
-                    </div>
-                  </div>
+                  <span
+                    className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${
+                      statusColors[order.orderStatus.trim()] ||
+                      "bg-gray-100 text-gray-600"
+                    }`}
+                  >
+                    {order.orderStatus}
+                  </span>
                 </div>
 
-                <div className="space-y-3 mb-4">
-                  <div>
-                    <div className="text-xs text-gray-500 uppercase tracking-wide">
-                      Customer
-                    </div>
-                    <div className="font-medium text-gray-800">
-                      {order.userId.username}
-                    </div>
-                  </div>
+                <div className="border-t border-dashed border-gray-200" />
 
+                <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-xs text-gray-500 uppercase tracking-wide">
-                      Status
-                    </div>
-                    <span
-                      className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
-                        statusColors[order.orderStatus.trim()] ||
-                        "bg-gray-100 text-gray-800"
-                      }`}
-                    >
-                      {order.orderStatus}
-                    </span>
+                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">
+                      Customer
+                    </p>
+                    <p className="text-sm text-gray-700 font-medium">
+                      {order.userId.username}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">
+                      Total
+                    </p>
+                    <p className="text-sm font-bold text-gray-900">
+                      ${order.totalAmount.toFixed(2)}
+                    </p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-        </section>
+        </div>
       </main>
     </div>
   );
