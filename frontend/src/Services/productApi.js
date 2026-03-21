@@ -2,7 +2,7 @@ import toast from "react-hot-toast";
 import { apiFetch } from "../utils/api";
 
 export const getAllProducts = async () => {
-  const data = await apiFetch("/products");
+  const data = await apiFetch("/products", {}, false);
   return data || { items: [] };
 };
 

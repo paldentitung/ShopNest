@@ -1,16 +1,21 @@
 import toast from "react-hot-toast";
 
-export const apiFetch = async (endpoint, options = {}) => {
+export const apiFetch = async (endpoint, options = {}, requireAuth = true) => {
   try {
     const userToken = localStorage.getItem("ShopNest-token");
 
-    if (!userToken) return toast.error("user token not found");
+    if (requireAuth && !userToken) {
+      toast.error("User token not found");
+      return null;
+    }
 
     const headers = {
       ...(options.body instanceof FormData
         ? {}
         : { "Content-Type": "application/json" }),
-      ...(userToken && { authorization: `Bearer ${userToken}` }),
+      ...(requireAuth && userToken
+        ? { authorization: `Bearer ${userToken}` }
+        : {}),
       ...options.headers,
     };
 
