@@ -7,7 +7,7 @@ import {
   FaSearch,
   FaBell,
 } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { SearchContext } from "../Context/SearchContext";
 import { useCart } from "../Context/CartContext";
@@ -45,6 +45,13 @@ const Header = () => {
 
   const { showSearchBar, setShowSearchBar } = useContext(SearchContext);
   const { totalItems } = useCart();
+
+  const menuItems = [
+    { name: "Home", path: "/" },
+    { name: "Product", path: "/products" },
+    { name: "About", path: "/about" },
+    { name: "Contact", path: "/contact" },
+  ];
   return (
     <>
       <div className="fixed top-0 left-0 w-full z-50 flex justify-between items-center p-6  ">
@@ -86,18 +93,13 @@ const Header = () => {
           }`}
         >
           <ul className="flex gap-10 items-center">
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/products">Product</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/contact">Contact</Link>
-            </li>
+            {menuItems.map((item) => (
+              <li key={item.name}>
+                <Link to={item.path} onClick={() => setShowMenu(false)}>
+                  {item.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         </motion.nav>
 
@@ -164,24 +166,54 @@ const Header = () => {
         setNotification={setNotification}
       />
 
-      {showMenu && (
-        <div className=" fixed inset-0 bg-(--color-background) h-full w-full flex flex-col gap-4 z-50 justify-center items-center ">
-          <nav className={``}>
-            <ul className="flex  flex-col gap-6 items-center">
-              <li>Home</li>
-              <li>Product</li>
-              <li>About</li>
-              <li>Contact</li>
-            </ul>
-          </nav>
-          <div
-            onClick={() => setShowMenu(!showMenu)}
-            className=" absolute top-5 right-5 text-lg"
-          >
-            <FaTimes />
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {showMenu && (
+          <>
+            <motion.div
+              className="fixed inset-0 bg-black/40 z-40"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowMenu(false)}
+            />
+
+            <motion.div
+              className="fixed top-0 right-0 w-3/4 max-w-xs h-full bg-white z-50 shadow-lg flex flex-col p-6"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+              <button
+                className="self-end text-gray-700 mb-6"
+                onClick={() => setShowMenu(false)}
+              >
+                <FaTimes size={22} />
+              </button>
+
+              <nav className="flex-1">
+                <ul className="flex flex-col gap-6">
+                  {menuItems.map((item) => (
+                    <li key={item.name}>
+                      <Link
+                        to={item.path}
+                        onClick={() => setShowMenu(false)}
+                        className="text-gray-800 font-medium text-lg hover:text-amber-500 transition-colors"
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+
+              <div className="mt-auto text-gray-400 text-sm text-center">
+                © 2026 ShopNest
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 };
