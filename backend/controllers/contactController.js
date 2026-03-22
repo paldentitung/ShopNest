@@ -1,5 +1,17 @@
 const Contact = require("../models/Contact");
 
+exports.readContact = async (req, res) => {
+  try {
+    const contacts = await Contact.find();
+
+    if (!contacts) return res.status(400).json("contact not found");
+
+    res.status(200).json(contacts);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.createContact = async (req, res) => {
   try {
     const { name, email, message } = req.body;

@@ -1,46 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTrashAlt, FaSearch, FaCheckCircle } from "react-icons/fa";
-
-const dummyContacts = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    message:
-      "Hello, I need help with my order. It has been delayed for a week now and I haven't received any updates.",
-    status: "pending",
-    date: "2026-03-21",
-  },
-  {
-    id: 2,
-    name: "Alice Smith",
-    email: "alice.smith@gmail.com",
-    message:
-      "I want to give feedback about the new product line. Overall very impressed!",
-    status: "read",
-    date: "2026-03-20",
-  },
-  {
-    id: 3,
-    name: "Carlos Rivera",
-    email: "carlos.r@outlook.com",
-    message:
-      "Can I get a refund for my last purchase? The item arrived damaged.",
-    status: "resolved",
-    date: "2026-03-19",
-  },
-  {
-    id: 4,
-    name: "Priya Nair",
-    email: "priya.nair@gmail.com",
-    message:
-      "Just wanted to say the customer service was excellent. Thank you!",
-    status: "pending",
-    date: "2026-03-18",
-  },
-];
-
+import { useEffect } from "react";
+import { apiFetch } from "../../utils/api";
 const STATUS_CONFIG = {
   pending: {
     label: "Pending",
@@ -71,15 +33,23 @@ const StatCard = ({ label, count, color }) => (
 );
 
 const ContactManagement = () => {
-  const [contacts, setContacts] = useState(dummyContacts);
+  const [contacts, setContacts] = useState([]);
   const [search, setSearch] = useState("");
 
+  useEffect(() => {
+    const fetchContacts = async () => {
+      const res = await apiFetch("/contact", {}, false);
+      setContacts(res);
+    };
+    fetchContacts();
+  }, []);
+
   const deleteContact = (id) =>
-    setContacts((prev) => prev.filter((c) => c.id !== id));
+    setContacts((prev) => prev.filter((c) => c._id !== id));
 
   const markRead = (id) =>
     setContacts((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, status: "read" } : c)),
+      prev.map((c) => (c._id === id ? { ...c, status: "read" } : c)),
     );
 
   const filtered = contacts.filter(
@@ -141,7 +111,7 @@ const ContactManagement = () => {
           ) : (
             filtered.map((contact, index) => (
               <motion.div
-                key={contact.id}
+                key={contact._id}
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, x: -20, scale: 0.98 }}
@@ -187,7 +157,7 @@ const ContactManagement = () => {
 
                 <div className="flex items-center gap-2 shrink-0">
                   <button
-                    onClick={() => markRead(contact.id)}
+                    onClick={() => markRead(contact._id)}
                     disabled={contact.status === "read"}
                     title="Mark as read"
                     className={`w-9 h-9 rounded-xl border flex items-center justify-center transition ${
@@ -200,7 +170,7 @@ const ContactManagement = () => {
                   </button>
 
                   <button
-                    onClick={() => deleteContact(contact.id)}
+                    onClick={() => deleteContact(contact._id)}
                     title="Delete"
                     className="w-9 h-9 rounded-xl border border-gray-200 flex items-center justify-center text-gray-400 hover:border-rose-400 hover:text-rose-500 transition shrink-0"
                   >
