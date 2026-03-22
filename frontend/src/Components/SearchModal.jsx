@@ -1,5 +1,4 @@
 import React, { useContext, useRef, useEffect } from "react";
-import { SearchContext } from "../Context/SearchContext";
 import { Link } from "react-router-dom";
 import { useApp } from "../Hooks/useApp";
 

@@ -11,7 +11,6 @@ import {
   FaAngleRight,
   FaTimes,
 } from "react-icons/fa";
-import { SideBarContext } from "../../Context/SideBarContext";
 import { useApp } from "../../Hooks/useApp";
 
 const navItems = [

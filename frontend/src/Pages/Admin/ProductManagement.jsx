@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import MainButton from "../../Components/MainButton";
 import Modal from "../../Components/Modal";
-import { ModalContext } from "../../Context/ModalContext";
 import SecondaryButton from "../../Components/SecondaryButton";
 import {
   deleteProduct,
@@ -10,9 +9,10 @@ import {
   updateProduct,
   createProduct,
 } from "../../Services/productApi";
+import { useApp } from "../../Hooks/useApp";
 
 const ProductManagement = () => {
-  const { setShowModal } = useContext(ModalContext);
+  const { setShowModal } = useApp();
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isEditing, setIsEditing] = useState(null);

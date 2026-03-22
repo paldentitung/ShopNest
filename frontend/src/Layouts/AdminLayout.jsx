@@ -2,7 +2,6 @@
 import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
 import AdminSidebar from "../Pages/Admin/AdminSidebar";
-import { SideBarContext } from "../Context/SideBarContext";
 import { motion } from "framer-motion";
 import { useApp } from "../Hooks/useApp";
 
