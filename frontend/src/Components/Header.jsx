@@ -9,10 +9,10 @@ import {
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { SearchContext } from "../Context/SearchContext";
 import { useCart } from "../Context/CartContext";
 import { getNotifications } from "../Services/notificationApi";
 import NotificationPanel from "./NotificationPanel";
+import { useApp } from "../Hooks/useApp";
 const Header = () => {
   const [isScroll, setIsScroll] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -43,7 +43,7 @@ const Header = () => {
     fetchNotifications();
   }, []);
 
-  const { showSearchBar, setShowSearchBar } = useContext(SearchContext);
+  const { showSearchBar, setShowSearchBar } = useApp();
   const { totalItems } = useCart();
 
   const menuItems = [

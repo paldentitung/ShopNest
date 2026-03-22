@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
-import { SearchContext } from "../Context/SearchContext";
 import SearchModal from "../Components/SearchModal";
+import { useApp } from "../Hooks/useApp";
 
 const UserLayout = () => {
-  const { showSearchBar } = useContext(SearchContext);
-
+  const { showSearchBar } = useApp();
+  const ctx = useApp();
+  console.log(ctx);
   return (
     <div>
       <Header />

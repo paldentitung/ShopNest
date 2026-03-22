@@ -12,6 +12,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import { SideBarContext } from "../../Context/SideBarContext";
+import { useApp } from "../../Hooks/useApp";
 
 const navItems = [
   { id: 1, name: "Dashboard", icon: FaHome, link: "/admin" },
@@ -33,8 +34,7 @@ const navItems = [
 ];
 
 const AdminSidebar = ({ mobile }) => {
-  const { isExpanded, setIsExpanded, showSideBar, setShowSideBar } =
-    useContext(SideBarContext);
+  const { isExpanded, setIsExpanded, showSideBar, setShowSideBar } = useApp();
 
   return (
     <div

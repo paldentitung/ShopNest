@@ -1,10 +1,10 @@
 import React, { useContext, useRef, useEffect } from "react";
 import { SearchContext } from "../Context/SearchContext";
 import { Link } from "react-router-dom";
+import { useApp } from "../Hooks/useApp";
 
 const SearchModal = () => {
-  const { showSearchBar, setShowSearchBar, setSearch, results } =
-    useContext(SearchContext);
+  const { showSearchBar, setShowSearchBar, setSearch, results } = useApp();
   const inputRef = useRef(null);
 
   useEffect(() => {

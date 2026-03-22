@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { ModalContext } from "../Context/ModalContext";
 import { FaTimes } from "react-icons/fa";
+import { useApp } from "../Hooks/useApp";
 
 const Modal = ({ children }) => {
-  const { showModal, setShowModal } = useContext(ModalContext);
+  const { showModal, setShowModal } = useApp();
   return (
     <div>
       {showModal && (

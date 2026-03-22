@@ -4,9 +4,10 @@ import { Outlet } from "react-router-dom";
 import AdminSidebar from "../Pages/Admin/AdminSidebar";
 import { SideBarContext } from "../Context/SideBarContext";
 import { motion } from "framer-motion";
+import { useApp } from "../Hooks/useApp";
 
 const AdminLayout = () => {
-  const { isExpanded } = useContext(SideBarContext);
+  const { isExpanded } = useApp();
 
   return (
     <div className="flex">
