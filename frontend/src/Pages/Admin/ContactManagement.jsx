@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaTrashAlt, FaSearch, FaCheckCircle } from "react-icons/fa";
 import { useEffect } from "react";
 import { apiFetch } from "../../utils/api";
+import toast from "react-hot-toast";
 const STATUS_CONFIG = {
   pending: {
     label: "Pending",
@@ -41,11 +42,19 @@ const ContactManagement = () => {
       const res = await apiFetch("/contact", {}, false);
       setContacts(res);
     };
+
     fetchContacts();
   }, []);
 
-  const deleteContact = (id) =>
+  const handleDelete = async (id) => {
+    const res = await apiFetch(`/contact/${id}`, {
+      method: "DELETE",
+    });
+
+    toast.success("contact delete");
+
     setContacts((prev) => prev.filter((c) => c._id !== id));
+  };
 
   const markRead = (id) =>
     setContacts((prev) =>
@@ -170,7 +179,7 @@ const ContactManagement = () => {
                   </button>
 
                   <button
-                    onClick={() => deleteContact(contact._id)}
+                    onClick={() => handleDelete(contact._id)}
                     title="Delete"
                     className="w-9 h-9 rounded-xl border border-gray-200 flex items-center justify-center text-gray-400 hover:border-rose-400 hover:text-rose-500 transition shrink-0"
                   >
