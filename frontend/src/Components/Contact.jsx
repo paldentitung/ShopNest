@@ -2,6 +2,7 @@ import MainButton from "./MainButton";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { apiFetch } from "../utils/api";
 const Contact = () => {
   const [userData, setUserData] = useState({
     name: "",
@@ -23,19 +24,16 @@ const Contact = () => {
 
   const createContact = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await apiFetch(
+        "/contact",
+        {
+          method: "POST",
+          body: JSON.stringify(userData),
         },
-        body: JSON.stringify(userData),
-      });
+        false,
+      );
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        return toast.error(data.message || "Something went wrong");
-      }
+      if (!res) return;
 
       toast.success("Message sent!");
 

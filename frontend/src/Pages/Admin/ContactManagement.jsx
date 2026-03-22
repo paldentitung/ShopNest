@@ -56,10 +56,17 @@ const ContactManagement = () => {
     setContacts((prev) => prev.filter((c) => c._id !== id));
   };
 
-  const markRead = (id) =>
+  const markRead = async (id) => {
+    const res = await apiFetch(`/contact/${id}`, {
+      method: "PATCH",
+    });
+
+    toast.success("contact mark as read");
+
     setContacts((prev) =>
       prev.map((c) => (c._id === id ? { ...c, status: "read" } : c)),
     );
+  };
 
   const filtered = contacts.filter(
     (c) =>

@@ -6,8 +6,6 @@ const contactSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      minlength: 2,
-      maxlength: 100,
     },
 
     email: {
@@ -22,14 +20,11 @@ const contactSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      minlength: 10,
-      maxlength: 2000,
     },
 
     subject: {
       type: String,
       trim: true,
-      maxlength: 150,
       default: "No Subject",
     },
 
