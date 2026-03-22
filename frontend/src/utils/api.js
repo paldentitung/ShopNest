@@ -26,6 +26,15 @@ export const apiFetch = async (endpoint, options = {}, requireAuth = true) => {
 
     const data = await res.json();
 
+    if (res.status === 401) {
+      localStorage.removeItem("ShopNest-token");
+
+      toast.error("Session expired. Please login again.");
+
+      window.location.href = "/login";
+      return null;
+    }
+
     if (!res.ok) throw new Error(data.message || "Something went wrong");
 
     return data;
