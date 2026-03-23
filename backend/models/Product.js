@@ -14,12 +14,6 @@ const productSchema = new mongoose.Schema(
     priceCents: { type: Number, required: true, min: 0 },
     discountPriceCents: { type: Number, min: 0 },
 
-    // RATINGS
-    rating: {
-      stars: { type: Number, default: 0 },
-      count: { type: Number, default: 0 },
-    },
-
     // VARIATIONS (FOR CLOTHING)
     variations: [
       {
