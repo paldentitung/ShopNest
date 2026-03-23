@@ -1,7 +1,4 @@
 import React from "react";
-import rating50 from "../assets/ratings/rating-50.png";
-import rating45 from "../assets/ratings/rating-45.png";
-import rating40 from "../assets/ratings/rating-40.png";
 import SecondaryButton from "./SecondaryButton";
 import { FaShoppingCart } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -9,14 +6,9 @@ import { useState } from "react";
 import { useCart } from "../Context/CartContext";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-
+import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 const ProductCard = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
-  const ratingImages = {
-    4.0: rating40,
-    4.5: rating45,
-    5.0: rating50,
-  };
 
   const { addItem } = useCart();
 
@@ -60,15 +52,11 @@ const ProductCard = ({ product }) => {
         </div>
 
         <div className="flex items-center gap-2">
-          {product.rating.count > 0 ? (
+          {product.totalRatings > 0 ? (
             <>
-              <img
-                src={ratingImages[product.rating.stars]}
-                alt={`${product.rating.stars} stars`}
-                className="w-20 h-auto"
-              />
+              <StarRow rating={parseFloat(product.averageRating)} />
               <span className="text-xs text-gray-400 font-medium">
-                ({product.rating.count})
+                ({product.totalRatings})
               </span>
             </>
           ) : (
@@ -108,6 +96,16 @@ const ProductCard = ({ product }) => {
       </div>
     </motion.div>
   );
+};
+
+const StarRow = ({ rating, size = "text-amber-400 text-sm" }) => {
+  const stars = [];
+  for (let i = 1; i <= 5; i++) {
+    if (rating >= i) stars.push(<FaStar key={i} />);
+    else if (rating >= i - 0.5) stars.push(<FaStarHalfAlt key={i} />);
+    else stars.push(<FaRegStar key={i} className="text-gray-300" />);
+  }
+  return <span className={`flex gap-0.5 ${size}`}>{stars}</span>;
 };
 
 export default ProductCard;

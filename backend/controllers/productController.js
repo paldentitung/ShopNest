@@ -12,10 +12,8 @@ exports.getAllProduct = async (req, res) => {
       category: p.category || "Clothing",
       images: p.images.map((img) => `http://localhost:3000/${img}`),
       priceCents: p.priceCents,
-      rating: {
-        stars: Number(p.rating) || 0,
-        count: Number(p.reviewCount) || 0,
-      },
+      averageRating: p.averageRating || 0,
+      totalRatings: p.totalRatings || 0,
       description: p.description,
       variations: p.variations,
       stock: p.stock,

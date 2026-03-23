@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import BackButton from "../../Components/BackButton";
 import MainButton from "../../Components/MainButton";
-import rating40 from "../../assets/ratings/rating-40.png";
-import rating45 from "../../assets/ratings/rating-45.png";
-import rating50 from "../../assets/ratings/rating-50.png";
 import { useParams } from "react-router-dom";
 import { getAllProducts } from "../../Services/productApi";
 import ReactMarkdown from "react-markdown";
@@ -14,44 +11,10 @@ import {
   FaStar,
   FaRegStar,
   FaStarHalfAlt,
-  FaShoppingCart,
   FaCheckCircle,
   FaTimes,
 } from "react-icons/fa";
-
-// ── Fake reviews for UI only ──────────────────────────────────────────────────
-const MOCK_REVIEWS = [
-  {
-    id: 1,
-    name: "Alex Morgan",
-    avatar: "AM",
-    rating: 5,
-    date: "March 12, 2025",
-    title: "Absolutely love it!",
-    body: "Quality is top-notch and it arrived earlier than expected. The packaging was immaculate and the product exceeded every expectation I had.",
-    verified: true,
-  },
-  {
-    id: 2,
-    name: "Jordan Lee",
-    avatar: "JL",
-    rating: 4,
-    date: "February 28, 2025",
-    title: "Great value for the price",
-    body: "Really solid product. Minor quibble with the finish on one edge, but nothing that affects how it works. Would definitely buy from this seller again.",
-    verified: true,
-  },
-  {
-    id: 3,
-    name: "Sam Rivera",
-    avatar: "SR",
-    rating: 4.5,
-    date: "January 9, 2025",
-    title: "Pleasantly surprised",
-    body: "I was skeptical at first given the price point, but this thing blew me away. Sturdy, looks great, and ships fast. 10/10 would recommend.",
-    verified: false,
-  },
-];
+import { apiFetch } from "../../utils/api";
 
 const StarRow = ({ rating, size = "text-amber-400 text-sm" }) => {
   const stars = [];
@@ -92,11 +55,37 @@ const StarPicker = ({ value, onChange }) => {
   );
 };
 
-const WriteReviewModal = ({ isOpen, onClose, productName }) => {
+const WriteReviewModal = ({
+  isOpen,
+  onClose,
+  productName,
+  productId,
+  onRatingUpdate,
+  onRefreshRatings,
+}) => {
   const [starValue, setStarValue] = useState(0);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [name, setName] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await apiFetch("/ratings", {
+      method: "POST",
+      body: JSON.stringify({
+        productId,
+        rating: starValue,
+        reviewTitle: title,
+        review: body,
+      }),
+    });
+
+    if (res) {
+      toast.success("Rating added!");
+      onRatingUpdate(res.avgRating, res.totalRatings);
+      await onRefreshRatings();
+      onClose();
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -110,7 +99,6 @@ const WriteReviewModal = ({ isOpen, onClose, productName }) => {
             onClick={onClose}
             className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
           />
-
           <motion.div
             initial={{ opacity: 0, y: 40, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -118,7 +106,10 @@ const WriteReviewModal = ({ isOpen, onClose, productName }) => {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="fixed inset-0 z-50 flex items-center justify-center px-4"
           >
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden"
+            >
               <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
                 <div>
                   <h4 className="text-base font-bold text-gray-900">
@@ -142,19 +133,6 @@ const WriteReviewModal = ({ isOpen, onClose, productName }) => {
                     Your Rating <span className="text-rose-400">*</span>
                   </label>
                   <StarPicker value={starValue} onChange={setStarValue} />
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Your Name <span className="text-rose-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Jordan Lee"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 bg-gray-50 text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition"
-                  />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
@@ -198,12 +176,15 @@ const WriteReviewModal = ({ isOpen, onClose, productName }) => {
                   >
                     Cancel
                   </button>
-                  <button className="px-5 py-2 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-700 transition">
+                  <button
+                    type="submit"
+                    className="px-5 py-2 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-700 transition"
+                  >
                     Submit Review
                   </button>
                 </div>
               </div>
-            </div>
+            </form>
           </motion.div>
         </>
       )}
@@ -211,37 +192,46 @@ const WriteReviewModal = ({ isOpen, onClose, productName }) => {
   );
 };
 
-const ReviewCard = ({ review, index }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: index * 0.1, duration: 0.4, ease: "easeOut" }}
-    className="bg-white border border-gray-100 rounded-2xl p-6 flex flex-col gap-3 shadow-sm hover:shadow-md transition-shadow duration-300"
-  >
-    <div className="flex items-start justify-between gap-3">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center text-xs font-bold tracking-wide shrink-0">
-          {review.avatar}
+const ReviewCard = ({ review, index }) => {
+  const initials = review.userId?.username?.slice(0, 2).toUpperCase() ?? "??";
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1, duration: 0.4, ease: "easeOut" }}
+      className="bg-white border border-gray-100 rounded-2xl p-6 flex flex-col gap-3 shadow-sm hover:shadow-md transition-shadow duration-300"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center text-xs font-bold tracking-wide shrink-0">
+            {initials}
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-gray-900">
+              {review.userId?.username}
+            </p>
+            <p className="text-xs text-gray-400">
+              {new Date(review.createdAt).toLocaleDateString()}
+            </p>
+          </div>
         </div>
-        <div>
-          <p className="text-sm font-semibold text-gray-900">{review.name}</p>
-          <p className="text-xs text-gray-400">{review.date}</p>
+        <StarRow rating={review.rating} />
+      </div>
+      <div>
+        <p className="text-sm font-semibold text-gray-800 mb-1">
+          {review.reviewTitle}
+        </p>
+        <p className="text-sm text-gray-500 leading-relaxed">{review.review}</p>
+      </div>
+      {review.verified && (
+        <div className="flex items-center gap-1.5 text-emerald-600 text-xs font-medium">
+          <FaCheckCircle />
+          <span>Verified Purchase</span>
         </div>
-      </div>
-      <StarRow rating={review.rating} />
-    </div>
-    <div>
-      <p className="text-sm font-semibold text-gray-800 mb-1">{review.title}</p>
-      <p className="text-sm text-gray-500 leading-relaxed">{review.body}</p>
-    </div>
-    {review.verified && (
-      <div className="flex items-center gap-1.5 text-emerald-600 text-xs font-medium">
-        <FaCheckCircle />
-        <span>Verified Purchase</span>
-      </div>
-    )}
-  </motion.div>
-);
+      )}
+    </motion.div>
+  );
+};
 
 const RatingBar = ({ star, count, total }) => {
   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
@@ -270,12 +260,7 @@ const ProductDetails = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
-
-  const ratingImages = {
-    4.0: rating40,
-    4.5: rating45,
-    5.0: rating50,
-  };
+  const [ratings, setRatings] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -286,6 +271,18 @@ const ProductDetails = () => {
     fetchProducts();
   }, []);
 
+  const fetchRatings = async (productId) => {
+    const res = await apiFetch(`/ratings/${productId}`);
+    if (res) setRatings(res);
+  };
+
+  useEffect(() => {
+    if (!slug || !products.length) return;
+    const product = products.find((p) => p.slug === slug);
+    if (!product) return;
+    fetchRatings(product._id);
+  }, [slug, products]);
+
   if (loading)
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -294,25 +291,35 @@ const ProductDetails = () => {
     );
 
   const product = products.find((p) => p.slug === slug);
+
   if (!product)
     return (
       <div className="text-center mt-20 text-gray-400">Product not found</div>
     );
 
   const mainImage = selectedImage || product.images[0];
+
   const handleAddItem = () => {
     addItem(product._id, 1);
     toast.success("Product Added");
   };
 
-  const totalReviews = MOCK_REVIEWS.length;
-  const avgRating = (
-    MOCK_REVIEWS.reduce((s, r) => s + r.rating, 0) / totalReviews
-  ).toFixed(1);
+  const totalReviews = product.totalRatings || 0;
+  const avgRating = product.averageRating || 0;
   const starCounts = [5, 4, 3, 2, 1].map((s) => ({
     star: s,
-    count: MOCK_REVIEWS.filter((r) => Math.round(r.rating) === s).length,
+    count: ratings.filter((r) => Math.round(r.rating) === s).length,
   }));
+
+  const handleRatingUpdate = (avgRating, totalRatings) => {
+    setProducts((prev) =>
+      prev.map((p) =>
+        p._id === product._id
+          ? { ...p, averageRating: avgRating, totalRatings }
+          : p,
+      ),
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -320,6 +327,9 @@ const ProductDetails = () => {
         isOpen={reviewModalOpen}
         onClose={() => setReviewModalOpen(false)}
         productName={product?.name}
+        productId={product._id}
+        onRatingUpdate={handleRatingUpdate}
+        onRefreshRatings={() => fetchRatings(product._id)}
       />
 
       <div className="max-w-6xl mx-auto px-6 lg:px-[6%] py-12">
@@ -397,15 +407,14 @@ const ProductDetails = () => {
                 ${product.priceCents / 100}
               </span>
               <div className="flex items-center gap-2">
-                {product.rating.count > 0 ? (
+                {totalReviews > 0 ? (
                   <>
-                    <img
-                      src={ratingImages[product.rating.stars]}
-                      alt="rating"
-                      className="w-24"
+                    <StarRow
+                      rating={parseFloat(avgRating)}
+                      size="text-amber-400 text-base"
                     />
                     <span className="text-sm text-gray-500">
-                      ({product.rating.count})
+                      ({totalReviews})
                     </span>
                   </>
                 ) : (
@@ -478,16 +487,24 @@ const ProductDetails = () => {
             <div className="lg:w-64 shrink-0">
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-5 sticky top-8">
                 <div className="flex flex-col items-center gap-2 pb-4 border-b border-dashed border-gray-100">
-                  <span className="text-6xl font-extrabold text-gray-900 tracking-tight">
-                    {avgRating}
-                  </span>
-                  <StarRow
-                    rating={parseFloat(avgRating)}
-                    size="text-amber-400 text-base"
-                  />
-                  <span className="text-xs text-gray-400">
-                    out of 5 · {totalReviews} reviews
-                  </span>
+                  {totalReviews > 0 ? (
+                    <>
+                      <span className="text-6xl font-extrabold text-gray-900 tracking-tight">
+                        {avgRating}
+                      </span>
+                      <StarRow
+                        rating={parseFloat(avgRating)}
+                        size="text-amber-400 text-base"
+                      />
+                      <span className="text-xs text-gray-400">
+                        out of 5 · {totalReviews} reviews
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-sm text-gray-400 italic">
+                      No reviews yet
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex flex-col gap-2.5">
@@ -496,7 +513,7 @@ const ProductDetails = () => {
                       key={star}
                       star={star}
                       count={count}
-                      total={totalReviews}
+                      total={ratings.length}
                     />
                   ))}
                 </div>
@@ -510,11 +527,14 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            {/* Review cards */}
             <div className="flex-1 flex flex-col gap-4">
-              {MOCK_REVIEWS.map((review, index) => (
-                <ReviewCard key={review.id} review={review} index={index} />
-              ))}
+              {ratings.length > 0 ? (
+                ratings.map((review, index) => (
+                  <ReviewCard key={review._id} review={review} index={index} />
+                ))
+              ) : (
+                <p>No Rating Yet</p>
+              )}
             </div>
           </div>
         </div>
