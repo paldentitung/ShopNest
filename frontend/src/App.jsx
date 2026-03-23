@@ -23,6 +23,7 @@ import CheckOutLayout from "./Layouts/CheckoutLayout";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import ContactManagement from "./Pages/Admin/ContactManagement";
+import ScrollToTop from "./Components/ScrollToTop";
 
 const App = () => {
   return (
@@ -77,6 +78,7 @@ const App = () => {
           },
         }}
       />
+      <ScrollToTop />
 
       <Routes>
         {/* Auth routes */}
