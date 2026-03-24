@@ -20,7 +20,7 @@ const Aboutus = () => {
   };
 
   return (
-    <section className="flex justify-evenly flex-col-reverse md:flex-row gap-5 mt-10 p-5 w-full max-w-7xl mx-auto h-auto md:h-[60vh]">
+    <section className="flex justify-evenly flex-col-reverse md:flex-row gap-5 mt-10 p-5 w-full max-w-7xl mx-auto overflow-x-hidden h-auto md:h-[60vh]">
       <motion.div
         className="flex flex-col space-y-5"
         initial="hidden"

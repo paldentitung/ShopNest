@@ -70,7 +70,7 @@ const Contact = () => {
   };
 
   return (
-    <section className="w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-12 p-6 mt-16 h-auto md:h-[65vh]">
+    <section className="w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-12 p-6 mt-16 h-auto overflow-x-hidden">
       {/* Contact Info */}
       <motion.div
         className="flex flex-col gap-4 w-full md:w-1/2"
@@ -95,7 +95,7 @@ const Contact = () => {
 
       {/* Contact Form */}
       <motion.div
-        className="w-full md:w-1/2 overflow-hidden"
+        className="w-full md:w-1/2 "
         custom={1}
         initial="hidden"
         whileInView="visible"
