@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaEdit, FaCog, FaUserPlus, FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../../Hooks/useAuth";
 import OrderHistory from "../../Components/Profile/OrderHistory";
 import Wishlist from "../../Components/Profile/Wishlist";
 import AccountOverview from "../../Components/Profile/AccountOverview";
+import { AuthContext } from "../../Context/AuthContext";
 
 const Profile = () => {
   const { logoutUser } = useAuth();
   const [tab, setTab] = useState("overview");
   const [showAction, setShowAction] = useState(false);
+  const { user } = useContext(AuthContext);
 
   return (
     <section className="bg-gray-100 min-h-screen py-5 md:p-6 mt-10">
@@ -34,16 +36,16 @@ const Profile = () => {
 
             <div className="flex flex-col gap-1">
               <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800">
-                Alex Chen
+                {user.username}
               </h2>
 
               <span className="text-gray-500 text-xs sm:text-sm">
-                @alexchen
+                @{user.username}
               </span>
 
               <p className="text-gray-500 text-xs sm:text-sm leading-relaxed">
-                Welcome back, Alex! You have 3 orders in progress and 2 items in
-                your wishlist.
+                Welcome back, {user.username.split(" ")[0]}! You have 3 orders
+                in progress and 2 items in your wishlist.
               </p>
             </div>
           </div>
