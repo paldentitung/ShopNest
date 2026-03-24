@@ -13,6 +13,7 @@ import { useCart } from "../Context/CartContext";
 import { getNotifications } from "../Services/notificationApi";
 import NotificationPanel from "./NotificationPanel";
 import { useApp } from "../Hooks/useApp";
+import { AuthContext } from "../Context/AuthContext";
 const Header = () => {
   const [isScroll, setIsScroll] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -52,6 +53,8 @@ const Header = () => {
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
+
+  const { user } = useContext(AuthContext);
   return (
     <>
       <div className="fixed top-0 left-0 w-full z-50 flex justify-between items-center p-6  ">
@@ -169,6 +172,7 @@ const Header = () => {
       <AnimatePresence>
         {showMenu && (
           <>
+            {/* Overlay */}
             <motion.div
               className="fixed inset-0 bg-black/40 z-40"
               initial={{ opacity: 0 }}
@@ -177,6 +181,7 @@ const Header = () => {
               onClick={() => setShowMenu(false)}
             />
 
+            {/* Sidebar */}
             <motion.div
               className="fixed top-0 right-0 w-3/4 max-w-xs h-full bg-white z-50 shadow-lg flex flex-col p-6"
               initial={{ x: "100%" }}
@@ -184,15 +189,42 @@ const Header = () => {
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
+              {/* Close Button */}
               <button
-                className="self-end text-gray-700 mb-6"
+                className="self-end text-gray-700 mb-4"
                 onClick={() => setShowMenu(false)}
               >
                 <FaTimes size={22} />
               </button>
 
+              {/* 🔥 Profile Section (Top) */}
+              <div className="flex items-center gap-3 mb-6 border-b pb-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden border">
+                  <img
+                    src="/hero-image-3.jpg"
+                    alt="profile"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                <div className="flex flex-col">
+                  <p className="text-sm font-semibold text-gray-800">
+                    {user.username}
+                  </p>
+
+                  <Link
+                    to="/user/profile"
+                    onClick={() => setShowMenu(false)}
+                    className="text-xs text-amber-500 hover:underline"
+                  >
+                    View Profile
+                  </Link>
+                </div>
+              </div>
+
+              {/* Menu Items */}
               <nav className="flex-1">
-                <ul className="flex flex-col gap-6">
+                <ul className="flex flex-col gap-5">
                   {menuItems.map((item) => (
                     <li key={item.name}>
                       <Link
@@ -207,6 +239,7 @@ const Header = () => {
                 </ul>
               </nav>
 
+              {/* Footer */}
               <div className="mt-auto text-gray-400 text-sm text-center">
                 © 2026 ShopNest
               </div>
