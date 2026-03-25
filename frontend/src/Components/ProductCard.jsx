@@ -13,6 +13,7 @@ import {
   FaHeart,
   FaRegHeart,
 } from "react-icons/fa";
+import { addWishlist } from "../Services/wishlistApi";
 const ProductCard = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
 
@@ -24,6 +25,11 @@ const ProductCard = ({ product }) => {
   };
 
   const navigate = useNavigate();
+
+  const addToWishlist = async (id) => {
+    const res = addWishlist(id);
+    console.log(red);
+  };
 
   return (
     <motion.div
@@ -46,7 +52,10 @@ const ProductCard = ({ product }) => {
           {product.category}
         </span>
 
-        <span className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm text-gray-500 text-[11px] font-medium tracking-widest uppercase px-3 py-1 rounded-full border border-gray-200">
+        <span
+          onClick={() => addToWishlist(product._id)}
+          className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm text-gray-500 text-[11px] font-medium tracking-widest uppercase px-3 py-1 rounded-full border border-gray-200"
+        >
           <FaHeart />
         </span>
       </div>

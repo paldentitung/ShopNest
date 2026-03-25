@@ -11,3 +11,14 @@ export const getWishlist = async () => {
     toast.error(error);
   }
 };
+export const addWishlist = async (id) => {
+  try {
+    const res = await apiFetch(`/wishlist/${id}`, {
+      method: "POST",
+    });
+    console.log("wishlist", res);
+    return res;
+  } catch (error) {
+    toast.error(error);
+  }
+};
