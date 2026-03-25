@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema(
       enum: ["active", "Blocked"],
       default: "active",
     },
+    wishlist: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
   },
   { timestamps: true },
 );

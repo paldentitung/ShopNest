@@ -1,12 +1,18 @@
 import React from "react";
 import SecondaryButton from "./SecondaryButton";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaHeartbeat, FaShoppingCart } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useCart } from "../Context/CartContext";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
+import {
+  FaStar,
+  FaRegStar,
+  FaStarHalfAlt,
+  FaHeart,
+  FaRegHeart,
+} from "react-icons/fa";
 const ProductCard = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
 
@@ -38,6 +44,10 @@ const ProductCard = ({ product }) => {
 
         <span className="absolute top-3 left-3 bg-white/80 backdrop-blur-sm text-gray-500 text-[11px] font-medium tracking-widest uppercase px-3 py-1 rounded-full border border-gray-200">
           {product.category}
+        </span>
+
+        <span className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm text-gray-500 text-[11px] font-medium tracking-widest uppercase px-3 py-1 rounded-full border border-gray-200">
+          <FaHeart />
         </span>
       </div>
 

@@ -22,6 +22,7 @@ const NotificationRoute = require("./routes/notificationRoute");
 const UserRoute = require("./routes/userRoute");
 const ContactRoute = require("./routes/contactRoute");
 const RatingRoute = require("./routes/ratingRoute");
+const WishlistRoute = require("./routes/wishlistRoute");
 // define routes
 app.use("/api/products", ProductRoute);
 app.use("/api/auth", AuthRoute);
@@ -32,6 +33,7 @@ app.use("/api/notifications", NotificationRoute);
 app.use("/api/user", UserRoute);
 app.use("/api/contact", ContactRoute);
 app.use("/api/ratings", RatingRoute);
+app.use("/api/wishlist", WishlistRoute);
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);
