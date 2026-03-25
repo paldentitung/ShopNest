@@ -13,11 +13,12 @@ import {
   FaHeart,
   FaRegHeart,
 } from "react-icons/fa";
-import { addWishlist } from "../Services/wishlistApi";
+import { useApp } from "../Hooks/useApp";
 const ProductCard = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
 
   const { addItem } = useCart();
+  const { toggleWishlist, wishlist } = useApp();
 
   const handleAddItem = () => {
     addItem(product._id, Number(quantity));
@@ -25,11 +26,6 @@ const ProductCard = ({ product }) => {
   };
 
   const navigate = useNavigate();
-
-  const addToWishlist = async (id) => {
-    const res = addWishlist(id);
-    console.log(red);
-  };
 
   return (
     <motion.div
@@ -53,8 +49,19 @@ const ProductCard = ({ product }) => {
         </span>
 
         <span
-          onClick={() => addToWishlist(product._id)}
-          className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm text-gray-500 text-[11px] font-medium tracking-widest uppercase px-3 py-1 rounded-full border border-gray-200"
+          onClick={() => toggleWishlist(product)}
+          className={`
+    absolute top-3 right-3 
+    px-2 py-2 rounded-full border 
+    transition-all duration-300
+    cursor-pointer
+    flex items-center justify-center
+    ${
+      wishlist.some((item) => item._id === product._id)
+        ? "bg-rose-500 border-rose-500 text-white shadow-lg scale-110"
+        : "bg-white/80 border-gray-200 text-gray-500 hover:bg-gray-100 hover:text-rose-500 hover:scale-110"
+    }
+  `}
         >
           <FaHeart />
         </span>

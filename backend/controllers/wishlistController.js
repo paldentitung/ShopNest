@@ -14,7 +14,7 @@ exports.getWishlist = async (req, res) => {
     }
 
     const wishlist = user.wishlist.map((product) => ({
-      id: product._id,
+      _id: product._id,
       name: product.name,
       price: product.priceCents,
       image: product.images,

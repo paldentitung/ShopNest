@@ -1,6 +1,12 @@
 import { createContext, useState, useEffect, useCallback } from "react";
 import { searchProduct } from "../Services/productApi";
 import { debounce } from "lodash";
+import {
+  addWishlist,
+  removeWishlist,
+  getWishlist,
+} from "../Services/wishlistApi";
+import toast from "react-hot-toast";
 
 export const AppContext = createContext();
 
@@ -11,6 +17,7 @@ export const AppProvider = ({ children }) => {
   const [search, setSearch] = useState("");
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [results, setResults] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
 
   const fetchSearch = async (query) => {
     if (query.trim() === "") {
@@ -25,6 +32,16 @@ export const AppProvider = ({ children }) => {
     debounce((query) => fetchSearch(query), 400),
     [],
   );
+  const fetchWishlist = async () => {
+    try {
+      const res = await getWishlist();
+
+      setWishlist(res.wishlist);
+    } catch (error) {
+      console.error("Fetch error:", error);
+      setWishlist([]);
+    }
+  };
 
   useEffect(() => {
     debouncedSearch(search);
@@ -38,6 +55,37 @@ export const AppProvider = ({ children }) => {
     }
   }, [showSearchBar]);
 
+  useEffect(() => {
+    fetchWishlist();
+  }, []);
+
+  const toggleWishlist = async (product) => {
+    const exists = wishlist.some((item) => item._id === product._id);
+
+    try {
+      if (exists) {
+        await removeWishlist(product._id);
+        toast.success("Removed from wishlist");
+
+        setWishlist((prev) => prev.filter((item) => item._id !== product._id));
+      } else {
+        await addWishlist(product._id);
+        toast.success("Added to wishlist");
+
+        const newItem = {
+          _id: product._id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+        };
+
+        setWishlist((prev) => [...prev, newItem]);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
+    }
+  };
   return (
     <AppContext.Provider
       value={{
@@ -54,6 +102,10 @@ export const AppProvider = ({ children }) => {
         results,
         setResults,
         fetchSearch,
+        wishlist,
+        setWishlist,
+        toggleWishlist,
+        fetchWishlist,
       }}
     >
       {children}

@@ -1,30 +1,14 @@
 import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
-import { getWishlist } from "../../Services/wishlistApi";
+import { useApp } from "../../Hooks/useApp";
 const Wishlist = () => {
-  const [wishlist, setWishlist] = useState([]);
+  const { wishlist, setWishlist } = useApp();
 
-  useEffect(() => {
-    const fetchWishlist = async () => {
-      try {
-        const res = await getWishlist();
-
-        setWishlist(res.wishlist);
-      } catch (error) {
-        console.error("Fetch error:", error);
-        setWishlist([]);
-      }
-    };
-
-    fetchWishlist();
-  }, []);
   return (
     <div className="bg-white p-6 shadow-md rounded-md">
       <div className="flex justify-between items-center text-sm">
         <span className="font-semibold  md:text-lg">Wishlist</span>
-        <span>4 items</span>
+        <span>{wishlist.length} items</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 p-3 gap-8">
