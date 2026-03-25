@@ -71,16 +71,8 @@ export const AppProvider = ({ children }) => {
       } else {
         await addWishlist(product._id);
         toast.success("Added to wishlist");
-
-        const newItem = {
-          _id: product._id,
-          name: product.name,
-          price: product.price,
-          image: product.image,
-        };
-
-        setWishlist((prev) => [...prev, newItem]);
       }
+      await fetchWishlist();
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong");

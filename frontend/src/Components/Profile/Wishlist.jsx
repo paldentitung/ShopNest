@@ -36,7 +36,7 @@ const Wishlist = () => {
             >
               <div className="overflow-hidden h-65 bg-gray-100 flex items-center justify-center">
                 <img
-                  src={`http://localhost:3000/${w.image?.[0] ?? "placeholder.jpg"}`}
+                  src={`http://localhost:3000/${w.image?.[0]}`}
                   alt={`${w.name}`}
                   className="transition-all duration-300 group-hover:scale-110 w-full h-full object-contain"
                 />
@@ -63,11 +63,11 @@ const Wishlist = () => {
               <span
                 onClick={() => toggleWishlist(w)}
                 className={`
-    absolute top-3 right-3 
+    absolute top-3 left-3 
     px-2 py-2 rounded-full border 
     transition-all duration-300
     cursor-pointer
-    flex items-center justify-center
+     items-center justify-center hidden group-hover:flex
     ${
       wishlist.some((item) => item._id === w._id)
         ? "bg-rose-500 border-rose-500 text-white shadow-lg scale-110"
