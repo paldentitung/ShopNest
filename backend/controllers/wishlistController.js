@@ -1,6 +1,30 @@
 const Product = require("../models/Product");
 const User = require("../models/User");
 
+exports.getWishlist = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const user = await User.findById(userId)
+      .populate("wishlist", "name priceCents images")
+      .lean();
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const wishlist = user.wishlist.map((product) => ({
+      id: product._id,
+      name: product.name,
+      price: product.priceCents,
+      image: product.images,
+    }));
+
+    res.status(200).json({ wishlist });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 exports.addWishlist = async (req, res) => {
   try {
     const { id } = req.params;
