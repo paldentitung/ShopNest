@@ -48,7 +48,7 @@ exports.updateProfile = async (req, res) => {
     } else if (req.body.avatar) {
       updateData.avatar = req.body.avatar;
     }
-
+    if (req.body.username) updateData.username = req.body.username;
     if (req.body.address) updateData.address = req.body.address;
     if (req.body.phone) updateData.phone = req.body.phone;
 
