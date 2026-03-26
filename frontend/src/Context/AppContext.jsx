@@ -36,7 +36,7 @@ export const AppProvider = ({ children }) => {
     try {
       const res = await getWishlist();
 
-      setWishlist(res.wishlist);
+      setWishlist(res.wishlist || []);
     } catch (error) {
       console.error("Fetch error:", error);
       setWishlist([]);
@@ -58,24 +58,32 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     fetchWishlist();
   }, []);
-
   const toggleWishlist = async (product) => {
+    if (!product?._id) return;
+
     const exists = wishlist.some((item) => item._id === product._id);
 
     try {
       if (exists) {
-        await removeWishlist(product._id);
+        setWishlist((prev) => prev.filter((item) => item._id !== product._id));
+
         toast.success("Removed from wishlist");
 
-        setWishlist((prev) => prev.filter((item) => item._id !== product._id));
+        await removeWishlist(product._id);
       } else {
-        await addWishlist(product._id);
+        setWishlist((prev) => [...prev, product]);
+
         toast.success("Added to wishlist");
+
+        await addWishlist(product._id);
       }
+
       await fetchWishlist();
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong");
+
+      await fetchWishlist();
     }
   };
   return (
