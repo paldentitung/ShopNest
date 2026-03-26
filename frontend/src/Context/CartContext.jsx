@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import {
   getCart,
   addToCart,
@@ -12,8 +12,12 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
   const fetchCart = async () => {
-    const data = await getCart();
-    setCartItems(data.items || []);
+    try {
+      const data = await getCart();
+      setCartItems(data.items || []);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const addItem = async (productId, quantity) => {
@@ -41,7 +45,9 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const totalItems = useMemo(() => {
+    return cartItems.reduce((sum, item) => sum + (item.quantity || 0), 0);
+  }, [cartItems]);
   const subtotal =
     cartItems.reduce(
       (sum, item) => sum + item.product.priceCents * item.quantity,
@@ -68,12 +74,10 @@ export const CartProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-    const userToken = localStorage.getItem("ShopNest-Token");
-    if (!userToken) return;
     fetchCart();
     console.log("cart data", cartItems);
   }, []);
-
+  console.log("cartItems:", cartItems);
   return (
     <CartContext.Provider
       value={{
