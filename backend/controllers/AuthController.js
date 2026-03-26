@@ -54,6 +54,9 @@ exports.Login = async (req, res) => {
         username: user.username,
         email: user.email,
         role: user.role,
+        avatar: user.avatar || null,
+        phone: user.phone || null,
+        address: user.address || null,
       },
     });
   } catch (error) {

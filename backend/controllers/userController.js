@@ -41,15 +41,21 @@ exports.updateProfile = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const avatar = req.file ? req.file.path : req.body.avatar;
-    const address = req.body.address;
-    const phone = req.body.phone;
+    const updateData = {};
 
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { avatar, address, phone },
-      { new: true, runValidators: true },
-    ).select("-password");
+    if (req.file) {
+      updateData.avatar = `http://localhost:3000/${req.file.path}`;
+    } else if (req.body.avatar) {
+      updateData.avatar = req.body.avatar;
+    }
+
+    if (req.body.address) updateData.address = req.body.address;
+    if (req.body.phone) updateData.phone = req.body.phone;
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
+      new: true,
+      runValidators: true,
+    }).select("-password");
 
     if (!updatedUser)
       return res.status(404).json({ message: "User not found" });
@@ -69,6 +75,7 @@ exports.updateProfile = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: error.message });
   }
 };

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaEdit, FaCog, FaUserPlus, FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../../Hooks/useAuth";
 import OrderHistory from "../../Components/Profile/OrderHistory";
@@ -15,7 +15,7 @@ const Profile = () => {
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const [showAccountSettingModal, setShowAccountSettingModal] = useState(false);
   const { user } = useContext(AuthContext);
-
+  const [showAvatarPreview, setShowAvatarPreview] = useState(false);
   return (
     <>
       <section className="bg-gray-100 min-h-screen py-5 md:p-6 mt-10">
@@ -24,11 +24,18 @@ const Profile = () => {
             <div className="bg-white p-4 sm:p-6 shadow-sm  flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <div className="flex items-center justify-between md:justify-start w-full md:w-auto">
                 <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full overflow-hidden border shrink-0">
-                  <img
-                    src="../hero-image-3.jpg"
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full overflow-hidden border shrink-0">
+                    <div
+                      onClick={() => setShowAvatarPreview(true)}
+                      className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full overflow-hidden border shrink-0 cursor-pointer hover:opacity-80 transition"
+                    >
+                      <img
+                        src={user?.avatar || "/hero-image-3.jpg"}
+                        alt={user?.username}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <button
@@ -141,7 +148,22 @@ const Profile = () => {
         />
       )}
       {showEditProfileModal && (
-        <EditProfileModal setShowEditProfileModal={setShowEditProfileModal} />
+        <EditProfileModal
+          setShowEditProfileModal={setShowEditProfileModal}
+          user={user}
+        />
+      )}
+      {showAvatarPreview && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+          onClick={() => setShowAvatarPreview(false)}
+        >
+          <img
+            src={user?.avatar || "/hero-image-3.jpg"}
+            alt={user?.username}
+            className="w-72 h-72 rounded-full object-cover ring-4 ring-white shadow-2xl"
+          />
+        </div>
       )}
     </>
   );

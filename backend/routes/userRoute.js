@@ -11,6 +11,6 @@ const Router = require("express").Router();
 
 Router.get("/all", auth, isAdmin, getAllUser);
 Router.get("/", auth, getUser);
-Router.post("/", upload.single("image"), auth, updateProfile);
+Router.post("/", upload.single("avatar"), auth, updateProfile);
 
 module.exports = Router;

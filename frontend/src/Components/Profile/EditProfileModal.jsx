@@ -1,108 +1,189 @@
-import React, { useState } from "react";
-import { FaTimes, FaCamera } from "react-icons/fa";
+import React from "react";
+import {
+  FaTimes,
+  FaCamera,
+  FaUser,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaEnvelope,
+} from "react-icons/fa";
 import MainButton from "../MainButton";
 import SecondaryButton from "../SecondaryButton";
+import {
+  UserProfileProvider,
+  useUserProfile,
+} from "../../Context/UserProfileContext";
 
-const EditProfileModal = ({ setShowEditProfileModal }) => {
-  const [preview, setPreview] = useState(null);
+const inputClass =
+  "w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 bg-gray-50 outline-none transition focus:border-gray-900 focus:bg-white focus:ring-2 focus:ring-gray-900/5 placeholder:text-gray-300";
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPreview(URL.createObjectURL(file));
-    }
-  };
+const labelClass =
+  "flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-widest text-gray-400";
+
+const EditProfileForm = () => {
+  const {
+    preview,
+    formData,
+    loading,
+    dragOver,
+    setDragOver,
+    fileInputRef,
+    handleImageChange,
+    handleDrop,
+    handleChange,
+    handleSubmit,
+    user,
+    onClose,
+  } = useUserProfile();
 
   return (
-    <section className="fixed inset-0 flex items-center justify-center z-50">
+    <>
       <div
-        className="absolute inset-0 bg-black/40 z-40"
-        onClick={() => setShowEditProfileModal(false)}
-      ></div>
+        className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+      />
 
-      {/* Modal */}
-      <div className="w-full max-w-3xl bg-white p-6 rounded-xl shadow-lg flex flex-col space-y-6 z-50">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <h3 className="text-xl font-semibold text-gray-800">Edit Profile</h3>
-          <button
-            onClick={() => setShowEditProfileModal(false)}
-            className="p-2 rounded-full hover:bg-gray-100 transition"
-          >
-            <FaTimes size={18} />
-          </button>
-        </div>
-
-        <div className="border border-black/10"></div>
-
-        <div className="flex items-center gap-4">
-          <div className="relative w-20 h-20 rounded-full overflow-hidden border">
-            <img
-              src={preview || "/hero-image-3.jpg"}
-              alt="profile"
-              className="w-full h-full object-cover"
-            />
-
-            <label className="absolute bottom-0 right-0 bg-black/70 p-2 rounded-full cursor-pointer">
-              <FaCamera className="text-white text-xs" />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="hidden"
-              />
-            </label>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden">
+          <div className="flex items-center justify-between px-7 py-5 border-b border-gray-100">
+            <h3 className="text-xl font-semibold text-gray-900 tracking-tight">
+              Edit Profile
+            </h3>
+            <button
+              type="button"
+              onClick={onClose}
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-900 hover:rotate-90 transition-all duration-200"
+            >
+              <FaTimes size={13} />
+            </button>
           </div>
 
-          <div>
-            <p className="text-sm text-gray-600">
-              Upload a new profile picture
-            </p>
-            <p className="text-xs text-gray-400">JPG, PNG (Max 2MB)</p>
-          </div>
-        </div>
+          <form onSubmit={handleSubmit}>
+            <div className="px-7 py-6 flex flex-col gap-6">
+              <div className="flex items-center gap-5">
+                <div
+                  className={`relative w-20 h-20 shrink-0 rounded-full group cursor-pointer ${
+                    dragOver ? "ring-2 ring-offset-2 ring-gray-900" : ""
+                  }`}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setDragOver(true);
+                  }}
+                  onDragLeave={() => setDragOver(false)}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <img
+                    src={preview}
+                    alt="profile"
+                    className="w-20 h-20 rounded-full object-cover ring-2 ring-gray-100 group-hover:brightness-75 transition duration-200"
+                  />
+                  <div className="absolute bottom-0.5 right-0.5 w-6 h-6 bg-gray-900 rounded-full border-2 border-white flex items-center justify-center group-hover:scale-110 transition-transform duration-150">
+                    <FaCamera className="text-white text-[9px]" />
+                  </div>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                  />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-800">
+                    Profile photo
+                  </p>
+                  <p className="text-xs text-gray-400 mt-0.5">
+                    JPG or PNG · Max 2MB · Drag &amp; drop or click
+                  </p>
+                </div>
+              </div>
 
-        <form className="flex flex-col gap-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex flex-col gap-2">
-              <label className="text-sm text-gray-600">Full Name</label>
-              <input
-                type="text"
-                placeholder="Enter your name"
-                className="border rounded-md border-gray-300 p-2 outline-none transition focus:ring-2 focus:ring-offset-1 focus:ring-(--color-foreground)"
-              />
+              <div className="border-t border-gray-100" />
+
+              {/* Fields */}
+              <div className="flex flex-col gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-1.5">
+                    <label className={labelClass}>
+                      <FaUser size={10} /> Full Name
+                    </label>
+                    <input
+                      className={inputClass}
+                      type="text"
+                      name="fullName"
+                      value={formData.fullName}
+                      onChange={handleChange}
+                      placeholder="Your full name"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <label className={labelClass}>
+                      <FaPhone size={10} /> Phone
+                    </label>
+                    <input
+                      className={inputClass}
+                      type="text"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="98XXXXXXXX"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className={labelClass}>
+                    <FaMapMarkerAlt size={10} /> Address
+                  </label>
+                  <input
+                    className={inputClass}
+                    type="text"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    placeholder="Your address"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className={labelClass}>
+                    <FaEnvelope size={10} /> Email Address
+                  </label>
+                  <input
+                    className="w-full border border-gray-100 rounded-lg px-3 py-2.5 text-sm text-gray-400 bg-gray-50 cursor-not-allowed outline-none"
+                    type="email"
+                    value={user?.email || ""}
+                    disabled
+                  />
+                </div>
+              </div>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <label className="text-sm text-gray-600">Phone Number</label>
-              <input
-                type="text"
-                placeholder="98XXXXXXXX"
-                className="border rounded-md border-gray-300 p-2 outline-none transition focus:ring-2 focus:ring-offset-1 focus:ring-(--color-foreground)"
+            {/* Footer */}
+            <div className="flex justify-end gap-2.5 px-7 py-4 border-t border-gray-100 bg-gray-50/50">
+              <SecondaryButton type="button" name="Cancel" onClick={onClose} />
+              <MainButton
+                name={loading ? "Saving…" : "Save Changes"}
+                type="submit"
               />
             </div>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label className="text-sm text-gray-600">Email Address</label>
-            <input
-              type="email"
-              value="user@email.com"
-              disabled
-              className="border rounded-md border-gray-200 bg-gray-100 text-gray-500 p-2 cursor-not-allowed"
-            />
-          </div>
-        </form>
-
-        <div className="flex justify-end gap-3 pt-2">
-          <SecondaryButton
-            name="Cancel"
-            onClick={() => setShowEditProfileModal(false)}
-          />
-          <MainButton name="Save Changes" />
+          </form>
         </div>
       </div>
-    </section>
+    </>
+  );
+};
+
+// Outer component wraps form with provider
+const EditProfileModal = ({ setShowEditProfileModal, user }) => {
+  return (
+    <UserProfileProvider
+      user={user}
+      onClose={() => setShowEditProfileModal(false)}
+    >
+      <EditProfileForm />
+    </UserProfileProvider>
   );
 };
 
