@@ -1,5 +1,7 @@
 import { FaPhoneAlt, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa";
+import { useAuth } from "../../Hooks/useAuth";
 const AccountOverview = () => {
+  const { user } = useAuth();
   return (
     <div className="bg-white p-6 text-sm rounded-md shadow-md">
       <div className="font-semibold  md:text-lg">Account OVerview</div>
@@ -10,7 +12,7 @@ const AccountOverview = () => {
           </div>
           <div className="flex flex-col gap-1">
             <span className="text-gray-500">EMAIL</span>
-            <span>alexchen@gmail.com</span>
+            <span>{user.email || "abcgmail.com"}</span>
           </div>
         </div>
 
@@ -20,7 +22,7 @@ const AccountOverview = () => {
           </div>
           <div className="flex flex-col gap-1">
             <span className="text-gray-500">PHONE</span>
-            <span>+1 234 567 890</span>
+            <span>+{user?.phone || 1234567890}</span>
           </div>
         </div>
 
@@ -30,7 +32,7 @@ const AccountOverview = () => {
           </div>
           <div className="flex flex-col gap-1">
             <span className="text-gray-500">ADDRESS</span>
-            <span>123 Main Street, New York, NY</span>
+            <span>{user?.address}</span>
           </div>
         </div>
       </div>

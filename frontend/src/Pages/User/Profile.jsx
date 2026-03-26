@@ -105,12 +105,15 @@ const Profile = () => {
                   <li
                     key={item.value}
                     onClick={() => setTab(item.value)}
-                    className={`px-4 py-2 text-sm whitespace-nowrap rounded-lg cursor-pointer transition-all hover:bg-gray-200 
-                  ${
-                    tab === item.value
-                      ? "bg-(--color-foreground) text-white shadow"
-                      : "text-gray-600 "
-                  }`}
+                    className={`
+                      px-4 py-2 text-sm whitespace-nowrap rounded-lg cursor-pointer
+                      transition-all duration-300 ease-in-out
+                      ${
+                        tab === item.value
+                          ? "bg-(--color-foreground) text-white shadow-lg"
+                          : "text-gray-600 hover:bg-gray-100 hover:scale-105 hover:shadow-md"
+                      }
+                    `}
                   >
                     {item.label}
                   </li>
