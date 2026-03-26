@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import { apiFetch } from "../utils/api";
 
 export const register = async (UserData) => {
   try {
@@ -30,4 +31,11 @@ export const login = async (UserData) => {
   } catch (error) {
     toast.error("error" + error);
   }
+};
+
+export const changePassword = async (userData) => {
+  return await apiFetch("/auth/changepassword", {
+    method: "PATCH",
+    body: JSON.stringify(userData),
+  });
 };
