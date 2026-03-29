@@ -1,11 +1,9 @@
-const Notification = require("../models/Notification");
-
+const notificationService = require("../services/notificationService");
 exports.getNotifications = async (req, res) => {
   try {
-    const notifications = await Notification.find({
-      userId: req.user.id, // get ID from JWT
-    }).sort({ createdAt: -1 });
-
+    const notifications = await notificationService.getNotifications(
+      req.user.id,
+    );
     res.json(notifications);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -15,12 +13,16 @@ exports.getNotifications = async (req, res) => {
 exports.createNotification = async (req, res) => {
   const { message, type } = req.body;
   try {
-    const notification = new Notification({
-      userId: req.user.id,
+    if (!message || !type) {
+      return res.status(400).json({
+        message: "Message and type are required",
+      });
+    }
+    const notification = await notificationService.createNotification(
+      req.user.id,
       message,
       type,
-    });
-    await notification.save();
+    );
     res.status(201).json(notification);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -29,10 +31,8 @@ exports.createNotification = async (req, res) => {
 
 exports.readNotification = async (req, res) => {
   try {
-    const notification = await Notification.findByIdAndUpdate(
+    const notification = await notificationService.readNotification(
       req.params.id,
-      { read: true },
-      { new: true },
     );
     res.json(notification);
   } catch (err) {
