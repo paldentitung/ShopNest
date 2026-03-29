@@ -5,7 +5,7 @@ import ProductCard from "./ProductCard";
 const ProductListing = ({ products, isHidden = false }) => {
   const navigate = useNavigate();
   return (
-    <div className="bg-gray-50 min-h-screen py-10 px-4 flex flex-col gap-8">
+    <div className=" min-h-screen py-10 px-4 flex flex-col gap-8">
       {/* Heading */}
       <h2 className="text-center text-2xl md:text-3xl font-bold text-gray-800">
         Products

@@ -34,10 +34,9 @@ const ProductCard = ({ product }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
       whileHover={{ y: -4 }}
-      className="group relative bg-white rounded-2xl overflow-hidden flex flex-col border border-gray-100 group"
-      style={{ boxShadow: "0 2px 16px 0 rgba(0,0,0,0.06)" }}
+      className="group relative bg-white rounded-2xl overflow-hidden flex flex-col border border-gray-100 group shadow-md"
     >
-      <div className="relative w-full h-60 sm:h-64 bg-gray-50 overflow-hidden">
+      <div className="relative w-full h-60 sm:h-64  overflow-hidden">
         <img
           src={product.images}
           alt={product.name}
