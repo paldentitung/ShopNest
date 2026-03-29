@@ -1,25 +1,9 @@
-const Product = require("../models/Product");
-const slugify = require("slugify");
+const productService = require("../services/productService");
 
 exports.getAllProduct = async (req, res) => {
   try {
-    const products = await Product.find();
-
-    const orderedProducts = products.map((p) => ({
-      _id: p._id,
-      name: p.name,
-      slug: p.slug,
-      category: p.category || "Clothing",
-      images: p.images.map((img) => `http://localhost:3000/${img}`),
-      priceCents: p.priceCents,
-      averageRating: p.averageRating || 0,
-      totalRatings: p.totalRatings || 0,
-      description: p.description,
-      variations: p.variations,
-      stock: p.stock,
-    }));
-
-    res.status(200).json(orderedProducts);
+    const products = await productService.getAllProducts();
+    res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -27,39 +11,8 @@ exports.getAllProduct = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
   try {
-    const {
-      name,
-      category,
-      priceCents,
-      rating,
-      description,
-      variations,
-      stock,
-    } = req.body;
-
-    const slug = slugify(name, { lower: true });
-    const imagePaths = req.file
-      ? [`uploads/products/${req.file.filename}`]
-      : [];
-
-    const newProduct = new Product({
-      name,
-      slug,
-      category,
-      priceCents: Number(priceCents),
-      rating: 0,
-      description,
-      stock: 0,
-      variations,
-      images: imagePaths,
-    });
-
-    const savedProduct = await newProduct.save();
-
-    res.status(201).json({
-      message: "Product created",
-      savedProduct,
-    });
+    const savedProduct = await productService.createProduct(req.body, req.file);
+    res.status(201).json({ message: "Product created", savedProduct });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -67,24 +20,11 @@ exports.createProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
   try {
-    const productId = req.params.id;
-    const product = await Product.findById(productId);
-    if (!product) return res.status(404).json({ message: "Product not found" });
-
-    const updates = req.body;
-
-    if (updates.priceCents) updates.priceCents = Number(updates.priceCents);
-    if (updates.stock) updates.stock = Number(updates.stock);
-    if (updates.rating) updates.rating = Number(updates.rating);
-
-    if (updates.name) updates.slug = slugify(updates.name, { lower: true });
-
-    if (req.file) updates.images = [`uploads/products/${req.file.filename}`];
-
-    const updatedProduct = await Product.findByIdAndUpdate(productId, updates, {
-      new: true,
-    });
-
+    const updatedProduct = await productService.updateProduct(
+      req.params.id,
+      req.body,
+      req.file,
+    );
     res.status(200).json({
       message: "Updated product successfully",
       updatedProduct: {
@@ -97,41 +37,28 @@ exports.updateProduct = async (req, res) => {
       },
     });
   } catch (error) {
+    if (error.message === "Product not found")
+      return res.status(404).json({ message: error.message });
     res.status(500).json({ message: error.message });
   }
 };
 
 exports.deleteProduct = async (req, res) => {
   try {
-    const productId = req.params.id;
-
-    const product = await Product.findById(productId);
-
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" });
-    }
-
-    const deletedProduct = await Product.findByIdAndDelete(productId);
-
+    const deletedProduct = await productService.deleteProduct(req.params.id);
     res
       .status(200)
-      .json({ message: "Product delete successfully", deletedProduct });
+      .json({ message: "Product deleted successfully", deletedProduct });
   } catch (error) {
+    if (error.message === "Product not found")
+      return res.status(404).json({ message: error.message });
     res.status(500).json({ message: error.message });
   }
 };
 
 exports.search = async (req, res) => {
   try {
-    const { query } = req.query;
-
-    const filter = {};
-
-    if (query) {
-      filter.name = { $regex: query, $options: "i" };
-    }
-
-    const products = await Product.find(filter).limit(50);
+    const products = await productService.search(req.query.query);
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
