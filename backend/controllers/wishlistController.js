@@ -1,86 +1,43 @@
 const Product = require("../models/Product");
 const User = require("../models/User");
-
+const wishlistService = require("../services/wishlistService");
 exports.getWishlist = async (req, res) => {
   try {
-    const userId = req.user.id;
-
-    const user = await User.findById(userId)
-      .populate("wishlist", "name priceCents images")
-      .lean();
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const wishlist = user.wishlist.map((product) => ({
-      _id: product._id,
-      name: product.name,
-      price: product.priceCents,
-      image: product.images,
-    }));
-
-    res.status(200).json({ wishlist });
+    const wishlist = await wishlistService.getWishlist(req.user.id);
+    await res.status(200).json({ wishlist });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 exports.addWishlist = async (req, res) => {
   try {
-    const { id } = req.params;
-    const userId = req.user.id;
-
-    const product = await Product.findById(id);
-    if (!product) {
-      return res.status(404).json({ message: "Product Not Found" });
-    }
-
-    const user = await User.findById(userId);
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    if (!user.wishlist) user.wishlist = [];
-
-    const isExist = user.wishlist.includes(id);
-
-    if (isExist) {
-      return res.status(400).json({
-        message: "Wishlist already exists",
-      });
-    }
-
-    user.wishlist.push(id);
-
-    await user.save();
+    const wishlist = await wishlistService.addWishlist(
+      req.params.id,
+      req.user.id,
+    );
 
     res.status(200).json({
       message: "Added to wishlist",
-      wishlist: user.wishlist,
+      wishlist,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(400).json({
+      message: error.message,
+    });
   }
 };
 
 exports.removeWishlist = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const { id } = req.params;
-
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    if (!user.wishlist) user.wishlist = [];
-
-    user.wishlist = user.wishlist.filter((w) => w.toString() !== id);
-
-    await user.save();
+    const wishlist = await wishlistService.remvoeWishlist(
+      req.user.id,
+      req.params.id,
+    );
 
     res.status(200).json({
       message: "Removed from wishlist",
-      wishlist: user.wishlist,
+      wishlist,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
