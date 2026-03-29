@@ -5,3 +5,4 @@ const errorMiddleware = (err, req, res, next) => {
     .status(err.statusCode || 500)
     .json({ success: false, message: err.message || "server error" });
 };
+module.exports = errorMiddleware;

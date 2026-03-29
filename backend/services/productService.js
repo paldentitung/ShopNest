@@ -3,19 +3,23 @@ const slugify = require("slugify");
 
 exports.getAllProducts = async () => {
   const products = await Product.find();
-  return products.map((p) => ({
-    _id: p._id,
-    name: p.name,
-    slug: p.slug,
-    category: p.category || "Clothing",
-    images: p.images.map((img) => `http://localhost:3000/${img}`),
-    priceCents: p.priceCents,
-    averageRating: p.averageRating || 0,
-    totalRatings: p.totalRatings || 0,
-    description: p.description,
-    variations: p.variations,
-    stock: p.stock,
-  }));
+  return products.map((p) => {
+    return {
+      _id: p._id,
+      name: p.name,
+      slug: p.slug,
+      category: p.category || "Clothing",
+      images: Array.isArray(p.images)
+        ? p.images.map((img) => `http://localhost:3000/${img}`)
+        : [],
+      priceCents: p.priceCents,
+      averageRating: p.averageRating || 0,
+      totalRatings: p.totalRatings || 0,
+      description: p.description,
+      variations: p.variations,
+      stock: p.stock,
+    };
+  });
 };
 
 exports.createProduct = async (data, file) => {
@@ -41,11 +45,9 @@ exports.createProduct = async (data, file) => {
 
 exports.updateProduct = async (id, updates, file) => {
   const product = await Product.findById(id);
-  if (!product) {
-    const error = new Error("Product not found");
-    error.statusCode = 404;
-    throw error;
-  }
+  const error = new Error("Product not found");
+  error.statusCode = 404;
+  if (!product) throw error;
 
   if (updates.priceCents) updates.priceCents = Number(updates.priceCents);
   if (updates.stock) updates.stock = Number(updates.stock);
@@ -64,11 +66,7 @@ exports.updateProduct = async (id, updates, file) => {
 
 exports.deleteProduct = async (id) => {
   const product = await Product.findById(id);
-  if (!product) {
-    const error = new Error("Product not found");
-    error.statusCode = 404;
-    throw error;
-  }
+  if (!product) throw new Error("Product not found");
 
   return await Product.findByIdAndDelete(id);
 };
