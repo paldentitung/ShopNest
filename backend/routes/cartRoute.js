@@ -4,14 +4,14 @@ const {
   getCart,
   removeFromCart,
   updateQuantity,
-  checkout,
 } = require("../controllers/cartController");
 const auth = require("../middleware/auth");
+const asyncHandler = require("../utils/asyncHandler");
 const Router = express.Router();
 
-Router.get("/", auth, getCart);
-Router.post("/", auth, addToCart);
-Router.put("/:cartItemId", auth, updateQuantity);
-Router.delete("/:cartItemId", auth, removeFromCart);
+Router.get("/", auth, asyncHandler(getCart));
+Router.post("/", auth, asyncHandler(addToCart));
+Router.put("/:cartItemId", auth, asyncHandler(updateQuantity));
+Router.delete("/:cartItemId", auth, asyncHandler(removeFromCart));
 
 module.exports = Router;
