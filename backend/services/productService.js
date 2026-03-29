@@ -41,7 +41,11 @@ exports.createProduct = async (data, file) => {
 
 exports.updateProduct = async (id, updates, file) => {
   const product = await Product.findById(id);
-  if (!product) throw new Error("Product not found");
+  if (!product) {
+    const error = new Error("Product not found");
+    error.statusCode = 404;
+    throw error;
+  }
 
   if (updates.priceCents) updates.priceCents = Number(updates.priceCents);
   if (updates.stock) updates.stock = Number(updates.stock);
@@ -60,7 +64,11 @@ exports.updateProduct = async (id, updates, file) => {
 
 exports.deleteProduct = async (id) => {
   const product = await Product.findById(id);
-  if (!product) throw new Error("Product not found");
+  if (!product) {
+    const error = new Error("Product not found");
+    error.statusCode = 404;
+    throw error;
+  }
 
   return await Product.findByIdAndDelete(id);
 };
