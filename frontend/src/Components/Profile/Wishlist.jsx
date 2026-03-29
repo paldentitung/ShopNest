@@ -34,7 +34,7 @@ const Wishlist = () => {
               key={w._id}
               className="flex flex-col gap-2 shadow overflow-hidden rounded-md group transition-all duration-300 hover:cursor-pointer relative"
             >
-              <div className="overflow-hidden h-65 bg-gray-100 flex items-center justify-center">
+              <div className="overflow-hidden h-65 flex items-center justify-center">
                 <img
                   src={`http://localhost:3000/${w.image?.[0]}`}
                   alt={`${w.name}`}

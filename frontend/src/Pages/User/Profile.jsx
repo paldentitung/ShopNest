@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { FaEdit, FaCog, FaUserPlus, FaSignOutAlt } from "react-icons/fa";
+import React, { useContext, useState } from "react";
+import { FaEdit, FaCog, FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../../Hooks/useAuth";
 import OrderHistory from "../../Components/Profile/OrderHistory";
 import Wishlist from "../../Components/Profile/Wishlist";
@@ -7,7 +7,9 @@ import AccountOverview from "../../Components/Profile/AccountOverview";
 import { AuthContext } from "../../Context/AuthContext";
 import AccountSettingModal from "../../Components/Profile/AccountSettingModal";
 import EditProfileModal from "../../Components/Profile/EditProfileModal";
-
+import MainButton from "../../Components/MainButton";
+import SecondaryButton from "../../Components/SecondaryButton";
+import toast from "react-hot-toast";
 const Profile = () => {
   const { logoutUser } = useAuth();
   const [tab, setTab] = useState("overview");
@@ -16,6 +18,11 @@ const Profile = () => {
   const [showAccountSettingModal, setShowAccountSettingModal] = useState(false);
   const { user } = useContext(AuthContext);
   const [showAvatarPreview, setShowAvatarPreview] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleLogout = () => {
+    setShowModal(true);
+  };
   return (
     <>
       <section className="bg-gray-100 min-h-screen py-5 md:p-6 mt-10">
@@ -23,19 +30,16 @@ const Profile = () => {
           <div className="flex flex-col transition-all duration-500">
             <div className="bg-white p-4 sm:p-6 shadow-sm  flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <div className="flex items-center justify-between md:justify-start w-full md:w-auto">
-                <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full overflow-hidden border shrink-0">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full overflow-hidden border shrink-0">
-                    <div
-                      onClick={() => setShowAvatarPreview(true)}
-                      className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full overflow-hidden border shrink-0 cursor-pointer hover:opacity-80 transition"
-                    >
-                      <img
-                        src={user?.avatar || "/hero-image-3.jpg"}
-                        alt={user?.username}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </div>
+                <div
+                  onClick={() => setShowAvatarPreview(true)}
+                  className="w-14 h-14  sm:w-16 sm:h-16  md:w-20 md:h-20 rounded-full  overflow-hidden  shadow  shrink-0 cursor-pointer transition  hover:opacity-80
+                    "
+                >
+                  <img
+                    src={user?.avatar || "/hero-image-3.jpg"}
+                    alt={user?.username || "User avatar"}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
                 <button
@@ -84,7 +88,8 @@ const Profile = () => {
                 </button>
 
                 <button
-                  onClick={logoutUser}
+                  // onClick={logoutUser}
+                  onClick={handleLogout}
                   className="flex items-center gap-2 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg text-sm transition"
                 >
                   <FaSignOutAlt /> Logout
@@ -166,6 +171,31 @@ const Profile = () => {
             alt={user?.username}
             className="w-72 h-72 rounded-full object-cover ring-4 ring-white shadow-2xl"
           />
+        </div>
+      )}
+
+      {showModal && (
+        <div className="fixed inset-0 flex justify-center items-center">
+          <div
+            onClick={() => setShowModal(false)}
+            className=" absolute w-full h-full inset-0 bg-black/50 z-40"
+          ></div>
+          <div className="w-full max-w-100 border flex justify-center items-center flex-col  gap-5 bg-white p-6 rounded-md z-50">
+            <p className="text-lg">Are you sure to logout</p>
+            <div className="flex gap-5">
+              <SecondaryButton
+                name="Canel"
+                onClick={() => setShowModal(false)}
+              />
+              <MainButton
+                name="Logout"
+                onClick={() => {
+                  toast.success("Logout successfull");
+                  logoutUser();
+                }}
+              />
+            </div>
+          </div>
         </div>
       )}
     </>
