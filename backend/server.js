@@ -14,7 +14,7 @@ connectdb();
 
 // routes
 const ProductRoute = require("./routes/productRoute");
-const AuthRoute = require("./routes/AuthRoute");
+const AuthRoute = require("./routes/authRoute");
 const CartRoute = require("./routes/cartRoute");
 const CheckoutRoute = require("./routes/checkoutRoute");
 const OrderRoute = require("./routes/orderRoute");

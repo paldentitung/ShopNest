@@ -4,7 +4,7 @@ const {
   Register,
   Login,
   changePassword,
-} = require("../controllers/AuthController");
+} = require("../controllers/authController");
 
 const auth = require("../middleware/auth");
 const asyncHandler = require("../utils/asyncHandler");
