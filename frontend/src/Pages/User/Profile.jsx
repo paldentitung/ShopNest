@@ -10,6 +10,7 @@ import EditProfileModal from "../../Components/Profile/EditProfileModal";
 import MainButton from "../../Components/MainButton";
 import SecondaryButton from "../../Components/SecondaryButton";
 import toast from "react-hot-toast";
+import { FiLogOut } from "react-icons/fi";
 const Profile = () => {
   const { logoutUser } = useAuth();
   const [tab, setTab] = useState("overview");
@@ -175,24 +176,42 @@ const Profile = () => {
       )}
 
       {showModal && (
-        <div className="fixed inset-0 flex justify-center items-center">
+        <div
+          className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          onClick={() => setShowModal(false)}
+        >
           <div
-            onClick={() => setShowModal(false)}
-            className=" absolute w-full h-full inset-0 bg-black/50 z-40"
-          ></div>
-          <div className="w-full max-w-100 border flex justify-center items-center flex-col  gap-5 bg-white p-6 rounded-md z-50">
-            <p className="text-lg">Are you sure to logout</p>
-            <div className="flex gap-5">
+            className="relative z-50 w-full max-w-sm rounded-2xl bg-white p-8 text-center shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Icon */}
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 border border-red-100">
+              <FiLogOut className="h-6 w-6 text-red-500" />
+            </div>
+
+            {/* Text */}
+            <h2 className="mb-1 text-lg font-semibold text-neutral-900">
+              Sign out?
+            </h2>
+            <p className="mb-6 text-sm text-neutral-400">
+              You'll be logged out of your account. You can sign back in
+              anytime.
+            </p>
+
+            {/* Actions */}
+            <div className="flex justify-center gap-3">
               <SecondaryButton
-                name="Canel"
+                name="Cancel"
                 onClick={() => setShowModal(false)}
+                className="flex-1"
               />
               <MainButton
-                name="Logout"
+                name="Sign out"
                 onClick={() => {
-                  toast.success("Logout successfull");
+                  toast.success("Logged out successfully");
                   logoutUser();
                 }}
+                className="flex-1"
               />
             </div>
           </div>
