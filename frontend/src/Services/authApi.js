@@ -18,19 +18,18 @@ export const register = async (UserData) => {
 };
 
 export const login = async (UserData) => {
-  try {
-    const res = await fetch("http://localhost:3000/api/auth/login", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(UserData),
-    });
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    toast.error("error" + error);
+  const res = await fetch("http://localhost:3000/api/auth/login", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify(UserData),
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error);
   }
+  return data;
 };
 
 export const changePassword = async (userData) => {

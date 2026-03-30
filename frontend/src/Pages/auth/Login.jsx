@@ -32,7 +32,7 @@ const Login = () => {
         toast.error(res.message || "Login failed");
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error(error.message);
     }
   };
   return (
