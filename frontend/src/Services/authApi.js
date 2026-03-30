@@ -11,6 +11,9 @@ export const register = async (UserData) => {
       body: JSON.stringify(UserData),
     });
     const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || "Login failed");
+    }
     return data;
   } catch (error) {
     toast.error("error" + error);
@@ -27,7 +30,7 @@ export const login = async (UserData) => {
   });
   const data = await res.json();
   if (!res.ok) {
-    throw new Error(data.error);
+    throw new Error(data.message || "Login failed");
   }
   return data;
 };

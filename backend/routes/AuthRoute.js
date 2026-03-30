@@ -7,8 +7,9 @@ const {
 } = require("../controllers/AuthController");
 
 const auth = require("../middleware/auth");
+const asyncHandler = require("../utils/asyncHandler");
 
-Router.post("/register", Register);
-Router.post("/login", Login);
-Router.patch("/changepassword", auth, changePassword);
+Router.post("/register", asyncHandler(Register));
+Router.post("/login", asyncHandler(Login));
+Router.patch("/changepassword", auth, asyncHandler(changePassword));
 module.exports = Router;

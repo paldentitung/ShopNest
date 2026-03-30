@@ -18,18 +18,17 @@ const Login = () => {
 
     try {
       const res = await login({ email, password });
-      //console.log(res);
 
-      if (res.token) {
-        loginUser(res.token, res.user);
+      loginUser(res.token, res.user);
 
-        if (res.user.role === "admin") {
-          navigate("/admin/");
-        } else {
-          navigate("/");
-        }
+      if (res.user.role === "admin") {
+        toast.success(`Welcome back, Admin ${res.user.username}!`);
+        navigate("/admin/");
       } else {
-        toast.error(res.message || "Login failed");
+        toast.success(
+          `Welcome back, ${res.user.username}! You have logged in successfully.`,
+        );
+        navigate("/");
       }
     } catch (error) {
       toast.error(error.message);
