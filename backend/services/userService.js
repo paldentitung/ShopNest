@@ -1,5 +1,5 @@
 const User = require("../models/User");
-
+const AppError = require("../utils/AppError");
 // Get all users
 exports.getAllUsers = async () => {
   const users = await User.find().select("-password");
@@ -11,9 +11,7 @@ exports.getUser = async (userId) => {
   const user = await User.findById(userId).select("-password");
 
   if (!user) {
-    const error = new Error("User not found");
-    error.statusCode = 404;
-    throw error;
+    throw new AppError("User not found", 404);
   }
 
   const {
@@ -49,9 +47,7 @@ exports.updateProfile = async (userId, updateData) => {
   }).select("-password");
 
   if (!updatedUser) {
-    const error = new Error("User not found");
-    error.statusCode = 404;
-    throw error;
+    throw new AppError("User not found", 404);
   }
 
   const {

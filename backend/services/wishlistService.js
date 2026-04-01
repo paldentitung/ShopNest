@@ -1,5 +1,6 @@
 const Product = require("../models/Product");
 const User = require("../models/User");
+const AppError = require("../utils/AppError");
 
 exports.getWishlist = async (id) => {
   const user = await User.findById(id)
@@ -7,7 +8,7 @@ exports.getWishlist = async (id) => {
     .lean();
 
   if (!user) {
-    throw new Error("User not found");
+    throw new AppError("User not found", 404);
   }
 
   return user.wishlist.map((product) => ({
@@ -21,12 +22,12 @@ exports.getWishlist = async (id) => {
 exports.addWishlist = async (productId, userId) => {
   const product = await Product.findById(productId);
   if (!product) {
-    throw new Error("Product not found");
+    throw new AppError("Product not found", 404);
   }
 
   const user = await User.findById(userId);
   if (!user) {
-    throw new Error("User not found");
+    throw new AppError("User not found", 404);
   }
 
   if (!user.wishlist) {
@@ -35,7 +36,7 @@ exports.addWishlist = async (productId, userId) => {
 
   const isExist = user.wishlist.some((item) => item.toString() === productId);
   if (isExist) {
-    throw new Error("Wishlist already exists");
+    throw new AppError("Wishlist already exists", 400);
   }
 
   user.wishlist.push(productId);
@@ -47,7 +48,7 @@ exports.addWishlist = async (productId, userId) => {
 exports.remvoeWishlist = async (userId, productId) => {
   const user = await User.findById(userId);
   if (!user) {
-    throw new Error("User not found");
+    throw new AppError("User not found", 404);
   }
 
   if (!user.wishlist) user.wishlist = [];

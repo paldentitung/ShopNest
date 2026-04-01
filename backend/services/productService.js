@@ -1,5 +1,6 @@
 const Product = require("../models/Product");
 const slugify = require("slugify");
+const AppError = require("../utils/AppError");
 
 exports.getAllProducts = async () => {
   const products = await Product.find();
@@ -25,6 +26,14 @@ exports.getAllProducts = async () => {
 exports.createProduct = async (data, file) => {
   const { name, category, priceCents, description, variations } = data;
 
+  if (!name || !category || !priceCents) {
+    throw new AppError("Name, category, and price are required", 400);
+  }
+
+  if (isNaN(priceCents) || Number(priceCents) < 0) {
+    throw new AppError("Price must be a non-negative number", 400);
+  }
+
   const slug = slugify(name, { lower: true });
   const imagePaths = file ? [`uploads/products/${file.filename}`] : [];
 
@@ -45,9 +54,8 @@ exports.createProduct = async (data, file) => {
 
 exports.updateProduct = async (id, updates, file) => {
   const product = await Product.findById(id);
-  const error = new Error("Product not found");
-  error.statusCode = 404;
-  if (!product) throw error;
+
+  if (!product) throw new AppError("Product not found", 404);
 
   if (updates.priceCents) updates.priceCents = Number(updates.priceCents);
   if (updates.stock) updates.stock = Number(updates.stock);
@@ -66,7 +74,7 @@ exports.updateProduct = async (id, updates, file) => {
 
 exports.deleteProduct = async (id) => {
   const product = await Product.findById(id);
-  if (!product) throw new Error("Product not found");
+  if (!product) throw new AppError("Product not found", 404);
 
   return await Product.findByIdAndDelete(id);
 };

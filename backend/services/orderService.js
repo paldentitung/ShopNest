@@ -1,6 +1,6 @@
 const Order = require("../models/Order");
 const Notification = require("../models/Notification");
-
+const AppError = require("../utils/AppError");
 exports.getOrders = async () => {
   return await Order.find().populate("userId", "username email").exec();
 };
@@ -12,7 +12,7 @@ exports.updateOrderStatus = async (id, orderStatus) => {
   );
 
   if (!order) {
-    throw new Error("Order not found");
+    throw new AppError("Order not found", 404);
   }
 
   await Notification.create({

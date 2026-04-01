@@ -4,9 +4,7 @@ const Order = require("../models/Order");
 exports.checkout = async (userId, shippingMethod, paymentMethod) => {
   const cart = await Cart.findOne({ userId }).populate("items.product");
   if (!cart || cart.items.length === 0) {
-    const error = new Error("Cart is empty");
-    error.statusCode(400);
-    throw error;
+    return { items: [] };
   }
 
   //  Map cart items to order items

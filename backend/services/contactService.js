@@ -1,28 +1,23 @@
 const Contact = require("../models/Contact");
+const AppError = require("../utils/AppError");
 
 exports.readContact = async () => {
   const contacts = await Contact.find();
 
   if (!contacts) {
-    const error = new Error("contact not found");
-    error.statusCode = 404;
-    throw error;
+    throw new AppError("Contact not found", 404);
   }
 
   return contacts;
 };
 exports.createContact = async (name, email, message, ipAddress, userAgent) => {
   if (!name || !email || !message) {
-    const error = new Error("All fields are required");
-    error.statusCode = 400;
-    throw error;
+    throw new AppError("All fields are required", 400);
   }
 
   const emailRegex = /^\S+@\S+\.\S+$/;
   if (!emailRegex.test(email)) {
-    const error = new Error("Invalid email format");
-    error.statusCode = 400;
-    throw error;
+    throw new AppError("Invalid email format", 400);
   }
   const newContact = await Contact.create({
     name,
@@ -36,32 +31,24 @@ exports.createContact = async (name, email, message, ipAddress, userAgent) => {
 };
 
 exports.markAsRead = async (id) => {
-  const contact = await Contact.findById(id);
-
-  if (!contact) {
-    const error = new Error("Contact not found");
-    error.statusCode = 404;
-    throw error;
-  }
   const updatedContact = await Contact.findByIdAndUpdate(
     id,
     { status: "read" },
     { new: true },
   );
+  if (!updatedContact) {
+    throw new AppError("Contact not found", 404);
+  }
 
   return updatedContact;
 };
 
 exports.deleteContact = async (id) => {
-  const contact = await Contact.findById(id);
-
-  if (!contact) {
-    const error = new Error("Contact not found");
-    error.statusCode = 404;
-    throw error;
-  }
-
   const contactToBeDelete = await Contact.findByIdAndDelete(id);
+
+  if (!contactToBeDelete) {
+    throw new AppError("Contact not found", 404);
+  }
 
   return contactToBeDelete;
 };

@@ -11,6 +11,13 @@ exports.rateProduct = async (
 ) => {
   let existing = await Rating.findOne({ userId, productId });
 
+  if (!userId || !productId)
+    throw new AppError("User and Product are required", 400);
+  if (!rating || isNaN(rating))
+    throw new AppError("Rating must be a number", 400);
+  if (rating < 1 || rating > 5)
+    throw new AppError("Rating must be between 1 and 5", 400);
+
   if (existing) {
     existing.rating = rating;
     existing.review = review || "";
