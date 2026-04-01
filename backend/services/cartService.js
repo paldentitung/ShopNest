@@ -1,5 +1,6 @@
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
+const AppError = require("../utils/AppError");
 
 exports.getCart = async (userId) => {
   return await Cart.findOne({ userId }).populate("items.product");
@@ -9,7 +10,7 @@ exports.addToCart = async (userId, productId, quantity) => {
   const product = await Product.findById(productId);
 
   if (!product) {
-    throw new Error("Product not found");
+    throw new AppError("Product not found", 404);
   }
 
   let cart = await Cart.findOne({ userId });
@@ -41,10 +42,10 @@ exports.addToCart = async (userId, productId, quantity) => {
 
 exports.updateQuantity = async (userId, cartItemId, quantity) => {
   const cart = await Cart.findOne({ userId });
-  if (!cart) throw new Error("Cart not found");
+  if (!cart) throw new AppError("Cart not found", 404);
 
   const item = cart.items.find((i) => i._id.toString() === cartItemId);
-  if (!item) throw new Error("Item not found");
+  if (!item) throw new AppError("Item not found", 404);
 
   item.quantity = quantity;
   await cart.save();
@@ -53,7 +54,7 @@ exports.updateQuantity = async (userId, cartItemId, quantity) => {
 
 exports.removeFromCart = async (userId, cartItemId) => {
   const cart = await Cart.findOne({ userId });
-  if (!cart) throw new Error("Cart not found");
+  if (!cart) throw new AppError("Cart not found", 404);
 
   cart.items = cart.items.filter((item) => item._id.toString() !== cartItemId);
 

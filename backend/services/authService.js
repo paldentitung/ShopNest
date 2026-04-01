@@ -1,20 +1,16 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const AppError = require("../utils/AppError");
 exports.register = async (username, email, password) => {
   const existingUser = await User.findOne({ email });
 
   if (existingUser) {
-    const error = new Error("User already exists");
-    error.statusCode = 400;
-    throw error;
+    throw new AppError("User already exists", 400);
   }
 
   if (!username || !email || !password) {
-    const error = new Error("All fields are required");
-    error.statusCode = 400;
-    throw error;
+    throw new AppError("All fields are required", 400);
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -36,23 +32,17 @@ exports.register = async (username, email, password) => {
 
 exports.login = async (email, password) => {
   if (!email || !password) {
-    const error = new Error("All fields are required");
-    error.statusCode = 400;
-    throw error;
+    throw new AppError("All fields are required", 400);
   }
 
   const user = await User.findOne({ email });
   if (!user) {
-    const error = new Error("Invalid email or password");
-    error.statusCode = 400;
-    throw error;
+    throw new AppError("Invalid email or password", 400);
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    const error = new Error("Invalid email or password");
-    error.statusCode = 400;
-    throw error;
+    throw new AppError("Invalid email or password", 400);
   }
 
   const token = jwt.sign(
@@ -77,30 +67,20 @@ exports.login = async (email, password) => {
 
 exports.changePassword = async (userId, currentPassword, newPassword) => {
   if (!currentPassword || !newPassword) {
-    const error = new Error("All fields are required");
-    error.statusCode = 400;
-    throw error;
+    throw new AppError("All fields are required", 400);
   }
 
   const user = await User.findById(userId);
-
   if (!user) {
-    const error = new Error("User not found");
-    error.statusCode = 404;
-    throw error;
+    throw new AppError("User not found", 404);
   }
 
   const isMatch = await bcrypt.compare(currentPassword, user.password);
-
   if (!isMatch) {
-    const error = new Error("Current password is incorrect");
-    error.statusCode = 400;
-    throw error;
+    throw new AppError("Current password is incorrect", 400);
   }
 
-  const hashed = await bcrypt.hash(newPassword, 10);
-  user.password = hashed;
-
+  user.password = await bcrypt.hash(newPassword, 10);
   await user.save();
 
   return { message: "Password changed successfully" };
