@@ -4,7 +4,9 @@ const {
   rateProduct,
 } = require("../controllers/ratingController");
 const auth = require("../middleware/auth");
-Router.get("/:productId", auth, getProductRatings);
-Router.post("/", auth, rateProduct);
+const asyncHandler = require("../utils/asyncHandler");
+
+Router.get("/:productId", auth, asyncHandler(getProductRatings));
+Router.post("/", auth, asyncHandler(rateProduct));
 
 module.exports = Router;

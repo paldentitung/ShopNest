@@ -6,9 +6,10 @@ const {
   createNotification,
   readNotification,
 } = require("../controllers/notificationController");
+const asyncHandler = require("../utils/asyncHandler");
 
-router.get("/", auth, getNotifications);
-router.post("/", auth, createNotification);
-router.patch("/:id/read", auth, readNotification);
+router.get("/", auth, asyncHandler(getNotifications));
+router.post("/", auth, asyncHandler(createNotification));
+router.patch("/:id/read", auth, asyncHandler(readNotification));
 
 module.exports = router;

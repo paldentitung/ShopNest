@@ -6,10 +6,11 @@ const {
 } = require("../controllers/contactController");
 
 const Router = require("express").Router();
+const asyncHandler = require("../utils/asyncHandler");
 
-Router.get("/", readContact);
-Router.post("/", createContact);
-Router.delete("/:id", deleteContact);
-Router.patch("/:id", markAsRead);
+Router.get("/", asyncHandler(readContact));
+Router.post("/", asyncHandler(createContact));
+Router.delete("/:id", asyncHandler(deleteContact));
+Router.patch("/:id", asyncHandler(markAsRead));
 
 module.exports = Router;
