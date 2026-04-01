@@ -80,6 +80,8 @@ export const CheckoutProvider = ({ children }) => {
 
       const order = await res.json();
 
+      console.log("order placed", order.data);
+
       Swal.fire({ title: "Order placed!", icon: "success" }).then(() => {
         navigate("/");
       });

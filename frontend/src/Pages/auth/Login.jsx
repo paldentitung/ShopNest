@@ -18,15 +18,16 @@ const Login = () => {
 
     try {
       const res = await login({ email, password });
+      const { token, user } = res.data;
 
-      loginUser(res.token, res.user);
+      loginUser(token, user);
 
-      if (res.user.role === "admin") {
-        toast.success(`Welcome back, Admin ${res.user.username}!`);
+      if (user.role === "admin") {
+        toast.success(`Welcome back, Admin ${user.username}!`);
         navigate("/admin/");
       } else {
         toast.success(
-          `Welcome back, ${res.user.username}! You have logged in successfully.`,
+          `Welcome back, ${user.username}! You have logged in successfully.`,
         );
         navigate("/");
       }

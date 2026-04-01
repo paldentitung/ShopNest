@@ -38,7 +38,7 @@ const Header = () => {
     }
     const fetchNotifications = async () => {
       const res = await getNotifications();
-      setNotification(res);
+      setNotification(res.data);
     };
 
     fetchNotifications();

@@ -2,7 +2,11 @@ const contactService = require("../services/contactService");
 
 exports.readContact = async (req, res) => {
   const contacts = await contactService.readContact();
-  res.status(200).json(contacts);
+  res.status(200).json({
+    success: true,
+    message: "Contacts fetched ",
+    data: contacts,
+  });
 };
 
 exports.createContact = async (req, res) => {
@@ -15,21 +19,31 @@ exports.createContact = async (req, res) => {
     req.ip,
     req.headers,
   );
-  res
-    .status(201)
-    .json({ message: "Message sent successfully", data: newContact });
+  res.status(201).json({
+    success: true,
+    message: "Contact created",
+    data: newContact,
+  });
 };
 
 exports.markAsRead = async (req, res) => {
   const { id } = req.params;
   const updatedContact = await contactService.markAsRead(id);
 
-  res.status(200).json({ message: "Contact mark as read", updatedContact });
+  res.status(200).json({
+    success: true,
+    message: "Contact mark as read",
+    updatedContact,
+  });
 };
 exports.deleteContact = async (req, res) => {
   const { id } = req.params;
 
   const contactToBeDelete = await contactService.deleteContact(id);
 
-  res.status(200).json({ message: "Contact Deleted", contactToBeDelete });
+  res.status(200).json({
+    success: true,
+    message: "Contact Deleted",
+    contactToBeDelete,
+  });
 };

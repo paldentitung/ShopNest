@@ -12,8 +12,8 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
   const fetchCart = async () => {
-    const data = await getCart();
-    setCartItems(data.items || []);
+    const res = await getCart();
+    setCartItems(res.data.items || []);
   };
 
   const addItem = async (productId, quantity) => {

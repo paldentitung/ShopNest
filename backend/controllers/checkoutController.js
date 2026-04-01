@@ -9,5 +9,9 @@ exports.checkout = async (req, res) => {
     paymentMethod,
   );
 
-  res.status(200).json(order);
+  res.status(200).json({
+    success: true,
+    message: "Order placed ",
+    data: order,
+  });
 };

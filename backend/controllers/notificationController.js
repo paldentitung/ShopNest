@@ -2,7 +2,11 @@ const notificationService = require("../services/notificationService");
 
 exports.getNotifications = async (req, res) => {
   const notifications = await notificationService.getNotifications(req.user.id);
-  res.json(notifications);
+  res.status(200).json({
+    success: true,
+    message: "Get Notification ",
+    data: notifications,
+  });
 };
 
 exports.createNotification = async (req, res) => {
@@ -17,12 +21,20 @@ exports.createNotification = async (req, res) => {
     message,
     type,
   );
-  res.status(201).json(notification);
+  res.status(201).json({
+    success: true,
+    message: "Notification created",
+    data: notification,
+  });
 };
 
 exports.readNotification = async (req, res) => {
   const notification = await notificationService.readNotification(
     req.params.id,
   );
-  res.json(notification);
+  res.status(200).json({
+    success: true,
+    message: "Read notification",
+    data: notification,
+  });
 };

@@ -5,6 +5,7 @@ exports.Register = async (req, res) => {
   const user = await authService.register(username, email, password);
 
   res.status(201).json({
+    success: true,
     message: "User created",
     user,
   });
@@ -13,9 +14,13 @@ exports.Register = async (req, res) => {
 exports.Login = async (req, res) => {
   const { email, password } = req.body;
 
-  const data = await authService.login(email, password);
+  const result = await authService.login(email, password);
 
-  res.status(200).json(data);
+  res.status(200).json({
+    success: true,
+    message: "Login succesfully ",
+    data: result,
+  });
 };
 
 exports.changePassword = async (req, res) => {
@@ -27,5 +32,9 @@ exports.changePassword = async (req, res) => {
     newPassword,
   );
 
-  res.status(200).json(result);
+  res.status(200).json({
+    success: true,
+    message: "Password changed successfully  ",
+    data: result,
+  });
 };

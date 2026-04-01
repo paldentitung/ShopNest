@@ -40,7 +40,7 @@ const ContactManagement = () => {
   useEffect(() => {
     const fetchContacts = async () => {
       const res = await apiFetch("/contact", {}, false);
-      setContacts(res);
+      setContacts(res.data);
     };
 
     fetchContacts();
