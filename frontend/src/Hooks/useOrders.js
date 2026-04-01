@@ -15,7 +15,7 @@ export const useOrders = () => {
         setLoading(true);
         const res = await getOrders();
         setOrders(
-          res.map((o) => ({ ...o, orderStatus: o.orderStatus.trim() })),
+          res.data.map((o) => ({ ...o, orderStatus: o.orderStatus.trim() })),
         );
       } catch (err) {
         setError(err.message || "Failed to fetch orders");
@@ -48,7 +48,8 @@ export const useOrders = () => {
       },
     );
     if (!res.ok) throw new Error(await res.text());
-    const updatedOrder = await res.json();
+    const updatedOrderRes = await res.json();
+    const updatedOrder = updatedOrderRes.data;
     setOrders((prev) =>
       prev.map((o) =>
         o._id === updatedOrder._id

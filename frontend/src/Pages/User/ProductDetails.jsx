@@ -273,7 +273,7 @@ const ProductDetails = () => {
 
   const fetchRatings = async (productId) => {
     const res = await apiFetch(`/ratings/${productId}`);
-    if (res) setRatings(res);
+    if (res) setRatings(res.data);
   };
 
   useEffect(() => {

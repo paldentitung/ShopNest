@@ -19,8 +19,8 @@ export const AdminProvider = ({ children }) => {
     }
 
     try {
-      const data = await apiFetch("/user/all", { method: "GET" });
-      setUsers(data || []);
+      const fetchUsers = await apiFetch("/user/all", { method: "GET" });
+      setUsers(fetchUsers.data || []);
     } catch (err) {
       console.error("Failed to fetch users:", err);
     } finally {

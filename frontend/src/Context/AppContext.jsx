@@ -36,7 +36,7 @@ export const AppProvider = ({ children }) => {
     try {
       const res = await getWishlist();
 
-      setWishlist(res.wishlist || []);
+      setWishlist(res.data || []);
     } catch (error) {
       console.error("Fetch error:", error);
       setWishlist([]);

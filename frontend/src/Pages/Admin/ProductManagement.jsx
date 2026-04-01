@@ -28,9 +28,9 @@ const ProductManagement = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const data = await getAllProducts();
-      console.log(data);
-      setProducts(data);
+      const res = await getAllProducts();
+      console.log(res);
+      setProducts(res.data);
     };
     fetchProducts();
   }, []);
@@ -65,9 +65,9 @@ const ProductManagement = () => {
         const response = await createProduct(data);
 
         const newProduct = {
-          ...response.savedProduct,
+          ...response.data,
           images:
-            response.savedProduct.images?.map(
+            response.data.images?.map(
               (img) => `http://localhost:3000/${img}`,
             ) || [],
         };

@@ -58,12 +58,12 @@ export const UserProfileProvider = ({ user, onClose, children }) => {
       payload.append("phone", formData.phone);
       payload.append("address", formData.address);
 
-      const data = await apiFetch("/user", {
+      const res = await apiFetch("/user", {
         method: "POST",
         body: payload,
       });
 
-      loginUser(localStorage.getItem("ShopNest-token"), data.user);
+      loginUser(localStorage.getItem("ShopNest-token"), res.data);
       toast.success("Profile updated successfully!");
       onClose();
     } catch (err) {

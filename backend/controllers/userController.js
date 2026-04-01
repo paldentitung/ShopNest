@@ -2,12 +2,20 @@ const userService = require("../services/userService");
 
 exports.getAllUsers = async (req, res) => {
   const users = await userService.getAllUsers();
-  res.status(200).json(users);
+  res.status(200).json({
+    success: true,
+    message: "Users fetched",
+    data: users,
+  });
 };
 
 exports.getUser = async (req, res) => {
   const user = await userService.getUser(req.user.id);
-  res.status(200).json({ user });
+  res.status(200).json({
+    success: true,
+    message: "User fetched",
+    data: user,
+  });
 };
 
 exports.updateProfile = async (req, res) => {
@@ -24,7 +32,8 @@ exports.updateProfile = async (req, res) => {
   const updatedUser = await userService.updateProfile(userId, updateData);
 
   res.status(200).json({
+    success: true,
     message: "Profile updated",
-    user: updatedUser,
+    data: updatedUser,
   });
 };

@@ -7,9 +7,9 @@ const ProductPage = ({ isHidden, isShow, productLimit }) => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchProducts = async () => {
-      const data = await getAllProducts();
-      console.log(data);
-      setProducts(data);
+      const res = await getAllProducts();
+      console.log(res);
+      setProducts(res.data);
     };
     fetchProducts();
   }, []);
