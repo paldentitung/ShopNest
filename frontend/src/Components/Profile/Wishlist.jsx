@@ -22,10 +22,14 @@ const Wishlist = () => {
         <div className="flex flex-col items-center justify-center h-64 text-gray-400 gap-2">
           <p className="mb-2 text-lg font-medium">Your wishlist is empty</p>
           <p>Add products to see them here.</p>
-          <MainButton
-            name="View Products"
-            onClick={() => navigate("/products")}
-          />
+          <div>
+            <button
+              onClick={() => navigate("/products")}
+              className="flex items-center justify-center gap-2.5 px-10 w-full py-3 rounded-xl bg-gray-900 text-white text-sm font-semibold tracking-wide transition-all duration-200 hover:bg-gray-700 active:scale-95 hover:cursor-pointer"
+            >
+              View Products
+            </button>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 p-3 gap-8">

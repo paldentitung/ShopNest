@@ -1,14 +1,15 @@
 import React from "react";
-
+import { motion } from "framer-motion";
 const MainButton = ({ name, onClick, type }) => {
   return (
-    <button
+    <motion.button
+      whileTap={{ scale: 0.97 }}
       onClick={onClick}
       type={type}
-      className="px-6 py-3 bg-(--color-foreground) text-white rounded-md shadow-md opacity-90 hover:opacity-100 transition-all duration-300 hover:cursor-pointer "
+      className="inline-block items-center justify-center gap-2.5 w-full px-6 py-3 rounded-xl bg-gray-900 text-white text-sm font-semibold tracking-wide transition-all duration-200 hover:bg-gray-700 active:scale-95 hover:cursor-pointer"
     >
       {name}
-    </button>
+    </motion.button>
   );
 };
 

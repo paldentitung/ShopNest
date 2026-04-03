@@ -21,12 +21,10 @@ const Hero = () => {
           Discover the latest trends and must-have products delivered to your
           doorstep
         </p>
-        <div>
-          <MainButton
-            name="View Products"
-            onClick={() => navigate("/products")}
-          />
-        </div>
+        <MainButton
+          name="View Products"
+          onClick={() => navigate("/products")}
+        />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">

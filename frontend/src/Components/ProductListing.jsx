@@ -34,7 +34,12 @@ const ProductListing = ({ products, isHidden = false }) => {
 
       <div className="flex justify-center items-center">
         {isHidden && (
-          <MainButton name="Show More" onClick={() => navigate("/products")} />
+          <div>
+            <MainButton
+              name="Show More"
+              onClick={() => navigate("/products")}
+            />
+          </div>
         )}
       </div>
     </div>
