@@ -1,11 +1,16 @@
 const productService = require("../services/productService");
 
-exports.getAllProduct = async (req, res) => {
-  const products = await productService.getAllProducts();
+exports.getAllProducts = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 20;
+
+  const result = await productService.getAllProducts(page, limit);
+
   res.status(200).json({
     success: true,
     message: "Products fetched successfully",
-    data: products,
+    data: result.products,
+    pages: result.pages || 1,
   });
 };
 

@@ -26,14 +26,17 @@ const ProductManagement = () => {
     imageFile: null,
   });
 
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(1);
+
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await getAllProducts();
-      console.log(res);
+      const res = await getAllProducts(page, 3);
       setProducts(res.data);
+      setPages(res.pages);
     };
     fetchProducts();
-  }, []);
+  }, [page]);
 
   const handleChange = (e) => {
     const { id, value, type } = e.target;
@@ -188,7 +191,6 @@ const ProductManagement = () => {
               />
             </div>
           </div>
-
           <table className="w-full text-sm text-left">
             <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
               <tr>
@@ -203,41 +205,35 @@ const ProductManagement = () => {
             </thead>
 
             <tbody className="divide-y">
-              {filteredProducts.map((product, index) => (
+              {filteredProducts.map((product) => (
                 <tr key={product._id}>
                   <td className="px-6 py-4 font-medium text-gray-800">
                     {product.name}
                   </td>
                   <td className="px-6 py-4">{product.category}</td>
-                  <td className="px-6 py-4 ">${product.priceCents / 100}</td>
-
+                  <td className="px-6 py-4">${product.priceCents / 100}</td>
                   <td className="px-6 py-4">
-                    <div className="w-12 h-10 bg-gray-200 rounded-md">
-                      {product.images && product.images.length > 0 ? (
-                        <img
-                          src={product.images[0]}
-                          alt={product.name}
-                          className="w-full h-full object-contain"
-                        />
-                      ) : (
-                        <span>No Image</span>
-                      )}
-                    </div>
+                    {product.images && product.images.length > 0 ? (
+                      <img
+                        src={product.images[0]}
+                        alt={product.name}
+                        className="w-12 h-10 object-contain"
+                      />
+                    ) : (
+                      <span>No Image</span>
+                    )}
                   </td>
-
                   <td className="px-6 py-4">
                     <span className="px-3 py-1 rounded-full text-xs bg-green-100 text-green-700">
                       In Stock
                     </span>
                   </td>
-
                   <td className="px-6 py-4">
                     <span className="px-3 py-1 rounded-full text-xs bg-blue-100 text-blue-700">
                       Shipping
                     </span>
                   </td>
-
-                  <td className="px-6 py-4 flex justify-center items-center mt-3 gap-2">
+                  <td className="px-6 py-4 flex justify-center items-center gap-2">
                     <button
                       onClick={() => handleEdit(product)}
                       className="px-3 py-1 text-xs rounded-md bg-blue-600 text-white hover:bg-blue-700"
@@ -255,6 +251,47 @@ const ProductManagement = () => {
               ))}
             </tbody>
           </table>
+
+          {/* Pagination */}
+          <div className="flex justify-center items-center gap-2 mt-6">
+            <button
+              onClick={() => setPage((p) => Math.max(p - 1, 1))}
+              disabled={page === 1}
+              className={`px-4 py-2 rounded-md font-medium text-white transition-colors ${
+                page === 1
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+              Prev
+            </button>
+
+            {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
+              <button
+                key={p}
+                onClick={() => setPage(p)}
+                className={`px-4 py-2 rounded-md font-medium transition-colors ${
+                  p === page
+                    ? "bg-blue-600 text-white shadow-lg"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                {p}
+              </button>
+            ))}
+
+            <button
+              onClick={() => setPage((p) => Math.min(p + 1, pages))}
+              disabled={page === pages}
+              className={`px-4 py-2 rounded-md font-medium text-white transition-colors ${
+                page === pages
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
       <Modal>

@@ -2,25 +2,47 @@ const Product = require("../models/Product");
 const slugify = require("slugify");
 const AppError = require("../utils/AppError");
 
-exports.getAllProducts = async () => {
-  const products = await Product.find();
-  return products.map((p) => {
+exports.getAllProducts = async (page = null, limit = null) => {
+  let query = Product.find();
+
+  let total = 0;
+  let pages = 1;
+
+  if (page && limit) {
+    const skip = (page - 1) * limit;
+    query = query.skip(skip).limit(limit);
+    total = await Product.countDocuments();
+    pages = Math.ceil(total / limit);
+  }
+
+  const products = await query;
+
+  const mappedProducts = products.map((p) => ({
+    _id: p._id,
+    name: p.name,
+    slug: p.slug,
+    category: p.category || "Clothing",
+    images: Array.isArray(p.images)
+      ? p.images.map((img) => `http://localhost:3000/${img}`)
+      : [],
+    priceCents: p.priceCents,
+    averageRating: p.averageRating || 0,
+    totalRatings: p.totalRatings || 0,
+    description: p.description,
+    variations: p.variations,
+    stock: p.stock,
+  }));
+
+  if (page && limit) {
     return {
-      _id: p._id,
-      name: p.name,
-      slug: p.slug,
-      category: p.category || "Clothing",
-      images: Array.isArray(p.images)
-        ? p.images.map((img) => `http://localhost:3000/${img}`)
-        : [],
-      priceCents: p.priceCents,
-      averageRating: p.averageRating || 0,
-      totalRatings: p.totalRatings || 0,
-      description: p.description,
-      variations: p.variations,
-      stock: p.stock,
+      products: mappedProducts,
+      total,
+      page,
+      pages,
     };
-  });
+  }
+
+  return { products: mappedProducts };
 };
 
 exports.createProduct = async (data, file) => {

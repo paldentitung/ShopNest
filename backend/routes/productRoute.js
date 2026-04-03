@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  getAllProduct,
+  getAllProducts,
   createProduct,
   updateProduct,
   deleteProduct,
@@ -10,7 +10,7 @@ const upload = require("../middleware/upload");
 const Router = express.Router();
 const asyncHandler = require("../utils/asyncHandler");
 
-Router.get("/", asyncHandler(getAllProduct));
+Router.get("/", asyncHandler(getAllProducts));
 Router.get("/search", asyncHandler(search));
 Router.post("/", upload.single("image"), asyncHandler(createProduct));
 Router.put(

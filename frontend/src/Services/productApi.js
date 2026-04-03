@@ -1,9 +1,14 @@
 import toast from "react-hot-toast";
 import { apiFetch } from "../utils/api";
 
-export const getAllProducts = async () => {
-  const data = await apiFetch("/products", {}, false);
-  return data || { items: [] };
+export const getAllProducts = async (page = 1, limit = 20) => {
+  const data = await apiFetch(
+    `/products?page=${page}&limit=${limit}`,
+    {},
+    false,
+  );
+  console.log("data for pagaination", data);
+  return data || { products: [], total: 0, page, pages: 1 };
 };
 
 export const createProduct = async (formData) => {
