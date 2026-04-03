@@ -13,6 +13,9 @@ const OrderManagement = () => {
     searchTerm,
     statusFilter,
     filteredOrders,
+    setPage,
+    page,
+    pages,
   } = useOrders();
 
   if (loading) return <p>Loading orders...</p>;
@@ -120,6 +123,47 @@ const OrderManagement = () => {
             )}
           </tbody>
         </table>
+
+        {/* Pagination */}
+        <div className="flex justify-center items-center gap-2 mt-6 p-6">
+          <button
+            onClick={() => setPage((p) => Math.max(p - 1, 1))}
+            disabled={page === 1}
+            className={`px-4 py-2 rounded-md font-medium text-white transition-colors ${
+              page === 1
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+            Prev
+          </button>
+
+          {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
+            <button
+              key={p}
+              onClick={() => setPage(p)}
+              className={`px-4 py-2 rounded-md font-medium transition-colors ${
+                p === page
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              {p}
+            </button>
+          ))}
+
+          <button
+            onClick={() => setPage((p) => Math.min(p + 1, pages))}
+            disabled={page === pages}
+            className={`px-4 py-2 rounded-md font-medium text-white transition-colors ${
+              page === pages
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

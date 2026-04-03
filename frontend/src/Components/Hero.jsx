@@ -1,8 +1,7 @@
 import React from "react";
-import { motion } from "framer-motion";
 import MainButton from "./MainButton";
 import { useNavigate } from "react-router-dom";
-
+import { motion } from "framer-motion";
 const Hero = () => {
   // simple animation variant for images
   const imageVariant = {
