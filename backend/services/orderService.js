@@ -36,3 +36,11 @@ exports.updateOrderStatus = async (id, orderStatus) => {
   });
   return order;
 };
+
+exports.getMyOrder = async (userId) => {
+  const order = await Order.find({ userId }).populate(
+    "items.productId",
+    "name price",
+  );
+  return order;
+};

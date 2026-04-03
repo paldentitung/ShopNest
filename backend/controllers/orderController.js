@@ -22,3 +22,13 @@ exports.updateOrderStatus = async (req, res) => {
     data: order,
   });
 };
+
+exports.getMyOrder = async (req, res) => {
+  const myOrder = await orderService.getMyOrder(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    message: "Updated product successfully",
+    data: myOrder,
+  });
+};
