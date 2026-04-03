@@ -150,8 +150,19 @@ const Header = () => {
               {totalItems}
             </span>
           </Link>
-          <Link to="/user/profile" className="hidden md:block">
-            <FaUser size={18} />
+          <Link
+            to="/user/profile"
+            className="hidden md:flex items-center justify-center w-8 h-8 rounded-full hover:ring-2 hover:ring-gray-300 transition-all duration-200 overflow-hidden"
+          >
+            {user?.avatar ? (
+              <img
+                src={user.avatar}
+                alt="User Avatar"
+                className="w-full h-full object-cover rounded-full"
+              />
+            ) : (
+              <FaUser size={20} className="text-gray-500" />
+            )}
           </Link>
           <div
             onClick={() => setShowMenu(!showMenu)}
@@ -201,7 +212,7 @@ const Header = () => {
               <div className="flex items-center gap-3 mb-6 border-b pb-4">
                 <div className="w-12 h-12 rounded-full overflow-hidden border">
                   <img
-                    src="/hero-image-3.jpg"
+                    src={user?.avatar}
                     alt="profile"
                     className="w-full h-full object-cover"
                   />
