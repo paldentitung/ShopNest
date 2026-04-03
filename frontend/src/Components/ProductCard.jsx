@@ -1,11 +1,12 @@
 import React from "react";
 import SecondaryButton from "./SecondaryButton";
-import { FaHeartbeat, FaShoppingCart } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
 import { useCart } from "../Context/CartContext";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+
 import {
   FaStar,
   FaRegStar,

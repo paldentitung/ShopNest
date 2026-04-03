@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import MainButton from "./MainButton";
-import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
+import { motion } from "framer-motion";
 const ProductListing = ({ products, isHidden = false }) => {
   const navigate = useNavigate();
   return (

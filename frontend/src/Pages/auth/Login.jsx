@@ -16,23 +16,19 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await login({ email, password });
-      const { token, user } = res.data;
+    const res = await login({ email, password });
+    const { token, user } = res.data;
 
-      loginUser(token, user);
+    loginUser(token, user);
 
-      if (user.role === "admin") {
-        toast.success(`Welcome back, Admin ${user.username}!`);
-        navigate("/admin/");
-      } else {
-        toast.success(
-          `Welcome back, ${user.username}! You have logged in successfully.`,
-        );
-        navigate("/");
-      }
-    } catch (error) {
-      toast.error(error.message);
+    if (user.role === "admin") {
+      toast.success(`Welcome back, Admin ${user.username}!`);
+      navigate("/admin/");
+    } else {
+      toast.success(
+        `Welcome back, ${user.username}! You have logged in successfully.`,
+      );
+      navigate("/");
     }
   };
   return (

@@ -7,13 +7,13 @@ import {
   FaSearch,
   FaBell,
 } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useCart } from "../Context/CartContext";
 import { getNotifications } from "../Services/notificationApi";
 import NotificationPanel from "./NotificationPanel";
 import { useApp } from "../Hooks/useApp";
 import { AuthContext } from "../Context/AuthContext";
+import { motion, AnimatePresence } from "framer-motion";
 const Header = () => {
   const [isScroll, setIsScroll] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
