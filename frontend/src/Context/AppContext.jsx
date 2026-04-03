@@ -25,7 +25,7 @@ export const AppProvider = ({ children }) => {
       return;
     }
     const res = await searchProduct(query);
-    setResults(res);
+    setResults(res.data);
   };
 
   const debouncedSearch = useCallback(
