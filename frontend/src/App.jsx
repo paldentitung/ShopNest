@@ -24,8 +24,17 @@ import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import ContactManagement from "./Pages/Admin/ContactManagement";
 import ScrollToTop from "./Components/ScrollToTop";
-
+import { useState, useEffect } from "react";
+import SplashScreen from "./Components/SplashScreen";
 const App = () => {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSplash(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (showSplash) return <SplashScreen />;
   return (
     <>
       <Toaster
