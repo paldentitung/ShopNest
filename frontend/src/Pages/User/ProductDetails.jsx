@@ -264,8 +264,8 @@ const ProductDetails = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const data = await getAllProducts();
-      setProducts(data);
+      const res = await getAllProducts();
+      setProducts(res.data);
       setLoading(false);
     };
     fetchProducts();
@@ -278,6 +278,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     if (!slug || !products.length) return;
+    console.log("product data", products);
     const product = products.find((p) => p.slug === slug);
     if (!product) return;
     fetchRatings(product._id);
@@ -289,6 +290,8 @@ const ProductDetails = () => {
         <div className="w-8 h-8 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
       </div>
     );
+
+  console.log("product data", products);
 
   const product = products.find((p) => p.slug === slug);
 
