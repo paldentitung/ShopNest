@@ -18,7 +18,7 @@ exports.createNotification = async (userId, message, type) => {
 exports.readNotification = async (id) => {
   return await Notification.findByIdAndUpdate(
     id,
-    { read: true },
+    { read: true, readAt: new Date() },
     { new: true },
   );
 };
