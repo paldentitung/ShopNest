@@ -9,11 +9,19 @@ export const UserProfileProvider = ({ user, onClose, children }) => {
   const { loginUser } = useContext(AuthContext);
 
   const [preview, setPreview] = useState(user?.avatar || "/hero-image-3.jpg");
+
   const [formData, setFormData] = useState({
     fullName: user?.username || "",
     phone: user?.phone || "",
-    address: user?.address || "",
+    address: {
+      street: user?.address?.street || "",
+      city: user?.address?.city || "",
+      state: user?.address?.state || "",
+      zip: user?.address?.zip || "",
+      country: user?.address?.country || "",
+    },
   });
+
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
@@ -44,19 +52,41 @@ export const UserProfileProvider = ({ user, onClose, children }) => {
     }
   };
 
+  // ✅ UPDATED (supports nested address)
   const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+
+    if (name.startsWith("address.")) {
+      const key = name.split(".")[1];
+
+      setFormData((prev) => ({
+        ...prev,
+        address: {
+          ...prev.address,
+          [key]: value,
+        },
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
       const payload = new FormData();
+
       if (imageFile) payload.append("avatar", imageFile);
       payload.append("username", formData.fullName);
       payload.append("phone", formData.phone);
-      payload.append("address", formData.address);
+
+      // ✅ IMPORTANT
+      payload.append("address", JSON.stringify(formData.address));
 
       const res = await apiFetch("/user", {
         method: "POST",
@@ -64,6 +94,7 @@ export const UserProfileProvider = ({ user, onClose, children }) => {
       });
 
       loginUser(localStorage.getItem("ShopNest-token"), res.data);
+
       toast.success("Profile updated successfully!");
       onClose();
     } catch (err) {

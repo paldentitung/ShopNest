@@ -137,18 +137,57 @@ const EditProfileForm = () => {
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-2">
               <label className={labelClass}>
                 <FaMapMarkerAlt size={10} /> Address
               </label>
-              <input
-                className={inputClass}
-                type="text"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                placeholder="Your address"
-              />
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input
+                  className={inputClass}
+                  type="text"
+                  name="address.street"
+                  value={formData.address.street}
+                  onChange={handleChange}
+                  placeholder="Street"
+                />
+
+                <input
+                  className={inputClass}
+                  type="text"
+                  name="address.city"
+                  value={formData.address.city}
+                  onChange={handleChange}
+                  placeholder="City"
+                />
+
+                <input
+                  className={inputClass}
+                  type="text"
+                  name="address.state"
+                  value={formData.address.state}
+                  onChange={handleChange}
+                  placeholder="State"
+                />
+
+                <input
+                  className={inputClass}
+                  type="text"
+                  name="address.zip"
+                  value={formData.address.zip}
+                  onChange={handleChange}
+                  placeholder="ZIP Code"
+                />
+
+                <input
+                  className={inputClass}
+                  type="text"
+                  name="address.country"
+                  value={formData.address.country}
+                  onChange={handleChange}
+                  placeholder="Country"
+                />
+              </div>
             </div>
 
             <div className="flex flex-col gap-1.5">
