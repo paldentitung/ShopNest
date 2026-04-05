@@ -11,6 +11,7 @@ export const useOrders = () => {
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
   const [myorders, setMyorders] = useState([]);
+  const [purchaseHistory, setPurchaseHistory] = useState([]);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -78,24 +79,21 @@ export const useOrders = () => {
   };
 
   useEffect(() => {
-    const fetchMyOrder = async () => {
+    const fetchMyOrders = async () => {
       try {
-        const res = await apiFetch("/orders/myorder");
+        const [historyRes, progressRes] = await Promise.all([
+          apiFetch("/orders/getpurchasehistory"),
+          apiFetch("/orders/getmyinprogressorders"),
+        ]);
 
-        const ordersArray = res?.data?.data || [];
-
-        setMyorders(
-          ordersArray.map((o) => ({
-            ...o,
-            orderStatus: o.orderStatus?.trim() || "",
-          })),
-        );
+        setPurchaseHistory(historyRes?.data || []);
+        setMyorders(progressRes?.data || []);
       } catch (err) {
-        console.error("Failed to fetch my orders:", err.message);
+        console.error("Failed to fetch orders:", err.message);
       }
     };
 
-    fetchMyOrder();
+    fetchMyOrders();
   }, []);
 
   const myInProgressOrders = myorders.filter(
@@ -118,5 +116,6 @@ export const useOrders = () => {
     pages,
     setPages,
     myInProgressOrders,
+    purchaseHistory,
   };
 };

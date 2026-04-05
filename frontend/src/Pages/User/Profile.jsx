@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { FiLogOut } from "react-icons/fi";
 import { useApp } from "../../Hooks/useApp";
 import { useOrders } from "../../Hooks/useOrders";
+import PurchaseHistory from "../../Components/Profile/PurchaseHistory";
 const Profile = () => {
   const { logoutUser } = useAuth();
   const [tab, setTab] = useState("overview");
@@ -30,6 +31,7 @@ const Profile = () => {
   const { wishlist } = useApp();
 
   const { myInProgressOrders } = useOrders();
+  console.log("progress", myInProgressOrders);
   return (
     <>
       <section className="bg-gray-100 min-h-screen py-5 md:p-6 mt-10">
@@ -114,6 +116,7 @@ const Profile = () => {
                   { label: "Orders", value: "orderhistory" },
                   { label: "Wishlist", value: "wishlist" },
                   { label: "Account", value: "accontoverview" },
+                  { label: "Purchase History", value: "purchasehistory" },
                 ].map((item) => (
                   <li
                     key={item.value}
@@ -144,6 +147,7 @@ const Profile = () => {
 
                   <div className="flex flex-col gap-6">
                     <AccountOverview />
+                    <PurchaseHistory />
                   </div>
                 </div>
               )}
@@ -153,6 +157,8 @@ const Profile = () => {
               {tab === "wishlist" && <Wishlist />}
 
               {tab === "accontoverview" && <AccountOverview />}
+
+              {tab === "purchasehistory" && <PurchaseHistory />}
             </div>
           </div>
         </div>

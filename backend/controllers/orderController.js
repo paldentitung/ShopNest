@@ -32,3 +32,23 @@ exports.getMyOrder = async (req, res) => {
     data: myOrder,
   });
 };
+
+exports.getPurchaseHistory = async (req, res) => {
+  const myPurchase = await orderService.getPurchaseHistory(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    message: "Updated product successfully",
+    data: myPurchase,
+  });
+};
+
+exports.getMyInProgressOrders = async (req, res) => {
+  const myOrder = await orderService.getMyInProgressOrders(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    message: "Updated product successfully",
+    data: myOrder,
+  });
+};

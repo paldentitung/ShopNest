@@ -44,3 +44,16 @@ exports.getMyOrder = async (userId) => {
   );
   return order;
 };
+
+exports.getPurchaseHistory = async (userId) => {
+  return await Order.find({
+    userId,
+    orderStatus: { $in: ["delivered"] },
+  }).populate("items.productId", "name price");
+};
+exports.getMyInProgressOrders = async (userId) => {
+  return await Order.find({
+    userId,
+    orderStatus: { $in: ["pending", "shipped"] },
+  }).populate("items.productId", "name price");
+};
