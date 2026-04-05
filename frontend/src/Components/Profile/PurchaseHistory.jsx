@@ -102,9 +102,13 @@ function OrderCard({ order }) {
   );
 }
 
-const PurchaseHistory = () => {
+const PurchaseHistory = ({ showAll = true }) => {
   const { purchaseHistory } = useOrders();
   console.log("purchase history", purchaseHistory);
+
+  const purchaseToShow = showAll
+    ? purchaseHistory
+    : purchaseHistory.slice(0, 2);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 bg-white">
@@ -118,12 +122,12 @@ const PurchaseHistory = () => {
         </span>
       </div>
 
-      {purchaseHistory.length === 0 ? (
+      {purchaseToShow.length === 0 ? (
         <div className="text-center py-16 text-gray-400 text-sm">
           No orders yet
         </div>
       ) : (
-        purchaseHistory.map((order) => (
+        purchaseToShow.map((order) => (
           <OrderCard key={order._id} order={order} />
         ))
       )}

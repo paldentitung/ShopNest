@@ -147,7 +147,7 @@ const Profile = () => {
 
                   <div className="flex flex-col gap-6">
                     <AccountOverview />
-                    <PurchaseHistory />
+                    <PurchaseHistory showAll={false} />
                   </div>
                 </div>
               )}
@@ -158,7 +158,7 @@ const Profile = () => {
 
               {tab === "accontoverview" && <AccountOverview />}
 
-              {tab === "purchasehistory" && <PurchaseHistory />}
+              {tab === "purchasehistory" && <PurchaseHistory showAll={true} />}
             </div>
           </div>
         </div>
