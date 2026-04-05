@@ -8,8 +8,15 @@ const Home = () => {
     <div>
       <Hero />
       <ProductPage isHidden={true} productLimit={6} />
-      <Aboutus />
-      <Contact />
+      <div>
+        <div className="sticky top-0 z-10 h-screen">
+          <Aboutus />
+        </div>
+
+        <div className="sticky top-0 z-20 h-screen">
+          <Contact />
+        </div>
+      </div>
     </div>
   );
 };
