@@ -38,3 +38,14 @@ exports.readNotification = async (req, res) => {
     data: notification,
   });
 };
+
+exports.readAllNotification = async (req, res) => {
+  const notifications = await notificationService.readAllNotifications(
+    req.user.id,
+  );
+  res.status(200).json({
+    success: true,
+    message: "Read notification",
+    data: notifications,
+  });
+};

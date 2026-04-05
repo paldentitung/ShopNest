@@ -22,3 +22,10 @@ exports.readNotification = async (id) => {
     { new: true },
   );
 };
+
+exports.readAllNotifications = async (userId) => {
+  return await Notification.updateMany(
+    { userId, read: false },
+    { read: true, readAt: new Date() },
+  );
+};
