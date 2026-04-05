@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getOrders } from "../Services/ordersApi";
+import { apiFetch } from "../utils/api";
 
 export const useOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -9,6 +10,7 @@ export const useOrders = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
+  const [myorders, setMyorders] = useState([]);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -75,6 +77,31 @@ export const useOrders = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchMyOrder = async () => {
+      try {
+        const res = await apiFetch("/orders/myorder");
+
+        const ordersArray = res?.data?.data || [];
+
+        setMyorders(
+          ordersArray.map((o) => ({
+            ...o,
+            orderStatus: o.orderStatus?.trim() || "",
+          })),
+        );
+      } catch (err) {
+        console.error("Failed to fetch my orders:", err.message);
+      }
+    };
+
+    fetchMyOrder();
+  }, []);
+
+  const myInProgressOrders = myorders.filter(
+    (order) => order.orderStatus === "pending",
+  );
+
   return {
     orders,
     loading,
@@ -90,5 +117,6 @@ export const useOrders = () => {
     setPage,
     pages,
     setPages,
+    myInProgressOrders,
   };
 };

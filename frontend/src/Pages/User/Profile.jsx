@@ -11,6 +11,8 @@ import MainButton from "../../Components/MainButton";
 import SecondaryButton from "../../Components/SecondaryButton";
 import toast from "react-hot-toast";
 import { FiLogOut } from "react-icons/fi";
+import { useApp } from "../../Hooks/useApp";
+import { useOrders } from "../../Hooks/useOrders";
 const Profile = () => {
   const { logoutUser } = useAuth();
   const [tab, setTab] = useState("overview");
@@ -24,6 +26,10 @@ const Profile = () => {
   const handleLogout = () => {
     setShowModal(true);
   };
+
+  const { wishlist } = useApp();
+
+  const { myInProgressOrders } = useOrders();
   return (
     <>
       <section className="bg-gray-100 min-h-screen py-5 md:p-6 mt-10">
@@ -61,8 +67,9 @@ const Profile = () => {
                 </span>
 
                 <p className="text-gray-500 text-xs sm:text-sm leading-relaxed">
-                  Welcome back, {user.username.split(" ")[0]}! You have 3 orders
-                  in progress and 2 items in your wishlist.
+                  Welcome back, {user.username.split(" ")[0]}! You have{" "}
+                  {myInProgressOrders.length} orders in progress and{" "}
+                  {wishlist.length} items in your wishlist.
                 </p>
               </div>
             </div>
