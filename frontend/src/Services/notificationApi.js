@@ -29,3 +29,16 @@ export const readNotification = async (id) => {
     return null;
   }
 };
+
+export const readAllNotification = async () => {
+  try {
+    const data = await apiFetch(`/notifications/all`, {
+      method: "PATCH",
+    });
+    console.log("Read notification:", data);
+    return data;
+  } catch (error) {
+    console.error("Failed to mark notification as read:", error);
+    return null;
+  }
+};

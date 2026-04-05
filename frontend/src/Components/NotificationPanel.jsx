@@ -8,7 +8,10 @@ import {
   FaCheckCircle,
   FaBell,
 } from "react-icons/fa";
-import { readNotification } from "../Services/notificationApi";
+import {
+  readAllNotification,
+  readNotification,
+} from "../Services/notificationApi";
 
 const TYPE_CONFIG = {
   info: {
@@ -77,9 +80,14 @@ const NotificationPanel = ({
     }
   };
 
+  // const handleMarkAllRead = async () => {
+  //   const unread = notification.filter((n) => !n.read);
+  //   await Promise.allSettled(unread.map((n) => readNotification(n._id)));
+  //   setNotification((prev) => prev.map((n) => ({ ...n, read: true })));
+  // };
+
   const handleMarkAllRead = async () => {
-    const unread = notification.filter((n) => !n.read);
-    await Promise.allSettled(unread.map((n) => readNotification(n._id)));
+    await readAllNotification();
     setNotification((prev) => prev.map((n) => ({ ...n, read: true })));
   };
 
