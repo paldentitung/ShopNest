@@ -28,7 +28,9 @@ exports.getOverview = async () => {
       ]),
     ]);
 
-  const totalRevenue = revenueData[0]?.totalRevenue || 0;
+  const totalRevenue = revenueData[0]?.totalRevenue
+    ? revenueData[0].totalRevenue.toFixed(2)
+    : "0.00";
 
   return {
     totalProducts,

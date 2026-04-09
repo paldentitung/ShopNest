@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaSearch,
   FaUser,
@@ -17,41 +17,7 @@ import {
 } from "recharts";
 import AdminHeader from "./AdminHeader";
 import { useOrders } from "../../Hooks/useOrders";
-
-const overviewCards = [
-  {
-    id: 1,
-    title: "Total Products",
-    count: 320,
-    icon: FaTshirt,
-    bg: "bg-blue-50",
-    iconColor: "text-blue-500",
-  },
-  {
-    id: 2,
-    title: "Total Revenue",
-    count: "$32,000",
-    icon: FaMoneyBillWave,
-    bg: "bg-amber-50",
-    iconColor: "text-amber-500",
-  },
-  {
-    id: 3,
-    title: "Total Orders",
-    count: 90,
-    icon: FaShoppingBag,
-    bg: "bg-emerald-50",
-    iconColor: "text-emerald-500",
-  },
-  {
-    id: 4,
-    title: "New Customers",
-    count: 120,
-    icon: FaUser,
-    bg: "bg-purple-50",
-    iconColor: "text-purple-500",
-  },
-];
+import { apiFetch } from "../../utils/api";
 
 const salesData = [
   { date: "Feb 1", revenue: 2000 },
@@ -76,9 +42,59 @@ const statusColors = {
 const Dashboard = () => {
   const { loading, error, setSearchTerm, filteredOrders } = useOrders();
 
+  const [overview, setOverview] = useState({
+    totalProducts: 0,
+    totalRevenue: 0,
+    totalOrders: 0,
+    totalUsers: 0,
+  });
+
+  useEffect(() => {
+    const fetchOverView = async () => {
+      const res = await apiFetch("/analytics");
+      setOverview(res.data);
+    };
+    fetchOverView();
+  }, []);
+
   if (loading)
     return <p className="p-6 text-gray-400 text-sm">Loading orders...</p>;
   if (error) return <p className="p-6 text-red-500 text-sm">{error}</p>;
+
+  const overviewCards = [
+    {
+      id: 1,
+      title: "Total Products",
+      count: overview.totalProducts,
+      icon: FaTshirt,
+      bg: "bg-blue-50",
+      iconColor: "text-blue-500",
+    },
+    {
+      id: 2,
+      title: "Total Revenue",
+      count: overview.totalRevenue,
+      icon: FaMoneyBillWave,
+      bg: "bg-amber-50",
+      iconColor: "text-amber-500",
+    },
+    {
+      id: 3,
+      title: overview.totalOrders,
+      count: 90,
+      icon: FaShoppingBag,
+      bg: "bg-emerald-50",
+      iconColor: "text-emerald-500",
+    },
+    {
+      id: 4,
+      title: "New Customers",
+      count: overview.totalUsers,
+      icon: FaUser,
+      bg: "bg-purple-50",
+      iconColor: "text-purple-500",
+    },
+  ];
 
   return (
     <div className="flex flex-col">
