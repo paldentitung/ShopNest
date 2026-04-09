@@ -3,6 +3,11 @@ import AdminHeader from "./AdminHeader";
 import { FaEdit, FaKey, FaSignOutAlt, FaUser } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { useAuth } from "../../Hooks/useAuth";
+import { useState } from "react";
+import { FaTimes, FaEye, FaEyeSlash } from "react-icons/fa";
+import MainButton from "../../Components/MainButton";
+import { changePassword } from "../../Services/authApi";
+
 const AdminProfile = () => {
   // These would come from auth context / state in real app
   const admin = {
@@ -12,6 +17,56 @@ const AdminProfile = () => {
   };
 
   const { logoutUser } = useAuth();
+  const [formData, setFormData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const [showPassword, setShowPassword] = useState({
+    currentPassword: false,
+    newPassword: false,
+    confirmPassword: false,
+  });
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const toggleShow = (field) => {
+    setShowPassword((prev) => ({ ...prev, [field]: !prev[field] }));
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { currentPassword, newPassword, confirmPassword } = formData;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return toast.error("All fields are required");
+    }
+    if (newPassword !== confirmPassword) {
+      return toast.error("Passwords do not match");
+    }
+    if (newPassword.length < 6) {
+      return toast.error("Password must be at least 6 characters");
+    }
+
+    try {
+      const res = await changePassword({ currentPassword, newPassword });
+
+      if (res.success) {
+        toast.success("Password changed successfully");
+        setFormData({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
+      } else {
+        toast.error(res.message || "Current password is incorrect");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       <AdminHeader title="Admin Profile" />
@@ -100,54 +155,44 @@ const AdminProfile = () => {
               </div>
             </section>
 
-            {/* Change Password */}
-            <section className="pt-8 border-t border-gray-200">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
-                <FaKey className="text-indigo-600" />
-                Change Password
-              </h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Current Password
-                  </label>
-                  <input
-                    type="password"
-                    placeholder="••••••••"
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    New Password
-                  </label>
-                  <input
-                    type="password"
-                    placeholder="••••••••"
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
-                  />
-                </div>
-
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Confirm New Password
-                  </label>
-                  <input
-                    type="password"
-                    placeholder="••••••••"
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
-                  />
-                </div>
+            <div className="px-7 py-6 flex flex-col gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {["currentPassword", "newPassword", "confirmPassword"].map(
+                  (field, idx) => {
+                    const labels = [
+                      "Current Password",
+                      "New Password",
+                      "Confirm Password",
+                    ];
+                    return (
+                      <div
+                        className="flex flex-col gap-1.5 relative"
+                        key={field}
+                      >
+                        <label className="text-xs font-semibold text-gray-500">
+                          {labels[idx]}
+                        </label>
+                        <input
+                          type={showPassword[field] ? "text" : "password"}
+                          name={field}
+                          value={formData[field]}
+                          onChange={handleChange}
+                          placeholder="********"
+                          className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/5"
+                        />
+                        <span
+                          onClick={() => toggleShow(field)}
+                          className="absolute right-3 top-9 cursor-pointer text-gray-500"
+                        >
+                          {showPassword[field] ? <FaEyeSlash /> : <FaEye />}
+                        </span>
+                      </div>
+                    );
+                  },
+                )}
               </div>
-
-              <div className="mt-6">
-                <button className="px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium">
-                  Update Password
-                </button>
-              </div>
-            </section>
+              <MainButton name="Save" onClick={handleSubmit} />
+            </div>
           </div>
         </div>
       </div>
