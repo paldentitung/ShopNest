@@ -23,6 +23,7 @@ const UserRoute = require("./routes/userRoute");
 const ContactRoute = require("./routes/contactRoute");
 const RatingRoute = require("./routes/ratingRoute");
 const WishlistRoute = require("./routes/wishlistRoute");
+const AnalyticsRoute = require("./routes/analyticsRoute");
 const errorMiddleware = require("./middleware/errorMiddleware");
 // define routes
 app.use("/api/products", ProductRoute);
@@ -35,7 +36,7 @@ app.use("/api/user", UserRoute);
 app.use("/api/contact", ContactRoute);
 app.use("/api/ratings", RatingRoute);
 app.use("/api/wishlist", WishlistRoute);
-
+app.use("/api/analytics", AnalyticsRoute);
 // error handle
 app.use(errorMiddleware);
 
