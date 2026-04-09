@@ -71,11 +71,11 @@ const Header = () => {
         >
           <Link to="/" className="flex items-center gap-1">
             <span
-              className={`bg-(--color-foreground) text-white w-10 h-10  flex justify-center items-center rounded-full italic  `}
+              className={`bg-(--color-foreground) text-white h-8 w-8 md:w-10 md:h-10  flex justify-center items-center rounded-full italic  `}
             >
               SN
             </span>
-            <h1 className="text-2xl font-bold">ShopNest</h1>
+            <h1 className="md:text-2xl font-bold">ShopNest</h1>
           </Link>
         </motion.div>
 
