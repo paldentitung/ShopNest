@@ -2,7 +2,9 @@ const Order = require("../models/Order");
 const Notification = require("../models/Notification");
 const AppError = require("../utils/AppError");
 exports.getOrders = async (page = null, limit = null) => {
-  let query = Order.find().populate("userId", "username email");
+  let query = Order.find()
+    .populate("userId", "username email")
+    .sort({ _id: -1 });
 
   const total = await Order.countDocuments();
   let orders;
