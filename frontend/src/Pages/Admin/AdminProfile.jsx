@@ -152,9 +152,9 @@ const AdminProfile = () => {
             </div>
 
             <div className="flex justify-end mt-5">
-              <button className="px-5 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition">
-                Save Changes
-              </button>
+              <div>
+                <MainButton name="Save changes" />
+              </div>
             </div>
           </div>
 
