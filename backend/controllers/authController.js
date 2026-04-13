@@ -1,14 +1,29 @@
 const authService = require("../services/authService");
+const sendEmail = require("../utils/sendEmail");
+
 exports.Register = async (req, res) => {
-  const { username, email, password } = req.body;
+  try {
+    const { username, email, password } = req.body;
 
-  const user = await authService.register(username, email, password);
+    const user = await authService.register(username, email, password);
 
-  res.status(201).json({
-    success: true,
-    message: "User created",
-    user,
-  });
+    await sendEmail({
+      to: user.email,
+      subject: "Welcome!",
+      html: `<h1>Hello ${user.username}</h1><p>Welcome to our app 🚀</p>`,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "User created",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 exports.Login = async (req, res) => {
