@@ -111,7 +111,7 @@ const PurchaseHistory = ({ showAll = true }) => {
     : purchaseHistory.slice(0, 2);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6 bg-white">
+    <div className="max-w-7xl mx-auto px-4 py-6 bg-white w-full">
       <div className="flex items-baseline justify-between mb-5">
         <h2 className="text-lg font-semibold text-gray-900">
           Purchase history
@@ -123,7 +123,7 @@ const PurchaseHistory = ({ showAll = true }) => {
       </div>
 
       {purchaseToShow.length === 0 ? (
-        <div className="text-center py-16 text-gray-400 text-sm">
+        <div className="text-center py-16 text-gray-400 text-sm w-full">
           No orders yet
         </div>
       ) : (
