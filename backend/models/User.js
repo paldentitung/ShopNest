@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema(
     isVerified: { type: Boolean, default: false },
     status: {
       type: String,
-      enum: ["active", "Blocked"],
+      enum: ["active", "blocked"],
       default: "active",
     },
     wishlist: [{ type: mongoose.Types.ObjectId, ref: "Product" }],

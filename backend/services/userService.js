@@ -74,3 +74,37 @@ exports.updateProfile = async (userId, updateData) => {
     wishlist,
   };
 };
+
+exports.blockUser = async (userId) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
+
+  if (user.status === "blocked") {
+    throw new AppError("User is already blocked", 400);
+  }
+
+  user.status = "blocked";
+  await user.save();
+
+  return user;
+};
+
+exports.unblockUser = async (userId) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
+
+  if (user.status === "active") {
+    throw new AppError("User is already active", 400);
+  }
+
+  user.status = "active";
+  await user.save();
+
+  return user;
+};

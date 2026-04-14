@@ -45,7 +45,7 @@ exports.readAllNotification = async (req, res) => {
   );
   res.status(200).json({
     success: true,
-    message: "Read notification",
+    message: "Read All notification",
     data: notifications,
   });
 };

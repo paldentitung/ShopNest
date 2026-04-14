@@ -1,4 +1,5 @@
 const userService = require("../services/userService");
+const sanitizeUser = require("../utils/sanitizeUser");
 
 exports.getAllUsers = async (req, res) => {
   const users = await userService.getAllUsers();
@@ -46,5 +47,27 @@ exports.updateProfile = async (req, res) => {
     success: true,
     message: "Profile updated",
     data: updatedUser,
+  });
+};
+
+exports.blockUser = async (req, res) => {
+  const { userId } = req.params;
+
+  const user = await userService.blockUser(userId);
+  res.status(200).json({
+    success: true,
+    message: "User blocked",
+    data: sanitizeUser(user),
+  });
+};
+
+exports.unblockUser = async (req, res) => {
+  const { userId } = req.params;
+
+  const user = await userService.unblockUser(userId);
+  res.status(200).json({
+    success: true,
+    message: "User blocked",
+    data: sanitizeUser(user),
   });
 };
