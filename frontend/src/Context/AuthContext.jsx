@@ -1,4 +1,6 @@
 import { createContext, useState, useEffect } from "react";
+import { apiFetch } from "../utils/api";
+import toast from "react-hot-toast";
 
 export const AuthContext = createContext();
 
@@ -34,8 +36,18 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const removeAvatar = async () => {
+    const res = await apiFetch("/user/removeavatar", {
+      method: "PATCH",
+    });
+
+    toast.success(res.message);
+  };
+
   return (
-    <AuthContext.Provider value={{ token, user, loginUser, logoutUser }}>
+    <AuthContext.Provider
+      value={{ token, user, loginUser, logoutUser, removeAvatar }}
+    >
       {children}
     </AuthContext.Provider>
   );

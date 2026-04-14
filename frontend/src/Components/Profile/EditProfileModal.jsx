@@ -14,6 +14,7 @@ import {
   UserProfileProvider,
   useUserProfile,
 } from "../../Context/UserProfileContext";
+import { useAuth } from "../../Hooks/useAuth";
 
 const inputClass =
   "w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-800 bg-gray-50 outline-none transition focus:border-gray-900 focus:bg-white focus:ring-2 focus:ring-gray-900/5 placeholder:text-gray-300";
@@ -35,7 +36,22 @@ const EditProfileForm = () => {
     handleSubmit,
     user,
     onClose,
+    resetPreview,
   } = useUserProfile();
+
+  const { removeAvatar } = useAuth();
+
+  const handleRemoveAvatar = async () => {
+    try {
+      const updatedUser = await removeAvatar();
+
+      resetPreview();
+
+      localStorage.setItem("ShopNest-user", JSON.stringify(updatedUser));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -106,10 +122,8 @@ const EditProfileForm = () => {
 
             <button
               type="button"
-              onClick={() => {
-                // remove logic
-              }}
-              className="text-xs text-red-600 hover:underline w-fit mt-1"
+              onClick={handleRemoveAvatar}
+              className="text-xs text-red-600 hover:underline w-fit mt-1 active:bg-blue-500"
             >
               <FaTrashAlt />
             </button>

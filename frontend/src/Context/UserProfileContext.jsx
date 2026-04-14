@@ -105,6 +105,10 @@ export const UserProfileProvider = ({ user, onClose, children }) => {
     }
   };
 
+  const resetPreview = () => {
+    setPreview(user?.avatar || "/hero-image-3.jpg");
+    setImageFile(null);
+  };
   return (
     <UserProfileContext.Provider
       value={{
@@ -120,6 +124,7 @@ export const UserProfileProvider = ({ user, onClose, children }) => {
         handleSubmit,
         user,
         onClose,
+        resetPreview,
       }}
     >
       {children}
