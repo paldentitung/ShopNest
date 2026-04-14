@@ -71,3 +71,12 @@ exports.unblockUser = async (req, res) => {
     data: sanitizeUser(user),
   });
 };
+
+exports.removeAvatar = async (req, res) => {
+  const user = await userService.removeAvatar(req.user.id);
+  res.status(200).json({
+    success: true,
+    message: "Avatar removed successfully",
+    data: sanitizeUser(user),
+  });
+};

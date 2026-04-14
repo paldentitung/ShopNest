@@ -6,6 +6,7 @@ import {
   FaPhone,
   FaMapMarkerAlt,
   FaEnvelope,
+  FaTrashAlt,
 } from "react-icons/fa";
 import MainButton from "../MainButton";
 import SecondaryButton from "../SecondaryButton";
@@ -102,6 +103,16 @@ const EditProfileForm = () => {
                 JPG or PNG · Max 2MB · Drag & drop or click
               </p>
             </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                // remove logic
+              }}
+              className="text-xs text-red-600 hover:underline w-fit mt-1"
+            >
+              <FaTrashAlt />
+            </button>
           </div>
 
           <div className="border-t border-gray-100" />

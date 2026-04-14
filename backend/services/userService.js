@@ -108,3 +108,14 @@ exports.unblockUser = async (userId) => {
 
   return user;
 };
+
+exports.removeAvatar = async (userId) => {
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
+
+  user.avatar = null;
+  await user.save();
+  return user;
+};
