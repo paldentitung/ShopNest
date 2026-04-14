@@ -67,7 +67,7 @@ exports.unblockUser = async (req, res) => {
   const user = await userService.unblockUser(userId);
   res.status(200).json({
     success: true,
-    message: "User blocked",
+    message: "User unblocked",
     data: sanitizeUser(user),
   });
 };

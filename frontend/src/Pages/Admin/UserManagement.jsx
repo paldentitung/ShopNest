@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import { AdminContext } from "../../Context/AdminContext";
 import AdminHeader from "./AdminHeader";
+import { apiFetch } from "../../utils/api";
+import toast from "react-hot-toast";
 
 const UserManagement = () => {
-  const { users, loading } = useContext(AdminContext);
+  const { users, loading, blockUser, unblockUser } = useContext(AdminContext);
 
   if (loading)
     return (
