@@ -2,6 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/AppError");
+const sanitizeUser = require("../utils/sanitizeUser");
 exports.register = async (username, email, password) => {
   const existingUser = await User.findOne({ email });
 
@@ -84,4 +85,18 @@ exports.changePassword = async (userId, currentPassword, newPassword) => {
   await user.save();
 
   return { message: "Password changed successfully" };
+};
+
+exports.authMe = async (userId) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
+
+  if (user.status === "blocked") {
+    throw new AppError("User is blocked", 403);
+  }
+
+  return sanitizeUser(user);
 };

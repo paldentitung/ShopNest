@@ -53,3 +53,15 @@ exports.changePassword = async (req, res) => {
     data: result,
   });
 };
+
+exports.authMe = async (req, res) => {
+  const userId = req.user.id;
+
+  const user = await authService.authMe(userId);
+
+  res.status(200).json({
+    success: true,
+    message: "auth me successfully  ",
+    data: user,
+  });
+};
