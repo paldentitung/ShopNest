@@ -10,6 +10,7 @@ import {
   createProduct,
 } from "../../Services/productApi";
 import { useApp } from "../../Hooks/useApp";
+import { FaPlus } from "react-icons/fa";
 
 const ProductManagement = () => {
   const { setShowModal } = useApp();
@@ -138,7 +139,7 @@ const ProductManagement = () => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-6">
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-white rounded-xl border border-gray-200 px-5 py-4">
               <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">
                 Total Products
@@ -166,7 +167,7 @@ const ProductManagement = () => {
           </div>
 
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-100 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+            <div className="px-6 py-4 border-b border-gray-100 flex  sm:flex-row flex-nowrap  gap-3 items-start sm:items-center justify-between">
               <div className="relative w-full max-w-sm">
                 <svg
                   className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
@@ -191,10 +192,15 @@ const ProductManagement = () => {
               </div>
               <div>
                 {" "}
-                <MainButton
-                  name="Add Product"
-                  onClick={() => setShowModal(true)}
-                />
+                <div className="hidden md:block">
+                  <MainButton
+                    name="Add Product"
+                    onClick={() => setShowModal(true)}
+                  />
+                </div>
+                <div className="mt-3 " onClick={() => setShowModal(true)}>
+                  <FaPlus />
+                </div>
               </div>
             </div>
 

@@ -4,6 +4,7 @@ import { FaTrashAlt, FaSearch, FaCheckCircle } from "react-icons/fa";
 import { useEffect } from "react";
 import { apiFetch } from "../../utils/api";
 import toast from "react-hot-toast";
+import AdminHeader from "./AdminHeader";
 const STATUS_CONFIG = {
   pending: {
     label: "Pending",
@@ -82,11 +83,8 @@ const ContactManagement = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 lg:px-10">
-      <div className="mb-8">
-        <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">
-          Admin Panel
-        </p>
-        <h1 className="text-2xl font-bold text-gray-900">Contact Messages</h1>
+      <div className="my-3">
+        <AdminHeader title="Contacts" />
       </div>
 
       <div className="grid grid-cols-3 gap-4 mb-8">

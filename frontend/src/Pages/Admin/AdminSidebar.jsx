@@ -136,7 +136,7 @@ const AdminSidebar = ({ mobile }) => {
       </nav>
 
       {/* Toggle */}
-      <div className="p-3 border-t border-white/10">
+      <div className="p-3 border-t border-white/10 hidden lg:block">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
           className="flex items-center justify-center w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all duration-200"

@@ -50,8 +50,8 @@ const OrderManagement = () => {
     <div className="min-h-screen bg-gray-50">
       <AdminHeader title="Order Management" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-6">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
           {["pending", "shipped", "delivered", "cancelled"].map((s) => (
             <div
               key={s}

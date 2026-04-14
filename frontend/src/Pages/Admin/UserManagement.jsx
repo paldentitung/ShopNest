@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { AdminContext } from "../../Context/AdminContext";
 import AdminHeader from "./AdminHeader";
 import { apiFetch } from "../../utils/api";
-import toast from "react-hot-toast";
 
 const UserManagement = () => {
   const { users, loading, blockUser, unblockUser } = useContext(AdminContext);
@@ -20,7 +19,7 @@ const UserManagement = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Stats row */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="grid md:grid-cols-3 gap-4 mb-6">
           <div className="bg-white rounded-xl border border-gray-200 px-5 py-4">
             <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">
               Total Users
