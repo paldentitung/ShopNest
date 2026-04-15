@@ -1,9 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useApp } from "../../Hooks/useApp";
+import { useSearch } from "../../Hooks/useSearch";
 
 const SearchModal = () => {
-  const { showSearchBar, setShowSearchBar, setSearch, results } = useApp();
+  const { showSearchBar, setShowSearchBar, setSearch, results } = useSearch();
   const inputRef = useRef(null);
 
   useEffect(() => {

@@ -14,24 +14,8 @@ export const AppProvider = ({ children }) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [showSideBar, setShowSideBar] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [search, setSearch] = useState("");
-  const [showSearchBar, setShowSearchBar] = useState(false);
-  const [results, setResults] = useState([]);
   const [wishlist, setWishlist] = useState([]);
 
-  const fetchSearch = async (query) => {
-    if (query.trim() === "") {
-      setResults([]);
-      return;
-    }
-    const res = await searchProduct(query);
-    setResults(res.data);
-  };
-
-  const debouncedSearch = useCallback(
-    debounce((query) => fetchSearch(query), 400),
-    [],
-  );
   const fetchWishlist = async () => {
     try {
       const res = await getWishlist();
@@ -42,18 +26,6 @@ export const AppProvider = ({ children }) => {
       setWishlist([]);
     }
   };
-
-  useEffect(() => {
-    debouncedSearch(search);
-    return () => debouncedSearch.cancel();
-  }, [search, debouncedSearch]);
-
-  useEffect(() => {
-    if (!showSearchBar) {
-      setSearch("");
-      setResults([]);
-    }
-  }, [showSearchBar]);
 
   useEffect(() => {
     const userToken = localStorage.getItem("ShopNest-token");
@@ -97,13 +69,6 @@ export const AppProvider = ({ children }) => {
         setShowSideBar,
         showModal,
         setShowModal,
-        search,
-        setSearch,
-        showSearchBar,
-        setShowSearchBar,
-        results,
-        setResults,
-        fetchSearch,
         wishlist,
         setWishlist,
         toggleWishlist,

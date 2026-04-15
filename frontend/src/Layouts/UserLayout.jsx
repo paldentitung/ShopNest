@@ -3,9 +3,10 @@ import Header from "../Components/layout/Header";
 import Footer from "../Components/layout/Footer";
 import SearchModal from "../Components/ui/SearchModal";
 import { useApp } from "../Hooks/useApp";
+import { useSearch } from "../Hooks/useSearch";
 
 const UserLayout = () => {
-  const { showSearchBar } = useApp();
+  const { showSearchBar } = useSearch();
   const ctx = useApp();
   console.log(ctx);
   return (

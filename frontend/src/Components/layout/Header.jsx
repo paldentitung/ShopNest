@@ -14,6 +14,7 @@ import NotificationPanel from "../ui/NotificationPanel";
 import { useApp } from "../../Hooks/useApp";
 import { AuthContext } from "../../Context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSearch } from "../../Hooks/useSearch";
 const Header = () => {
   const [isScroll, setIsScroll] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -44,7 +45,7 @@ const Header = () => {
     fetchNotifications();
   }, []);
 
-  const { showSearchBar, setShowSearchBar } = useApp();
+  const { showSearchBar, setShowSearchBar } = useSearch();
   const { totalItems } = useCart();
 
   const menuItems = [

@@ -8,6 +8,7 @@ import { CheckoutProvider } from "./Context/CheckoutContext.jsx";
 import { AuthProvider } from "./Context/AuthContext.jsx";
 import { AdminProvider } from "./Context/AdminContext.jsx";
 import { AppProvider } from "./Context/AppContext.jsx";
+import { SearchProvider } from "./Context/SearchContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -17,7 +18,9 @@ createRoot(document.getElementById("root")).render(
           <AdminProvider>
             <CartProvider>
               <CheckoutProvider>
-                <App />
+                <SearchProvider>
+                  <App />
+                </SearchProvider>
               </CheckoutProvider>
             </CartProvider>
           </AdminProvider>
