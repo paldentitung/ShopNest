@@ -12,12 +12,15 @@ import {
 import { useApp } from "../../Hooks/useApp";
 import { FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
+import ConfirmModal from "../../Components/ConfirmModal";
 
 const ProductManagement = () => {
   const { setShowModal } = useApp();
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isEditing, setIsEditing] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -85,6 +88,7 @@ const ProductManagement = () => {
               (img) => `http://localhost:3000/${img}`,
             ) || products.find((p) => p._id === isEditing).images,
         };
+        toast.success("Product edited");
         setProducts((prev) =>
           prev.map((p) => (p._id === updatedProduct._id ? updatedProduct : p)),
         );
@@ -105,6 +109,22 @@ const ProductManagement = () => {
     }
   };
 
+  const handleAddClick = () => {
+    setIsEditing(null);
+
+    setFormData({
+      name: "",
+      category: "",
+      priceCents: "",
+      stock: "",
+      rating: "",
+      description: "",
+      imageFile: null,
+    });
+
+    setShowModal(true);
+  };
+
   const handleEdit = (product) => {
     setIsEditing(product._id);
     setFormData({
@@ -120,9 +140,8 @@ const ProductManagement = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this product?"))
-      return;
     await deleteProduct(id);
+    toast.success("product delete succesfully");
     setProducts((prev) => prev.filter((p) => p._id !== id));
   };
 
@@ -195,15 +214,9 @@ const ProductManagement = () => {
               <div>
                 {" "}
                 <div className="hidden md:block">
-                  <MainButton
-                    name="Add Product"
-                    onClick={() => setShowModal(true)}
-                  />
+                  <MainButton name="Add Product" onClick={handleAddClick} />
                 </div>
-                <div
-                  className="mt-3  block md:hidden"
-                  onClick={() => setShowModal(true)}
-                >
+                <div className="mt-3  block md:hidden" onClick={handleAddClick}>
                   <FaPlus />
                 </div>
               </div>
@@ -321,7 +334,10 @@ const ProductManagement = () => {
                             Edit
                           </button>
                           <button
-                            onClick={() => handleDelete(product._id)}
+                            onClick={() => {
+                              setSelectedUser(product._id);
+                              setIsModalOpen(true);
+                            }}
                             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-red-200 text-red-600 hover:bg-red-50 transition"
                           >
                             <svg
@@ -543,6 +559,18 @@ const ProductManagement = () => {
           </form>
         </div>
       </Modal>
+
+      <ConfirmModal
+        isOpen={isModalOpen}
+        title="Delete Product"
+        message="Are you sure you want to delete this product"
+        confirmText="delete"
+        onCancel={() => setIsModalOpen(false)}
+        onConfirm={() => {
+          handleDelete(selectedUser);
+          setIsModalOpen(false);
+        }}
+      />
     </>
   );
 };
