@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import MainButton from "../Components/common/MainButton";
+import MainButton from "../common/MainButton";
 
 const PageNotFound = () => {
   const navigate = useNavigate();

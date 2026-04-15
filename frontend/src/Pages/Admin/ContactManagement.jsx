@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { apiFetch } from "../../utils/api";
 import toast from "react-hot-toast";
 import AdminHeader from "./AdminHeader";
-import ConfirmModal from "../../Components/ConfirmModal";
+import ConfirmModal from "../../Components/common/ConfirmModal";
 const STATUS_CONFIG = {
   pending: {
     label: "Pending",

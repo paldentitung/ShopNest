@@ -18,7 +18,7 @@ import Review from "./Pages/User/Review";
 import Register from "./Pages/auth/Register";
 import Login from "./Pages/auth/Login";
 import ProductDetails from "./Pages/User/ProductDetails";
-import PageNotFound from "./Components/PageNotFound";
+import PageNotFound from "./Components/pages/PageNotFound";
 import CheckOutLayout from "./Layouts/CheckoutLayout";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./Components/layout/ProtectedRoute";

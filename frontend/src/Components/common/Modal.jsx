@@ -1,6 +1,6 @@
 import React from "react";
 import { FaTimes } from "react-icons/fa";
-import { useApp } from "../Hooks/useApp";
+import { useApp } from "../../Hooks/useApp";
 
 const Modal = ({ children }) => {
   const { showModal, setShowModal } = useApp();

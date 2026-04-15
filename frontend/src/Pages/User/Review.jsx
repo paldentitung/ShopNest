@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckoutContext } from "../../Context/CheckoutContext";
 import { useCart } from "../../Context/CartContext";
-import BackButton from "../../Components/BackButton";
+import BackButton from "../../Components/common/BackButton";
 import CheckoutStepper from "../../Components/checkout/CheckoutStepper";
 import MainButton from "../../Components/common/MainButton";
 

@@ -4,7 +4,7 @@ import CheckoutStepper from "../../Components/checkout/CheckoutStepper";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 import { CheckoutContext } from "../../Context/CheckoutContext";
-import BackButton from "../../Components/BackButton";
+import BackButton from "../../Components/common/BackButton";
 
 const Payment = () => {
   const navigate = useNavigate();

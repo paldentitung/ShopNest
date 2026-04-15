@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import MainButton from "../../Components/common/MainButton";
-import Modal from "../../Components/Modal";
+import Modal from "../../Components/common/Modal";
 import {
   deleteProduct,
   getAllProducts,
@@ -11,7 +11,7 @@ import {
 import { useApp } from "../../Hooks/useApp";
 import { FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
-import ConfirmModal from "../../Components/ConfirmModal";
+import ConfirmModal from "../../Components/common/ConfirmModal";
 
 const ProductManagement = () => {
   const { setShowModal } = useApp();

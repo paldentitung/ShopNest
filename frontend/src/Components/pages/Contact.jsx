@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import { apiFetch } from "../utils/api";
+import { apiFetch } from "../../utils/api";
 
 const contactDetails = [
   {

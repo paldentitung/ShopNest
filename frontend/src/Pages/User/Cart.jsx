@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 import { FaShoppingBag, FaArrowRight } from "react-icons/fa";
 import toast from "react-hot-toast";
-import BackButton from "../../Components/BackButton";
+import BackButton from "../../Components/common/BackButton";
 const Cart = () => {
   const {
     cartItems,

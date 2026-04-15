@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { AdminContext } from "../../Context/AdminContext";
 import AdminHeader from "./AdminHeader";
 import { apiFetch } from "../../utils/api";
-import ConfirmModal from "../../Components/ConfirmModal";
+import ConfirmModal from "../../Components/common/ConfirmModal";
 
 const UserManagement = () => {
   const { users, loading, blockUser, unblockUser } = useContext(AdminContext);

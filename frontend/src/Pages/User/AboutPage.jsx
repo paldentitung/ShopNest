@@ -1,5 +1,5 @@
 import React from "react";
-import Aboutus from "../../Components/Aboutus";
+import Aboutus from "../../Components/pages/Aboutus";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import SecondaryButton from "../../Components/common/SecondaryButton";

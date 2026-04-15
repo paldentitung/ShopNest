@@ -13,7 +13,7 @@ import { useAuth } from "../../Hooks/useAuth";
 import { useState } from "react";
 import MainButton from "../../Components/common/MainButton";
 import { changePassword } from "../../Services/authApi";
-import ConfirmModal from "../../Components/ConfirmModal";
+import ConfirmModal from "../../Components/common/ConfirmModal";
 
 const AdminProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
