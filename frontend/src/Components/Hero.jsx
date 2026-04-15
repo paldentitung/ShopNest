@@ -1,5 +1,5 @@
 import React from "react";
-import MainButton from "./MainButton";
+import MainButton from "../Components/common/MainButton";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 const Hero = () => {

@@ -1,8 +1,8 @@
 import React from "react";
-import SecondaryButton from "./SecondaryButton";
+import SecondaryButton from "../common/SecondaryButton";
 import { FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
-import { useCart } from "../Context/CartContext";
+import { useCart } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -14,7 +14,7 @@ import {
   FaHeart,
   FaRegHeart,
 } from "react-icons/fa";
-import { useApp } from "../Hooks/useApp";
+import { useApp } from "../../Hooks/useApp";
 const ProductCard = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
 

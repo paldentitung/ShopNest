@@ -1,8 +1,8 @@
 import React from "react";
 import { FaTrashAlt } from "react-icons/fa";
-import MainButton from "../../Components/MainButton";
-import SecondaryButton from "../../Components/SecondaryButton";
-import CheckoutStepper from "../../Components/CheckoutStepper";
+import MainButton from "../../Components/common/MainButton";
+import SecondaryButton from "../../Components/common/SecondaryButton";
+import CheckoutStepper from "../../Components/checkout/CheckoutStepper";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 import { FaShoppingBag, FaArrowRight } from "react-icons/fa";

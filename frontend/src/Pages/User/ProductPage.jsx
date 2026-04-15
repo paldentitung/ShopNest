@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { getAllProducts } from "../../Services/productApi";
 import { useEffect } from "react";
-import ProductListing from "../../Components/ProductListing";
+import ProductListing from "../../Components/product/ProductListing";
 const ProductPage = ({ isHidden, isShow, productLimit }) => {
   const [products, setProducts] = useState([]);
   useEffect(() => {

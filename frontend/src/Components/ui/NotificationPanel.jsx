@@ -11,7 +11,7 @@ import {
 import {
   readAllNotification,
   readNotification,
-} from "../Services/notificationApi";
+} from "../../Services/notificationApi";
 
 const TYPE_CONFIG = {
   info: {

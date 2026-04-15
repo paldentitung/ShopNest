@@ -8,11 +8,11 @@ import {
   FaBell,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useCart } from "../Context/CartContext";
-import { getNotifications } from "../Services/notificationApi";
-import NotificationPanel from "./NotificationPanel";
-import { useApp } from "../Hooks/useApp";
-import { AuthContext } from "../Context/AuthContext";
+import { useCart } from "../../Context/CartContext";
+import { getNotifications } from "../../Services/notificationApi";
+import NotificationPanel from "../ui/NotificationPanel";
+import { useApp } from "../../Hooks/useApp";
+import { AuthContext } from "../../Context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 const Header = () => {
   const [isScroll, setIsScroll] = useState(false);

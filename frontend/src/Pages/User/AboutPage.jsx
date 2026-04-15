@@ -1,10 +1,9 @@
 import React from "react";
-import MainButton from "../../Components/MainButton";
 import Aboutus from "../../Components/Aboutus";
-import SecondaryButton from "../../Components/SecondaryButton";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-
+import SecondaryButton from "../../Components/common/SecondaryButton";
+import MainButton from "../../Components/common/MainButton";
 const AboutPage = () => {
   const navigate = useNavigate();
 

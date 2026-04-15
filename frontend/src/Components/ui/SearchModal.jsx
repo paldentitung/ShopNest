@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useApp } from "../Hooks/useApp";
+import { useApp } from "../../Hooks/useApp";
 
 const SearchModal = () => {
   const { showSearchBar, setShowSearchBar, setSearch, results } = useApp();

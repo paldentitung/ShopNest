@@ -1,8 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
-import MainButton from "../../Components/MainButton";
+import MainButton from "../../Components/common/MainButton";
 import Modal from "../../Components/Modal";
-import SecondaryButton from "../../Components/SecondaryButton";
 import {
   deleteProduct,
   getAllProducts,

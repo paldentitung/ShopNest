@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import MainButton from "../../Components/MainButton";
-import CheckoutStepper from "../../Components/CheckoutStepper";
+import MainButton from "../../Components/common/MainButton";
+import CheckoutStepper from "../../Components/checkout/CheckoutStepper";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 import { CheckoutContext } from "../../Context/CheckoutContext";

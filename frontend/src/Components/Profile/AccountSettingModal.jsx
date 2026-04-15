@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaTimes, FaEye, FaEyeSlash } from "react-icons/fa";
-import MainButton from "../MainButton";
-import SecondaryButton from "../SecondaryButton";
+import MainButton from "../common/MainButton";
+import SecondaryButton from "../common/SecondaryButton";
 import { changePassword } from "../../Services/authApi";
 import { toast } from "react-hot-toast";
 

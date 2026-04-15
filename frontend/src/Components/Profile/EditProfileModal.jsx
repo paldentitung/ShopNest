@@ -8,8 +8,8 @@ import {
   FaEnvelope,
   FaTrashAlt,
 } from "react-icons/fa";
-import MainButton from "../MainButton";
-import SecondaryButton from "../SecondaryButton";
+import MainButton from "../common/MainButton";
+import SecondaryButton from "../common/SecondaryButton";
 import {
   UserProfileProvider,
   useUserProfile,

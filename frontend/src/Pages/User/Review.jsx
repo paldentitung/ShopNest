@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { CheckoutContext } from "../../Context/CheckoutContext";
 import { useCart } from "../../Context/CartContext";
 import BackButton from "../../Components/BackButton";
-import CheckoutStepper from "../../Components/CheckoutStepper";
-import MainButton from "../../Components/MainButton";
+import CheckoutStepper from "../../Components/checkout/CheckoutStepper";
+import MainButton from "../../Components/common/MainButton";
 
 const Review = () => {
   const navigate = useNavigate();

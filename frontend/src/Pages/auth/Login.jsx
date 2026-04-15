@@ -1,5 +1,5 @@
 import React from "react";
-import MainButton from "../../Components/MainButton";
+import MainButton from "../../Components/common/MainButton";
 import { FaGoogle, FaFacebook, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";

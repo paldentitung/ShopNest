@@ -1,5 +1,4 @@
 import React from "react";
-import MainButton from "../../Components/MainButton";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../../Services/authApi";
 import { useState } from "react";

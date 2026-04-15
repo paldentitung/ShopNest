@@ -21,11 +21,11 @@ import ProductDetails from "./Pages/User/ProductDetails";
 import PageNotFound from "./Components/PageNotFound";
 import CheckOutLayout from "./Layouts/CheckoutLayout";
 import { Toaster } from "react-hot-toast";
-import ProtectedRoute from "./Components/ProtectedRoute";
+import ProtectedRoute from "./Components/layout/ProtectedRoute";
 import ContactManagement from "./Pages/Admin/ContactManagement";
-import ScrollToTop from "./Components/ScrollToTop";
+import ScrollToTop from "./Components/layout/ScrollToTop";
 import { useState, useEffect } from "react";
-import SplashScreen from "./Components/SplashScreen";
+import SplashScreen from "./Components/ui/SplashScreen";
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
 

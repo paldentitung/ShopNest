@@ -1,7 +1,7 @@
 import React from "react";
 import { FaShoppingCart, FaHeart } from "react-icons/fa";
 import { useApp } from "../../Hooks/useApp";
-import MainButton from "../MainButton";
+import MainButton from "../common/MainButton";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 import toast from "react-hot-toast";

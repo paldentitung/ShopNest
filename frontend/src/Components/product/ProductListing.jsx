@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import MainButton from "./MainButton";
+import MainButton from "../../Components/common/MainButton";
 import ProductCard from "./ProductCard";
 import { motion } from "framer-motion";
 const ProductListing = ({ products, isHidden = false }) => {

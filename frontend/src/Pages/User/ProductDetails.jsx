@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import BackButton from "../../Components/BackButton";
-import MainButton from "../../Components/MainButton";
+import MainButton from "../../Components/common/MainButton";
 import { useParams } from "react-router-dom";
 import { getAllProducts } from "../../Services/productApi";
 import ReactMarkdown from "react-markdown";

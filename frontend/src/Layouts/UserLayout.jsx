@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import Header from "../Components/Header";
-import Footer from "../Components/Footer";
-import SearchModal from "../Components/SearchModal";
+import Header from "../Components/layout/Header";
+import Footer from "../Components/layout/Footer";
+import SearchModal from "../Components/ui/SearchModal";
 import { useApp } from "../Hooks/useApp";
 
 const UserLayout = () => {
