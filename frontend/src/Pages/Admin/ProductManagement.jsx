@@ -198,7 +198,10 @@ const ProductManagement = () => {
                     onClick={() => setShowModal(true)}
                   />
                 </div>
-                <div className="mt-3 " onClick={() => setShowModal(true)}>
+                <div
+                  className="mt-3  block md:hidden"
+                  onClick={() => setShowModal(true)}
+                >
                   <FaPlus />
                 </div>
               </div>
