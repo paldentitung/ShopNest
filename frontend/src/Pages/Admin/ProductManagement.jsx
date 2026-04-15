@@ -520,7 +520,6 @@ const ProductManagement = () => {
                   id="image"
                   type="file"
                   onChange={handleFileChange}
-                  required
                   className="hidden"
                 />
               </label>
