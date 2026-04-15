@@ -168,10 +168,10 @@ npm run dev
 
 ## 📈 What Makes This Project Strong?
 
-✔ Real-world features (not just CRUD)
-✔ Clean architecture
-✔ Admin + User system
-✔ Scalable codebase
+- Real-world features (not just CRUD)
+- Clean architecture
+- Admin + User system
+- Scalable codebase
 
 ---
 
@@ -184,6 +184,14 @@ git checkout -b feature/your-feature
 git commit -m "Add feature"
 git push origin feature/your-feature
 ```
+
+---
+
+## 👨‍💻 Author
+
+**Palden Dorje Titung**
+
+- GitHub: [@paldentitung](https://github.com/paldentitung)
 
 ---
 
