@@ -11,6 +11,7 @@ import {
 } from "../../Services/productApi";
 import { useApp } from "../../Hooks/useApp";
 import { FaPlus } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const ProductManagement = () => {
   const { setShowModal } = useApp();
@@ -73,6 +74,7 @@ const ProductManagement = () => {
             ) || [],
         };
         setProducts((prev) => [...prev, newProduct]);
+        toast.success("Product Added");
       } else {
         const response = await updateProduct(isEditing, data);
         const updatedProduct = {
@@ -99,7 +101,7 @@ const ProductManagement = () => {
         imageFile: null,
       });
     } catch (error) {
-      console.error(error);
+      toast.error(error.message);
     }
   };
 
@@ -409,6 +411,7 @@ const ProductManagement = () => {
                 type="text"
                 value={formData.name}
                 onChange={handleChange}
+                required
                 placeholder="e.g. Denim Jacket"
                 className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 transition"
               />
@@ -426,6 +429,7 @@ const ProductManagement = () => {
                 type="text"
                 value={formData.category}
                 onChange={handleChange}
+                required
                 placeholder="e.g. Jacket, T-Shirt, Accessories"
                 className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 transition"
               />
@@ -444,6 +448,7 @@ const ProductManagement = () => {
                   type="number"
                   value={formData.priceCents}
                   onChange={handleChange}
+                  required
                   placeholder="2999"
                   className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 transition"
                 />
@@ -460,6 +465,7 @@ const ProductManagement = () => {
                   type="number"
                   value={formData.stock}
                   onChange={handleChange}
+                  required
                   placeholder="50"
                   className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 transition"
                 />
@@ -477,6 +483,7 @@ const ProductManagement = () => {
                 id="description"
                 value={formData.description}
                 onChange={handleChange}
+                required
                 placeholder="Short product description..."
                 rows={3}
                 className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 transition resize-none"
@@ -513,7 +520,7 @@ const ProductManagement = () => {
                   id="image"
                   type="file"
                   onChange={handleFileChange}
-                  accept="image/*"
+                  required
                   className="hidden"
                 />
               </label>
