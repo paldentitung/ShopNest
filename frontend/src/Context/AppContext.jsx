@@ -56,6 +56,8 @@ export const AppProvider = ({ children }) => {
   }, [showSearchBar]);
 
   useEffect(() => {
+    const userToken = localStorage.getItem("ShopNest-token");
+    if (!userToken) return;
     fetchWishlist();
   }, []);
   const toggleWishlist = async (product) => {

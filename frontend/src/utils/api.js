@@ -4,7 +4,7 @@ export const apiFetch = async (endpoint, options = {}, requireAuth = true) => {
   const userToken = localStorage.getItem("ShopNest-token");
 
   if (requireAuth && !userToken) {
-    toast.error("User token not found");
+    // toast.error("User token not found");
     return null;
   }
 

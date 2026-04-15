@@ -13,6 +13,7 @@ export const CartProvider = ({ children }) => {
 
   const fetchCart = async () => {
     const res = await getCart();
+
     setCartItems(res.data.items || []);
   };
 
@@ -70,6 +71,8 @@ export const CartProvider = ({ children }) => {
     }
   };
   useEffect(() => {
+    const userToken = localStorage.getItem("ShopNest-token");
+    if (!userToken) return;
     fetchCart();
     console.log("cart data", cartItems);
   }, []);
