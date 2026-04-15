@@ -80,8 +80,8 @@ const Dashboard = () => {
     },
     {
       id: 3,
-      title: overview.totalOrders,
-      count: 90,
+      title: "Total Orders",
+      count: overview.totalOrders,
       icon: FaShoppingBag,
       bg: "bg-emerald-50",
       iconColor: "text-emerald-500",
