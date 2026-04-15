@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("ShopNest-user");
     setToken(null);
     setUser(null);
+    toast.success("logout successful");
   };
 
   const removeAvatar = async () => {
