@@ -1,5 +1,9 @@
 const User = require("../models/User");
 const AppError = require("../utils/AppError");
+const {
+  accountBlockedTemplate,
+} = require("../utils/emailTemplates/accountBlockedTemplate");
+const sendEmail = require("../utils/sendEmail");
 // Get all users
 exports.getAllUsers = async () => {
   const users = await User.find().select("-password");
@@ -85,6 +89,12 @@ exports.blockUser = async (userId) => {
   if (user.status === "blocked") {
     throw new AppError("User is already blocked", 400);
   }
+
+  await sendEmail({
+    to: user.email,
+    subject: "Account Access Restricted",
+    html: accountBlockedTemplate(user.username),
+  });
 
   user.status = "blocked";
   await user.save();

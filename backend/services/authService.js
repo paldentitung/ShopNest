@@ -3,6 +3,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/AppError");
 const sanitizeUser = require("../utils/sanitizeUser");
+const sendEmail = require("../utils/sendEmail");
+const {
+  registerTemplate,
+} = require("../utils/emailTemplates/registerTemplate");
 exports.register = async (username, email, password) => {
   const existingUser = await User.findOne({ email });
 
@@ -23,6 +27,13 @@ exports.register = async (username, email, password) => {
   });
 
   await user.save();
+
+  await sendEmail({
+    to: email,
+    subject: "Account Registered",
+    html: registerTemplate(user.username),
+  });
+
   return {
     _id: user._id,
     username: user.username,
