@@ -86,7 +86,7 @@ const ContactManagement = () => {
       <div className="mb-3">
         <AdminHeader title="Contacts" />
       </div>
-      <div className="min-h-screen bg-gray-50 p-6 lg:px-10">
+      <div className="min-h-screen bg-gray-50 p-6 lg:px-10 max-w-7xl w-full mx-auto">
         <div className="grid grid-cols-3 gap-4 mb-8">
           <StatCard
             label="Pending"
