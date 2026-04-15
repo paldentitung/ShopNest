@@ -3,6 +3,9 @@ const AppError = require("../utils/AppError");
 const {
   accountBlockedTemplate,
 } = require("../utils/emailTemplates/accountBlockedTemplate");
+const {
+  accountUnblockedTemplate,
+} = require("../utils/emailTemplates/accountUnblockedTemplate");
 const sendEmail = require("../utils/sendEmail");
 // Get all users
 exports.getAllUsers = async () => {
@@ -115,6 +118,12 @@ exports.unblockUser = async (userId) => {
 
   user.status = "active";
   await user.save();
+
+  await sendEmail({
+    to: user.email,
+    subject: "Good News — Your Account Has Been Restored 🎉",
+    html: accountUnblockedTemplate(user.username),
+  });
 
   return user;
 };
