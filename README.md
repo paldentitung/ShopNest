@@ -7,9 +7,9 @@
 A production-ready e-commerce application delivering a seamless shopping experience — from product discovery to checkout — with a powerful admin dashboard.
 
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js)
-![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)
+![Express](https://img.shields.io/badge/Express.js-5.x-000000?style=for-the-badge&logo=express)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb)
-![Express](https://img.shields.io/badge/Express.js-4.x-000000?style=for-the-badge&logo=express)
 ![JWT](https://img.shields.io/badge/Auth-JWT-black?style=for-the-badge)
 
 </div>
@@ -54,16 +54,19 @@ ShopNest is not just another CRUD app — it’s a **complete e-commerce ecosyst
 
 ## 🧰 Tech Stack
 
-| Layer       | Tech               |
-| ----------- | ------------------ |
-| Frontend    | React 18 + Vite    |
-| State       | Context API        |
-| Backend     | Node.js + Express  |
-| Database    | MongoDB (Mongoose) |
-| Auth        | JWT + bcrypt       |
-| File Upload | Multer             |
-| Email       | Nodemailer         |
-
+| Layer       | Tech                        |
+| ----------- | --------------------------- |
+| Frontend    | React 19 + Vite 7           |
+| Styling     | Tailwind CSS v4             |
+| Animations  | Framer Motion               |
+| Charts      | Recharts                    |
+| Routing     | React Router v7             |
+| Alerts      | SweetAlert2 + React Hot Toast |
+| Backend     | Node.js + Express 5         |
+| Database    | MongoDB (Mongoose)          |
+| Auth        | JWT + bcryptjs              |
+| File Upload | Multer                      |
+| Email       | Nodemailer                  |
 ---
 
 ## 🏗️ Architecture Overview
@@ -136,8 +139,6 @@ Create `.env`:
 PORT=5000
 MONGO_URI=your_mongo_uri
 JWT_SECRET=your_secret
-EMAIL_USER=your@gmail.com
-EMAIL_PASS=your_app_password
 ```
 
 Run:
