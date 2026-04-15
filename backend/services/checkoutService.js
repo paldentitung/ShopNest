@@ -1,8 +1,14 @@
 const Cart = require("../models/Cart");
 const Order = require("../models/Order");
+const User = require("../models/User");
+const {
+  orderPlacedTemplate,
+} = require("../utils/emailTemplates/orderPlacedTemplate");
+const sendEmail = require("../utils/sendEmail");
 
 exports.checkout = async (userId, shippingMethod, paymentMethod) => {
   const cart = await Cart.findOne({ userId }).populate("items.product");
+  const user = await User.findById(userId);
   if (!cart || cart.items.length === 0) {
     return { items: [] };
   }
@@ -52,6 +58,16 @@ exports.checkout = async (userId, shippingMethod, paymentMethod) => {
 
   cart.items = [];
   await cart.save();
+
+  await sendEmail({
+    to: user.email,
+    subject: "Order Placed Successfully 🛒",
+    html: orderPlacedTemplate(
+      user.username,
+      order._id,
+      finalTotalAmount.toFixed(2),
+    ),
+  });
 
   return order;
 };

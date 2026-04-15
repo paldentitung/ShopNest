@@ -11,7 +11,11 @@ const orderPlacedTemplate = (username, orderId, total) => {
     </p>
 
     <p>
-      We’re carefully preparing your items and will notify you as soon as your order is shipped.
+      We’re carefully preparing your items for shipment. Once your order is shipped, you will receive a notification with tracking details.
+    </p>
+
+    <p>
+      You will also be notified when your order is out for delivery and when it has been successfully delivered.
     </p>
 
     <p>
@@ -20,11 +24,7 @@ const orderPlacedTemplate = (username, orderId, total) => {
     </p>
 
     <p>
-      You can track your order status anytime from your account dashboard.
-    </p>
-
-    <p>
-      Thank you for shopping with us 🛍️
+      Thank you for shopping with us 🛍️ We truly appreciate your trust.
     </p>
   `;
 
