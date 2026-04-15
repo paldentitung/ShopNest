@@ -136,6 +136,8 @@ Create `.env`:
 PORT=5000
 MONGO_URI=your_mongo_uri
 JWT_SECRET=your_secret
+EMAIL_USER=your@gmail.com
+EMAIL_PASS=your_app_password
 ```
 
 Run:
