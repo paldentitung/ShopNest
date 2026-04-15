@@ -12,8 +12,6 @@ A production-ready e-commerce application delivering a seamless shopping experie
 ![Express](https://img.shields.io/badge/Express.js-4.x-000000?style=for-the-badge&logo=express)
 ![JWT](https://img.shields.io/badge/Auth-JWT-black?style=for-the-badge)
 
-🔗 **Live Demo** · 📂 **Source Code** · 📄 **API Docs**
-
 </div>
 
 ---
@@ -119,7 +117,7 @@ ShopNest/
 ### 1. Clone Repo
 
 ```bash
-git clone https://github.com/your-username/shopnest.git
+git clone https://github.com/paldentitung/shopnest.git
 cd shopnest
 ```
 
@@ -168,32 +166,12 @@ npm run dev
 
 ---
 
-## 🧪 Testing (Recommended)
-
-```bash
-npm install --save-dev jest supertest
-npm test
-```
-
----
-
-## 🚀 Future Improvements
-
-- 💳 Payment integration (Stripe / Khalti)
-- 📱 Mobile app (React Native)
-- 🔍 Advanced search (ElasticSearch)
-- 🧾 Invoice generation
-- 🌐 Deployment (Docker + CI/CD)
-
----
-
 ## 📈 What Makes This Project Strong?
 
 ✔ Real-world features (not just CRUD)
 ✔ Clean architecture
 ✔ Admin + User system
 ✔ Scalable codebase
-✔ 200+ commits (active development)
 
 ---
 
