@@ -52,6 +52,10 @@ exports.login = async (email, password) => {
     throw new AppError("Invalid email or password", 400);
   }
 
+  if (user.status === "blocked") {
+    throw new AppError("Your account has been blocked. Contact admin.", 403);
+  }
+
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     throw new AppError("Invalid email or password", 400);

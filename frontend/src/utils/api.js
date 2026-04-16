@@ -32,6 +32,17 @@ export const apiFetch = async (endpoint, options = {}, requireAuth = true) => {
     window.location.href = "/login";
     return null;
   }
+  if (res.status === 403) {
+    localStorage.removeItem("ShopNest-token");
+    localStorage.removeItem("ShopNest-user");
+
+    toast.error("You have been blocked");
+
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 1500);
+    return null;
+  }
 
   // IMPORTANT: do NOT swallow 403/400 errors
   if (!res.ok) {
