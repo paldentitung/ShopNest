@@ -17,6 +17,9 @@ exports.register = async (username, email, password) => {
   if (!username || !email || !password) {
     throw new AppError("All fields are required", 400);
   }
+  if (newPassword.length < 6) {
+    throw new AppError("Password must be at least 6 characters", 400);
+  }
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -59,6 +62,9 @@ exports.login = async (email, password) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     throw new AppError("Invalid email or password", 400);
+  }
+  if (newPassword.length < 6) {
+    throw new AppError("Password must be at least 6 characters", 400);
   }
 
   const token = jwt.sign(
