@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const EyeIcon = ({ open }) => (
   <svg
@@ -57,14 +58,11 @@ const ResetPassword = () => {
 
     try {
       setLoading(true);
-      const res = await fetch(
-        `http://localhost:3000/api/auth/reset-password/${token}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ password }),
-        },
-      );
+      const res = await fetch(`${API_BASE_URL}/auth/reset-password/${token}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Something went wrong");
       toast.success("Password reset successful");

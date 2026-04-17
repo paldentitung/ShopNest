@@ -34,14 +34,23 @@ const ProductManagement = () => {
   const [pages, setPages] = useState(1);
 
   useEffect(() => {
+    let ignore = false;
+
     const fetchProducts = async () => {
       const res = await getAllProducts(page, 3);
-      setProducts(res.data);
-      setPages(res.pages);
-    };
-    fetchProducts();
-  }, [page]);
 
+      if (!ignore) {
+        setProducts(res.data);
+        setPages(res.pages);
+      }
+    };
+
+    fetchProducts();
+
+    return () => {
+      ignore = true;
+    };
+  }, [page]);
   const handleChange = (e) => {
     const { id, value, type } = e.target;
     setFormData((prev) => ({

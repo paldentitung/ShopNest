@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getOrders } from "../Services/ordersApi";
 import { apiFetch } from "../utils/api";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const useOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -49,17 +50,14 @@ export const useOrders = () => {
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
       const userToken = localStorage.getItem("ShopNest-token");
-      const res = await fetch(
-        `http://localhost:3000/api/orders/${orderId}/status`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${userToken}`,
-          },
-          body: JSON.stringify({ orderStatus: newStatus }),
+      const res = await fetch(`${API_BASE_URL}/orders/${orderId}/status`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${userToken}`,
         },
-      );
+        body: JSON.stringify({ orderStatus: newStatus }),
+      });
 
       if (!res.ok) throw new Error(await res.text());
 

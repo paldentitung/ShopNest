@@ -7,18 +7,19 @@ export const getAllProducts = async (page = 1, limit = 20) => {
     {},
     false,
   );
-  console.log("data for pagaination", data);
+
+  console.log("data for pagination", data);
+
   return data || { products: [], total: 0, page, pages: 1 };
 };
 
 export const createProduct = async (formData) => {
-  const data = await apiFetch("/products", {
+  return await apiFetch("/products", {
     method: "POST",
     body: formData,
   });
-
-  return data;
 };
+
 export const updateProduct = async (id, productData) => {
   return await apiFetch(`/products/${id}`, {
     method: "PUT",
@@ -34,16 +35,13 @@ export const deleteProduct = async (id) => {
 
 export const searchProduct = async (query) => {
   try {
-    const res = await fetch(
-      `http://localhost:3000/api/products/search?query=${encodeURIComponent(query)}`,
+    const data = await apiFetch(
+      `/products/search?query=${encodeURIComponent(query)}`,
+      {},
+      false,
     );
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch products");
-    }
-
-    const data = await res.json();
-    return data;
+    return data || [];
   } catch (error) {
     toast.error(error.message);
     return [];
