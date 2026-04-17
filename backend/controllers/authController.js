@@ -5,18 +5,11 @@ exports.Register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    const user = await authService.register(username, email, password);
-
-    await sendEmail({
-      to: user.email,
-      subject: "Welcome!",
-      html: `<h1>Hello ${user.username}</h1><p>Welcome to our app 🚀</p>`,
-    });
+    const result = await authService.register(username, email, password);
 
     res.status(201).json({
       success: true,
-      message: "User created",
-      user,
+      message: result.message,
     });
   } catch (error) {
     res.status(500).json({
@@ -82,5 +75,14 @@ exports.resetPasswordController = async (req, res) => {
   res.status(200).json({
     success: true,
     message: "Password reset successful",
+  });
+};
+
+exports.verifyEmail = async (req, res) => {
+  const { token } = req.params;
+  await authService.verifyEmail(token);
+  res.status(200).json({
+    success: true,
+    message: "Email verify successful",
   });
 };

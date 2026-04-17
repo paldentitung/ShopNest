@@ -10,7 +10,7 @@ const {
 } = require("../utils/emailTemplates/registerTemplate");
 exports.register = async (username, email, password) => {
   const existingUser = await User.findOne({ email });
-
+  console.log("Sending email to:", email);
   if (existingUser) {
     throw new AppError("User already exists", 400);
   }
@@ -23,27 +23,52 @@ exports.register = async (username, email, password) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
+  const verificationToken = crypto.randomBytes(32).toString("hex");
 
   const user = new User({
     username,
     email,
     password: hashedPassword,
+    isVerified: false,
+    emailVerificationToken: verificationToken,
+    emailVerificationExpires: Date.now() + 1000 * 60 * 30, // 30 min
   });
 
   await user.save();
+  const verifyLink = `http://localhost:5173/verify-email/${verificationToken}`;
 
   await sendEmail({
     to: email,
-    subject: "Account Registered",
-    html: registerTemplate(user.username),
+    subject: "Verify your email",
+    html: `
+      <h2>Welcome ${username}</h2>
+      <p>Click below to verify your account:</p>
+      <a href="${verifyLink}">Verify Email</a>
+    `,
   });
 
   return {
-    _id: user._id,
-    username: user.username,
-    email: user.email,
-    role: user.role,
+    message: "Verification email sent. Please verify your account.",
   };
+};
+
+exports.verifyEmail = async (token) => {
+  const user = await User.findOne({
+    emailVerificationToken: token,
+    emailVerificationExpires: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    throw new AppError("Invalid or expired token", 400);
+  }
+
+  user.isVerified = true;
+  user.emailVerificationToken = undefined;
+  user.emailVerificationExpires = undefined;
+
+  await user.save();
+
+  return { message: "Email verified successfully" };
 };
 
 exports.login = async (email, password) => {
@@ -58,6 +83,9 @@ exports.login = async (email, password) => {
 
   if (user.status === "blocked") {
     throw new AppError("Your account has been blocked. Contact admin.", 403);
+  }
+  if (!user.isVerified) {
+    throw new AppError("Please verify your email before logging in", 403);
   }
 
   const isMatch = await bcrypt.compare(password, user.password);

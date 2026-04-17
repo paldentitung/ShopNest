@@ -7,6 +7,7 @@ const {
   authMe,
   forgotPassword,
   resetPasswordController,
+  verifyEmail,
 } = require("../controllers/authController");
 
 const auth = require("../middleware/auth");
@@ -14,6 +15,7 @@ const asyncHandler = require("../utils/asyncHandler");
 
 Router.get("/authme", auth, asyncHandler(authMe));
 Router.post("/register", asyncHandler(Register));
+Router.get("/verify-email/:token", asyncHandler(verifyEmail));
 
 Router.post("/login", asyncHandler(Login));
 Router.patch("/changepassword", asyncHandler(changePassword));

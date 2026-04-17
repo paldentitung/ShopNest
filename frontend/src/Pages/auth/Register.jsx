@@ -10,23 +10,29 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    if (loading) return;
 
     if (password !== confirmPassword) {
       return toast.error("Passwords should match");
     }
 
-    const res = await register({ username, email, password });
-    console.log(res);
+    try {
+      setLoading(true);
 
-    if (res.message === "User created") {
-      toast.success("Registration successful!");
+      const res = await register({ username, email, password });
+
+      toast.success(res.message || "Check your email to verify account");
+
       navigate("/login");
-    } else {
-      toast.error(res.message || "Registration failed");
+    } catch (err) {
+      toast.error(err.message || "Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -134,11 +140,12 @@ const Register = () => {
             {/* Register button */}
             <button
               type="submit"
-              className="w-full max-w-sm px-6 py-3 bg-(--color-foreground) text-white rounded-md shadow-md opacity-90 hover:opacity-100 transition-all duration-300 hover:cursor-pointer"
+              disabled={loading}
+              className={`w-full max-w-sm px-6 py-3 rounded-md shadow-md transition-all duration-300 
+  ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-(--color-foreground) hover:opacity-100 opacity-90 text-white"}`}
             >
-              Register
+              {loading ? "Creating Account..." : "Register"}
             </button>
-
             {/* Link to login */}
             <div className="text-sm mt-8 flex items-center gap-3">
               Already have an account?

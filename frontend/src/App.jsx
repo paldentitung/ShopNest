@@ -28,6 +28,7 @@ import { useState, useEffect } from "react";
 import SplashScreen from "./Components/ui/SplashScreen";
 import ResetPassword from "./Pages/auth/ResetPassword";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
+import VerifyEmail from "./Pages/auth/VerifyEmail";
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
 
@@ -97,6 +98,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/verify-email/:token" element={<VerifyEmail />} />
 
         {/* 404 */}
         <Route path="*" element={<PageNotFound />} />

@@ -3,16 +3,17 @@ import { apiFetch } from "../utils/api";
 
 export const register = async (UserData) => {
   const res = await fetch("http://localhost:3000/api/auth/register", {
-    headers: {
-      "Content-Type": "application/json",
-    },
     method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(UserData),
   });
+
   const data = await res.json();
+
   if (!res.ok) {
-    throw new Error(data.message || "Login failed");
+    throw new Error(data.message || "Registration failed");
   }
+
   return data;
 };
 
