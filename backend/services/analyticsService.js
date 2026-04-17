@@ -2,9 +2,6 @@ const Order = require("../models/Order");
 const Product = require("../models/Product");
 const User = require("../models/User");
 
-// FIX: Use "Cancelled" (capitalized) everywhere to match DB values and frontend statusColors map.
-// If your DB stores lowercase "cancelled", flip ALL instances below to lowercase instead.
-
 exports.getOverview = async () => {
   const [
     totalProducts,
@@ -17,7 +14,7 @@ exports.getOverview = async () => {
     Product.countDocuments(),
 
     Order.countDocuments({
-      orderStatus: { $ne: "Cancelled" }, // FIX: was "cancelled"
+      orderStatus: { $ne: "cancelled" },
     }),
 
     User.countDocuments({ role: "user" }),
@@ -42,7 +39,7 @@ exports.getOverview = async () => {
           createdAt: {
             $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
           },
-          orderStatus: { $ne: "Cancelled" }, // FIX: was "cancelled"
+          orderStatus: { $ne: "cancelled" },
         },
       },
       {
@@ -64,7 +61,7 @@ exports.getOverview = async () => {
     Order.aggregate([
       {
         $match: {
-          orderStatus: { $ne: "Cancelled" }, // FIX: was "cancelled"
+          orderStatus: { $ne: "cancelled" },
         },
       },
       {
