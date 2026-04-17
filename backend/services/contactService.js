@@ -11,14 +11,6 @@ exports.readContact = async () => {
   return contacts;
 };
 exports.createContact = async (name, email, message, ipAddress, userAgent) => {
-  if (!name || !email || !message) {
-    throw new AppError("All fields are required", 400);
-  }
-
-  const emailRegex = /^\S+@\S+\.\S+$/;
-  if (!emailRegex.test(email)) {
-    throw new AppError("Invalid email format", 400);
-  }
   const newContact = await Contact.create({
     name,
     email,
