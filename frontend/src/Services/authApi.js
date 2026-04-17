@@ -2,7 +2,7 @@ import toast from "react-hot-toast";
 import { apiFetch } from "../utils/api";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const register = async (UserData) => {
-  const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
+  const res = await fetch(`${API_BASE_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(UserData),
@@ -18,7 +18,7 @@ export const register = async (UserData) => {
 };
 
 export const login = async (UserData) => {
-  const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+  const res = await fetch(`${API_BASE_URL}/auth/login`, {
     headers: {
       "Content-Type": "application/json",
     },
