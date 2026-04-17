@@ -48,14 +48,6 @@ exports.getAllProducts = async (page = null, limit = null) => {
 exports.createProduct = async (data, file) => {
   const { name, category, priceCents, description, variations } = data;
 
-  if (!name || !category || !priceCents) {
-    throw new AppError("Name, category, and price are required", 400);
-  }
-
-  if (isNaN(priceCents) || Number(priceCents) < 0) {
-    throw new AppError("Price must be a non-negative number", 400);
-  }
-
   const slug = slugify(name, { lower: true });
   const imagePaths = file ? [`uploads/products/${file.filename}`] : [];
 

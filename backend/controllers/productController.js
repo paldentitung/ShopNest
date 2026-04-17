@@ -16,6 +16,8 @@ exports.getAllProducts = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
   const savedProduct = await productService.createProduct(req.body, req.file);
+  console.log("BODY:", req.body);
+  console.log("FILE:", req.file);
   res.status(201).json({
     success: true,
     message: "Product created",

@@ -61,7 +61,7 @@ const ProductManagement = () => {
     data.append("category", formData.category);
     data.append("priceCents", formData.priceCents);
     data.append("stock", formData.stock);
-    data.append("rating", formData.rating);
+    // data.append("rating", formData.rating);
     data.append("description", formData.description);
     if (formData.imageFile) data.append("image", formData.imageFile);
 
