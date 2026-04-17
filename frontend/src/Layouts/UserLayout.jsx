@@ -8,7 +8,6 @@ import { useSearch } from "../Hooks/useSearch";
 const UserLayout = () => {
   const { showSearchBar } = useSearch();
   const ctx = useApp();
-  console.log(ctx);
   return (
     <div>
       <Header />
