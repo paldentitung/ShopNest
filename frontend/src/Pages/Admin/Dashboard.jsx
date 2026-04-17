@@ -103,7 +103,7 @@ const Dashboard = () => {
     {
       id: 2,
       title: "Total Revenue",
-      count: `$${Number(overview.totalRevenue).toLocaleString()}`,
+      count: Number(overview.totalRevenue).toFixed(2),
       icon: FaMoneyBillWave,
       bg: "bg-amber-50",
       iconColor: "text-amber-500",
@@ -333,13 +333,13 @@ const Dashboard = () => {
 
                 {/* Customer */}
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-linear-to-br from-gray-200 to-gray-300 flex items-center justify-center shrink-0">
                     <span className="text-[10px] font-bold text-gray-500 uppercase">
-                      {order.userId.username?.[0]}
+                      {order.userId?.username?.[0]}
                     </span>
                   </div>
                   <p className="text-sm text-gray-700 font-medium truncate">
-                    {order.userId.username}
+                    {order.userId?.username}
                   </p>
                 </div>
 

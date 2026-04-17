@@ -14,7 +14,7 @@ exports.getOverview = async () => {
     Product.countDocuments(),
 
     Order.countDocuments({
-      orderStatus: { $ne: "cancelled" },
+      orderStatus: { $nin: ["cancelled", "Cancelled"] },
     }),
 
     User.countDocuments({ role: "user" }),
@@ -22,13 +22,22 @@ exports.getOverview = async () => {
     Order.aggregate([
       {
         $match: {
-          $or: [{ paymentStatus: "paid" }, { orderStatus: "Delivered" }],
+          $or: [
+            { paymentStatus: "paid" },
+            { paymentStatus: "Paid" },
+            { orderStatus: "Delivered" },
+            { orderStatus: "delivered" },
+          ],
         },
       },
       {
         $group: {
           _id: null,
-          totalRevenue: { $sum: "$totalAmount" },
+          totalRevenue: {
+            $sum: {
+              $toDouble: "$totalAmount",
+            },
+          },
         },
       },
     ]),
@@ -39,7 +48,7 @@ exports.getOverview = async () => {
           createdAt: {
             $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
           },
-          orderStatus: { $ne: "cancelled" },
+          orderStatus: { $nin: ["cancelled", "Cancelled"] },
         },
       },
       {
@@ -50,7 +59,11 @@ exports.getOverview = async () => {
               date: "$createdAt",
             },
           },
-          revenue: { $sum: "$totalAmount" },
+          revenue: {
+            $sum: {
+              $toDouble: "$totalAmount",
+            },
+          },
         },
       },
       {
@@ -61,7 +74,7 @@ exports.getOverview = async () => {
     Order.aggregate([
       {
         $match: {
-          orderStatus: { $ne: "cancelled" },
+          orderStatus: { $nin: ["cancelled", "Cancelled"] },
         },
       },
       {
