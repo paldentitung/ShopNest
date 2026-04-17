@@ -28,7 +28,8 @@ exports.register = async (username, email, password) => {
   });
 
   await user.save();
-  const verifyLink = `http://localhost:5173/verify-email/${verificationToken}`;
+  const FRONTEND_URL = process.env.FRONTEND_URL;
+  const verifyLink = `${FRONTEND_URL}/verify-email/${verificationToken}`;
 
   await sendEmail({
     to: email,
@@ -151,8 +152,9 @@ exports.forgotPassword = async (email) => {
   user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
 
   await user.save();
+  const FRONTEND_URL = process.env.FRONTEND_URL;
 
-  const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+  const resetUrl = `${FRONTEND_URL}/reset-password/${resetToken}`;
 
   await sendEmail({
     to: user.email,
