@@ -5,6 +5,8 @@ const {
   Login,
   changePassword,
   authMe,
+  forgotPassword,
+  resetPasswordController,
 } = require("../controllers/authController");
 
 const auth = require("../middleware/auth");
@@ -14,5 +16,8 @@ Router.get("/authme", auth, asyncHandler(authMe));
 Router.post("/register", asyncHandler(Register));
 
 Router.post("/login", asyncHandler(Login));
-Router.patch("/changepassword", auth, asyncHandler(changePassword));
+Router.patch("/changepassword", asyncHandler(changePassword));
+
+Router.post("/forgot-password", asyncHandler(forgotPassword));
+Router.post("/reset-password/:token", asyncHandler(resetPasswordController));
 module.exports = Router;

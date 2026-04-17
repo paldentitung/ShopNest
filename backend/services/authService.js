@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const AppError = require("../utils/AppError");
 const sanitizeUser = require("../utils/sanitizeUser");
 const sendEmail = require("../utils/sendEmail");
+const crypto = require("crypto");
 const {
   registerTemplate,
 } = require("../utils/emailTemplates/registerTemplate");
@@ -117,4 +118,60 @@ exports.authMe = async (userId) => {
   }
 
   return sanitizeUser(user);
+};
+
+exports.forgotPassword = async (email) => {
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return;
+  }
+
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  user.resetPasswordToken = hashedToken;
+  user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+
+  await user.save();
+
+  const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+
+  await sendEmail({
+    to: user.email,
+    subject: "Password Reset",
+    html: `
+      <h3>Password Reset Request</h3>
+      <p>Click the link below to reset your password:</p>
+      <a href="${resetUrl}" target="_blank">${resetUrl}</a>
+      <p>This link will expire in 10 minutes.</p>
+    `,
+  });
+};
+exports.resetPassword = async (token, password) => {
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+  const user = await User.findOne({
+    resetPasswordToken: hashedToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    throw new Error("Invalid or expired token");
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  user.password = hashedPassword;
+
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+
+  await user.save();
+
+  return true;
 };

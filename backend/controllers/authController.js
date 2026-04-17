@@ -65,3 +65,22 @@ exports.authMe = async (req, res) => {
     data: user,
   });
 };
+
+exports.forgotPassword = async (req, res) => {
+  await authService.forgotPassword(req.body.email);
+  res.status(200).json({
+    success: true,
+    message: "If an account exists, a reset link has been sent",
+  });
+};
+exports.resetPasswordController = async (req, res) => {
+  const { password } = req.body;
+  const { token } = req.params;
+
+  await authService.resetPassword(token, password);
+
+  res.status(200).json({
+    success: true,
+    message: "Password reset successful",
+  });
+};

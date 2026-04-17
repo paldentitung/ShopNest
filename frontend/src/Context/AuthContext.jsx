@@ -44,9 +44,28 @@ export const AuthProvider = ({ children }) => {
     toast.success(res.message);
   };
 
+  const forgotPassword = async (email) => {
+    const res = await apiFetch(
+      "/auth/forgotPassword",
+      {
+        method: "POSt",
+        body: JSON.stringify(email),
+      },
+      false,
+    );
+    toast.success(res.message);
+  };
+
   return (
     <AuthContext.Provider
-      value={{ token, user, loginUser, logoutUser, removeAvatar }}
+      value={{
+        token,
+        user,
+        loginUser,
+        logoutUser,
+        removeAvatar,
+        forgotPassword,
+      }}
     >
       {children}
     </AuthContext.Provider>

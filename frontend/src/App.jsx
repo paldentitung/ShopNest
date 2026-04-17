@@ -26,6 +26,8 @@ import ContactManagement from "./Pages/Admin/ContactManagement";
 import ScrollToTop from "./Components/layout/ScrollToTop";
 import { useState, useEffect } from "react";
 import SplashScreen from "./Components/ui/SplashScreen";
+import ResetPassword from "./Pages/auth/ResetPassword";
+import ForgotPassword from "./Pages/auth/ForgotPassword";
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
 
@@ -93,6 +95,8 @@ const App = () => {
         {/* Auth routes */}
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
 
         {/* 404 */}
         <Route path="*" element={<PageNotFound />} />

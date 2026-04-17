@@ -90,7 +90,11 @@ const Login = () => {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
-            <button type="button" className="text-[13px] ml-auto md:pr-10">
+            <button
+              onClick={() => navigate("/forgot-password")}
+              type="button"
+              className="text-[13px] ml-auto md:pr-10"
+            >
               Forgot password?
             </button>
             <button

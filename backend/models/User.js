@@ -49,6 +49,8 @@ const userSchema = new mongoose.Schema(
       enum: ["active", "blocked"],
       default: "active",
     },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
     wishlist: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
   },
   { timestamps: true },
