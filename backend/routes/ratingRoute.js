@@ -1,12 +1,23 @@
-const Router = require("express").Router();
+const router = require("express").Router();
+
 const {
   getProductRatings,
   rateProduct,
 } = require("../controllers/ratingController");
+
 const auth = require("../middleware/auth");
+const validate = require("../middleware/validate");
 const asyncHandler = require("../utils/asyncHandler");
+const { rateProductValidator } = require("../validators/ratingValidator");
 
-Router.get("/:productId", auth, asyncHandler(getProductRatings));
-Router.post("/", auth, asyncHandler(rateProduct));
+router.get("/:productId", auth, asyncHandler(getProductRatings));
 
-module.exports = Router;
+router.post(
+  "/",
+  auth,
+  rateProductValidator,
+  validate,
+  asyncHandler(rateProduct),
+);
+
+module.exports = router;
