@@ -12,13 +12,23 @@ const {
 
 const auth = require("../middleware/auth");
 const asyncHandler = require("../utils/asyncHandler");
+const {
+  registerValidator,
+  loginValidator,
+  changePasswordValidator,
+} = require("../validators/authValidator");
 
 Router.get("/authme", auth, asyncHandler(authMe));
-Router.post("/register", asyncHandler(Register));
+Router.post("/register", registerValidator, asyncHandler(Register));
 Router.get("/verify-email/:token", asyncHandler(verifyEmail));
 
-Router.post("/login", asyncHandler(Login));
-Router.patch("/changepassword", asyncHandler(changePassword));
+Router.post("/login", loginValidator, asyncHandler(Login));
+Router.patch(
+  "/changepassword",
+  auth,
+  changePasswordValidator,
+  asyncHandler(changePassword),
+);
 
 Router.post("/forgot-password", asyncHandler(forgotPassword));
 Router.post("/reset-password/:token", asyncHandler(resetPasswordController));

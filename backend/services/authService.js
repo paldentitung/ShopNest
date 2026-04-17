@@ -15,13 +15,6 @@ exports.register = async (username, email, password) => {
     throw new AppError("User already exists", 400);
   }
 
-  if (!username || !email || !password) {
-    throw new AppError("All fields are required", 400);
-  }
-  if (password.length < 6) {
-    throw new AppError("Password must be at least 6 characters", 400);
-  }
-
   const hashedPassword = await bcrypt.hash(password, 10);
   const verificationToken = crypto.randomBytes(32).toString("hex");
 
@@ -72,10 +65,6 @@ exports.verifyEmail = async (token) => {
 };
 
 exports.login = async (email, password) => {
-  if (!email || !password) {
-    throw new AppError("All fields are required", 400);
-  }
-
   const user = await User.findOne({ email });
   if (!user) {
     throw new AppError("Invalid email or password", 400);
@@ -114,10 +103,6 @@ exports.login = async (email, password) => {
 };
 
 exports.changePassword = async (userId, currentPassword, newPassword) => {
-  if (!currentPassword || !newPassword) {
-    throw new AppError("All fields are required", 400);
-  }
-
   const user = await User.findById(userId);
   if (!user) {
     throw new AppError("User not found", 404);
