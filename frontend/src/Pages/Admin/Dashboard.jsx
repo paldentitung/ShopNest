@@ -19,24 +19,18 @@ import AdminHeader from "./AdminHeader";
 import { useOrders } from "../../Hooks/useOrders";
 import { apiFetch } from "../../utils/api";
 
-const salesData = [
-  { date: "Feb 1", revenue: 2000 },
-  { date: "Feb 2", revenue: 1500 },
-  { date: "Feb 3", revenue: 1800 },
-  { date: "Feb 4", revenue: 2200 },
-];
-
-const topProducts = [
-  { rank: 1, name: "Denim Jacket", sales: 850 },
-  { rank: 2, name: "Blue T-Shirt", sales: 120 },
-  { rank: 3, name: "Red Hoodie", sales: 85 },
-];
-
 const statusColors = {
   Shipping: "bg-blue-50 text-blue-700 border border-blue-200",
   Delivered: "bg-emerald-50 text-emerald-700 border border-emerald-200",
   Pending: "bg-amber-50 text-amber-700 border border-amber-200",
   Cancelled: "bg-red-50 text-red-600 border border-red-200",
+};
+
+const statusDot = {
+  Shipping: "bg-blue-400",
+  Delivered: "bg-emerald-400",
+  Pending: "bg-amber-400",
+  Cancelled: "bg-red-400",
 };
 
 const Dashboard = () => {
@@ -48,18 +42,52 @@ const Dashboard = () => {
     totalOrders: 0,
     totalUsers: 0,
   });
+  const [salesData, setSalesData] = useState([]);
+  const [topProducts, setTopProducts] = useState([]);
 
   useEffect(() => {
     const fetchOverView = async () => {
       const res = await apiFetch("/analytics");
-      setOverview(res.data);
+
+      setOverview({
+        totalProducts: res.data.totalProducts,
+        totalRevenue: res.data.totalRevenue,
+        totalOrders: res.data.totalOrders,
+        totalUsers: res.data.totalUsers,
+      });
+
+      setSalesData(res.data.salesOverview || []);
+      setTopProducts(res.data.topProducts || []);
     };
+
     fetchOverView();
   }, []);
 
   if (loading)
-    return <p className="p-6 text-gray-400 text-sm">Loading orders...</p>;
-  if (error) return <p className="p-6 text-red-500 text-sm">{error}</p>;
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-gray-400 font-medium">
+            Loading dashboard...
+          </p>
+        </div>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="bg-red-50 border border-red-100 rounded-2xl px-6 py-4 text-red-500 text-sm font-medium">
+          {error}
+        </div>
+      </div>
+    );
+
+  const maxSales =
+    topProducts.length > 0
+      ? Math.max(...topProducts.map((p) => p.sales || 1))
+      : 1;
 
   const overviewCards = [
     {
@@ -69,14 +97,18 @@ const Dashboard = () => {
       icon: FaTshirt,
       bg: "bg-blue-50",
       iconColor: "text-blue-500",
+      trend: "+12%",
+      trendUp: true,
     },
     {
       id: 2,
       title: "Total Revenue",
-      count: overview.totalRevenue,
+      count: `$${Number(overview.totalRevenue).toLocaleString()}`,
       icon: FaMoneyBillWave,
       bg: "bg-amber-50",
       iconColor: "text-amber-500",
+      trend: "+8.1%",
+      trendUp: true,
     },
     {
       id: 3,
@@ -85,6 +117,8 @@ const Dashboard = () => {
       icon: FaShoppingBag,
       bg: "bg-emerald-50",
       iconColor: "text-emerald-500",
+      trend: "+5.4%",
+      trendUp: true,
     },
     {
       id: 4,
@@ -93,14 +127,16 @@ const Dashboard = () => {
       icon: FaUser,
       bg: "bg-purple-50",
       iconColor: "text-purple-500",
+      trend: "-2.3%",
+      trendUp: false,
     },
   ];
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <AdminHeader title="Dashboard" />
 
-      <main className="bg-gray-50 min-h-screen p-6 flex flex-col gap-6">
+      <main className="flex-1 p-6 flex flex-col gap-7">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {overviewCards.map((card) => {
@@ -108,20 +144,31 @@ const Dashboard = () => {
             return (
               <div
                 key={card.id}
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-shadow duration-200"
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col gap-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
               >
-                <div
-                  className={`w-12 h-12 rounded-xl ${card.bg} flex items-center justify-center shrink-0`}
-                >
-                  <Icon className={`text-xl ${card.iconColor}`} />
+                <div className="flex items-center justify-between">
+                  <div
+                    className={`w-11 h-11 rounded-xl ${card.bg} flex items-center justify-center`}
+                  >
+                    <Icon className={`text-lg ${card.iconColor}`} />
+                  </div>
+                  <span
+                    className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                      card.trendUp
+                        ? "bg-emerald-50 text-emerald-600"
+                        : "bg-red-50 text-red-500"
+                    }`}
+                  >
+                    {card.trend}
+                  </span>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">
+                  <p className="text-2xl font-bold text-gray-900 tracking-tight">
+                    {card.count}
+                  </p>
+                  <p className="text-xs text-gray-400 font-medium mt-0.5">
                     {card.title}
                   </p>
-                  <h3 className="text-2xl font-bold text-gray-900 mt-0.5">
-                    {card.count}
-                  </h3>
                 </div>
               </div>
             );
@@ -129,18 +176,33 @@ const Dashboard = () => {
         </div>
 
         {/* Charts Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Sales Chart */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-            <h4 className="text-sm font-semibold text-gray-800 mb-4">
-              Sales Overview
-            </h4>
-            <ResponsiveContainer width="100%" height={260}>
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
+          {/* Sales Chart — wider */}
+          <div className="lg:col-span-3 bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h4 className="text-sm font-semibold text-gray-800">
+                  Sales Overview
+                </h4>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  Last 7 days revenue
+                </p>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-gray-400 font-medium bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
+                <span className="w-2 h-2 rounded-full bg-amber-400 inline-block" />
+                Revenue
+              </div>
+            </div>
+            <ResponsiveContainer width="100%" height={240}>
               <LineChart
                 data={salesData}
-                margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+                margin={{ top: 5, right: 5, left: -20, bottom: 0 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke="#f3f4f6"
+                  vertical={false}
+                />
                 <XAxis
                   dataKey="date"
                   tick={{ fontSize: 11, fill: "#9ca3af" }}
@@ -157,6 +219,7 @@ const Dashboard = () => {
                     borderRadius: "12px",
                     border: "1px solid #e5e7eb",
                     fontSize: "12px",
+                    boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
                   }}
                   cursor={{ stroke: "#f3f4f6", strokeWidth: 2 }}
                 />
@@ -166,40 +229,51 @@ const Dashboard = () => {
                   stroke="#f59e0b"
                   strokeWidth={2.5}
                   dot={{ r: 4, fill: "#f59e0b", strokeWidth: 0 }}
-                  activeDot={{ r: 6 }}
+                  activeDot={{ r: 6, fill: "#f59e0b" }}
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
 
-          {/* Top Products */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col gap-4">
-            <h4 className="text-sm font-semibold text-gray-800">
-              Top Selling Products
-            </h4>
-            <div className="flex flex-col gap-3">
-              {topProducts.map((product) => (
-                <div key={product.rank} className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 shrink-0">
+          {/* Top Products — narrower */}
+          <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-5">
+            <div>
+              <h4 className="text-sm font-semibold text-gray-800">
+                Top Products
+              </h4>
+              <p className="text-xs text-gray-400 mt-0.5">By units sold</p>
+            </div>
+            <div className="flex flex-col gap-4">
+              {topProducts.map((product, index) => (
+                <div
+                  key={product.productId || index}
+                  className="flex items-center gap-3"
+                >
+                  <span className="text-xs font-bold text-gray-300 w-4 shrink-0">
+                    {index + 1}
+                  </span>
+                  <div className="w-9 h-9 rounded-lg overflow-hidden bg-gray-100 shrink-0 border border-gray-100">
                     <img
-                      src="/aboutus-image.jpg"
+                      src={`http://localhost:3000/${product.images?.[0]}`}
                       alt={product.name}
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-800 truncate">
+                    <p className="text-xs font-semibold text-gray-700 truncate mb-1">
                       {product.name}
                     </p>
-                    <div className="w-full h-1.5 bg-gray-100 rounded-full mt-1.5 overflow-hidden">
+                    <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-amber-400 rounded-full"
-                        style={{ width: `${(product.sales / 850) * 100}%` }}
+                        className="h-full bg-amber-400 rounded-full transition-all duration-700"
+                        style={{
+                          width: `${(product.sales / maxSales) * 100}%`,
+                        }}
                       />
                     </div>
                   </div>
-                  <span className="text-xs text-gray-400 font-medium whitespace-nowrap shrink-0">
-                    {product.sales} sold
+                  <span className="text-xs font-semibold text-gray-500 shrink-0 tabular-nums">
+                    {product.sales}
                   </span>
                 </div>
               ))}
@@ -208,70 +282,104 @@ const Dashboard = () => {
         </div>
 
         {/* Recent Orders */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col gap-5">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <h4 className="text-sm font-semibold text-gray-800">
-              Recent Orders
-            </h4>
-            <div className="relative w-full sm:max-w-72">
+            <div>
+              <h4 className="text-sm font-semibold text-gray-800">
+                Recent Orders
+              </h4>
+              <p className="text-xs text-gray-400 mt-0.5">
+                {filteredOrders.length} orders found
+              </p>
+            </div>
+            <div className="relative w-full sm:max-w-64">
               <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 text-xs" />
               <input
                 type="search"
-                placeholder="Search orders…"
+                placeholder="Search by customer or ID…"
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-8 pr-4 py-2 text-sm border border-gray-200 rounded-xl outline-none bg-gray-50 text-gray-700 placeholder-gray-300 focus:ring-2 focus:ring-gray-200 transition"
+                className="w-full pl-8 pr-4 py-2.5 text-sm border border-gray-200 rounded-xl outline-none bg-gray-50 text-gray-700 placeholder-gray-300 focus:ring-2 focus:ring-amber-100 focus:border-amber-300 transition"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {/* Table Header — desktop only */}
+          <div className="hidden lg:grid grid-cols-4 gap-4 px-4 py-2 bg-gray-50 rounded-xl">
+            <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">
+              Order
+            </p>
+            <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">
+              Customer
+            </p>
+            <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">
+              Status
+            </p>
+            <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider text-right">
+              Total
+            </p>
+          </div>
+
+          {/* Orders List */}
+          <div className="flex flex-col gap-2">
             {filteredOrders.map((order) => (
               <div
                 key={order._id}
-                className="border border-gray-100 rounded-xl p-4 flex flex-col gap-3 hover:shadow-sm transition-shadow duration-200 bg-gray-50/50"
+                className="grid grid-cols-1 lg:grid-cols-4 gap-3 lg:gap-4 items-center px-4 py-3.5 rounded-xl border border-gray-100 hover:border-gray-200 hover:bg-gray-50/60 transition-all duration-150"
               >
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">
-                      Order
-                    </p>
-                    <p className="text-sm font-semibold text-gray-900 font-mono">
-                      #{order._id.slice(0, 8)}
-                    </p>
+                {/* Order ID */}
+                <p className="text-sm font-semibold text-gray-800 font-mono tracking-tight">
+                  #{order._id.slice(0, 8)}
+                </p>
+
+                {/* Customer */}
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center shrink-0">
+                    <span className="text-[10px] font-bold text-gray-500 uppercase">
+                      {order.userId.username?.[0]}
+                    </span>
                   </div>
+                  <p className="text-sm text-gray-700 font-medium truncate">
+                    {order.userId.username}
+                  </p>
+                </div>
+
+                {/* Status */}
+                <div>
                   <span
-                    className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${
+                    className={`inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full ${
                       statusColors[order.orderStatus.trim()] ||
                       "bg-gray-100 text-gray-600"
                     }`}
                   >
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full ${
+                        statusDot[order.orderStatus.trim()] || "bg-gray-400"
+                      }`}
+                    />
                     {order.orderStatus}
                   </span>
                 </div>
 
-                <div className="border-t border-dashed border-gray-200" />
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">
-                      Customer
-                    </p>
-                    <p className="text-sm text-gray-700 font-medium">
-                      {order.userId.username}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">
-                      Total
-                    </p>
-                    <p className="text-sm font-bold text-gray-900">
-                      ${order.totalAmount.toFixed(2)}
-                    </p>
-                  </div>
-                </div>
+                {/* Total */}
+                <p className="text-sm font-bold text-gray-900 lg:text-right">
+                  ${order.totalAmount.toFixed(2)}
+                </p>
               </div>
             ))}
           </div>
+
+          {/* Empty state */}
+          {filteredOrders.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-14 gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center">
+                <FaShoppingBag className="text-gray-300 text-lg" />
+              </div>
+              <p className="text-sm text-gray-400 font-medium">
+                No orders found
+              </p>
+              <p className="text-xs text-gray-300">Try adjusting your search</p>
+            </div>
+          )}
         </div>
       </main>
     </div>
