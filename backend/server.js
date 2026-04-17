@@ -6,12 +6,29 @@ const connectdb = require("./config/db");
 const app = express();
 const PORT = process.env.PORT || 7777;
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://shopnest-beta-three.vercel.app",
+];
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: function (origin, callback) {
+      // allow tools like Postman / server-to-server
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS: " + origin));
+    },
     credentials: true,
   }),
 );
+
+// important for preflight requests
+app.options("*", cors());
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 // connect mongodb
