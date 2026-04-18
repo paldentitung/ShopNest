@@ -193,7 +193,7 @@ const Profile = () => {
           onClick={() => setShowModal(false)}
         >
           <div
-            className="relative z-50 w-full max-w-sm rounded-2xl bg-white p-8 text-center shadow-2xl"
+            className="relative z-50 w-full max-w-sm rounded-2xl bg-white p-8 text-center shadow-2xl "
             onClick={(e) => e.stopPropagation()}
           >
             {/* Icon */}
