@@ -5,7 +5,7 @@ import Header from "../Components/layout/Header";
 const CheckOutLayout = ({ children }) => {
   return (
     <div>
-      <Header />
+      <Header showSearch={false} />
       <main className="flex flex-col gap-10 mt-25">{children}</main>
     </div>
   );

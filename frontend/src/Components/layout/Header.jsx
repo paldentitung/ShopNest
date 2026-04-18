@@ -15,7 +15,7 @@ import { useApp } from "../../Hooks/useApp";
 import { AuthContext } from "../../Context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearch } from "../../Hooks/useSearch";
-const Header = () => {
+const Header = ({ showSearch = true }) => {
   const [isScroll, setIsScroll] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [notification, setNotification] = useState([]);
@@ -122,16 +122,18 @@ const Header = () => {
               : "bg-(--color-surface)]/30 text-(--color-foreground) border-(--color-border)"
           }`}
         >
-          <div className="relative flex items-center">
-            {/* Search Icon */}
-            <button
-              type="button"
-              className="cursor-pointer"
-              onClick={() => setShowSearchBar(!showSearchBar)}
-            >
-              <FaSearch />
-            </button>
-          </div>
+          {showSearch && (
+            <div className="relative flex items-center">
+              {/* Search Icon */}
+              <button
+                type="button"
+                className="cursor-pointer"
+                onClick={() => setShowSearchBar(!showSearchBar)}
+              >
+                <FaSearch />
+              </button>
+            </div>
+          )}
           <button
             type="button"
             className="relative"
