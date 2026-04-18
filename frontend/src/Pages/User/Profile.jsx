@@ -31,7 +31,6 @@ const Profile = () => {
   const { wishlist } = useApp();
 
   const { myInProgressOrders } = useOrders();
-  console.log("progress", myInProgressOrders);
   return (
     <>
       <section className="bg-gray-100 min-h-screen py-5 md:p-6 mt-10">

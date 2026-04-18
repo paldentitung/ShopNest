@@ -49,7 +49,7 @@ exports.createProduct = async (data, file) => {
   const { name, category, priceCents, description, variations } = data;
 
   const slug = slugify(name, { lower: true });
-  const imagePaths = file ? [`uploads/products/${file.filename}`] : [];
+  const imagePaths = file ? [file.path] : [];
 
   const newProduct = new Product({
     name,

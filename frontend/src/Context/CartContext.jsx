@@ -74,9 +74,7 @@ export const CartProvider = ({ children }) => {
     const userToken = localStorage.getItem("ShopNest-token");
     if (!userToken) return;
     fetchCart();
-    console.log("cart data", cartItems);
   }, []);
-  console.log("cartItems:", cartItems);
   return (
     <CartContext.Provider
       value={{

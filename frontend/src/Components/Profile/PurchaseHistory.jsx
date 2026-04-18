@@ -104,7 +104,6 @@ function OrderCard({ order }) {
 
 const PurchaseHistory = ({ showAll = true }) => {
   const { purchaseHistory } = useOrders();
-  console.log("purchase history", purchaseHistory);
 
   const purchaseToShow = showAll
     ? purchaseHistory

@@ -41,8 +41,6 @@ export const CheckoutProvider = ({ children }) => {
     [total, shippingCost],
   );
 
-  console.log("total", totalWithShipping);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setShippingFormData((prev) => ({ ...prev, [name]: value }));
@@ -80,8 +78,6 @@ export const CheckoutProvider = ({ children }) => {
       if (!res.ok) throw new Error("Order creation failed");
 
       const order = await res.json();
-
-      console.log("order placed", order.data);
 
       Swal.fire({ title: "Order placed!", icon: "success" }).then(() => {
         navigate("/");

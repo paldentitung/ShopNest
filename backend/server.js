@@ -1,4 +1,6 @@
-require("dotenv").config();
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV || "development"}`,
+});
 
 const express = require("express");
 const cors = require("cors");
@@ -82,7 +84,8 @@ app.use("/api/analytics", AnalyticsRoute);
 // ========================
 const errorMiddleware = require("./middleware/errorMiddleware");
 app.use(errorMiddleware);
-
+console.log("Running in:", process.env.NODE_ENV);
+console.log("Mongo URI:", process.env.MONGO_URI);
 // ========================
 // START SERVER
 // ========================

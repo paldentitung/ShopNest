@@ -34,7 +34,6 @@ const Header = () => {
     const userToken = localStorage.getItem("ShopNest-token");
 
     if (!userToken) {
-      console.log("=== EARLY RETURN - NO TOKEN ===");
       return;
     }
     const fetchNotifications = async () => {
