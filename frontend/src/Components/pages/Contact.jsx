@@ -113,7 +113,7 @@ const Contact = () => {
     "w-full bg-white border border-black/10 text-black placeholder-black/30 text-sm px-4 py-3 rounded-xl outline-none focus:border-black/30 focus:ring-1 focus:ring-black/10 transition-all duration-200";
 
   return (
-    <section className="relative w-full min-h-screen bg-white overflow-hidden flex items-center">
+    <section className="relative w-full min-h-screen  bg-white overflow-hidden flex items-center  mb-3 md:mb-0">
       <div className="absolute top-0 right-0 w-1/2 h-full bg-[#f7f5f2] clip-diagonal" />
       <div
         className="absolute inset-0 opacity-[0.2]"
@@ -124,7 +124,7 @@ const Contact = () => {
         }}
       />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-12 md:gap-20 items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-12 flex flex-col md:flex-row gap-12 md:gap-20 items-center">
         {/* Left — Info */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
@@ -176,7 +176,7 @@ const Contact = () => {
           viewport={{ once: true }}
           className="flex-1 w-full"
         >
-          <div className="bg-white rounded-3xl p-7 md:p-10 shadow-lg border border-black/10">
+          <div className="bg-white rounded-3xl p-5 md:p-10 shadow-lg border border-black/10">
             <p className="text-xs tracking-[0.25em] uppercase text-black/30 mb-6 font-medium">
               Send a message
             </p>
