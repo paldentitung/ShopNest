@@ -37,13 +37,12 @@ const ProductCard = ({ product }) => {
       whileHover={{ y: -4 }}
       className="group relative bg-white rounded-2xl overflow-hidden flex flex-col border border-gray-100 group shadow-md"
     >
-      <div className="relative w-full h-60 sm:h-64  overflow-hidden">
+      <div className="relative w-full mx-auto h-48 md:h-52 overflow-hidden  rounded-t-2xl">
         <img
           src={product.images}
           alt={product.name}
           className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
         />
-
         <span className="absolute top-3 left-3 bg-white/80 backdrop-blur-sm text-gray-500 text-[11px] font-medium tracking-widest uppercase px-3 py-1 rounded-full border border-gray-200 hidden group-hover:block">
           {product.category}
         </span>
