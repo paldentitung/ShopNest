@@ -47,7 +47,7 @@ const Cart = () => {
                   className="flex gap-5 border-b border-(--color-border) pb-4"
                 >
                   <img
-                    src={`${VITE_SERVER_URL}/${item.product.images[0]}`}
+                    src={item.product.images?.[0]}
                     alt="Product"
                     className="h-22 w-20 md:h-28 md:w-28 object-contain rounded-xl"
                   />

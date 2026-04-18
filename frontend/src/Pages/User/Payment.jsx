@@ -138,7 +138,7 @@ const Payment = () => {
                 className="flex items-center gap-2 p-1 rounded-md shadow-xs"
               >
                 <img
-                  src={`${VITE_SERVER_URL}/${item.product.images[0]}`}
+                  src={`${item.product.images[0]}`}
                   alt=""
                   className="w-10 h-10 object-contain"
                 />
