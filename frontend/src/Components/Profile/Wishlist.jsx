@@ -41,7 +41,7 @@ const Wishlist = () => {
             >
               <div className="overflow-hidden h-65 flex items-center justify-center">
                 <img
-                  src={`${VITE_SERVER_URL}/${w.image}`}
+                  src={`${w.image?.[0]}`}
                   alt={`${w.name}`}
                   className="transition-all duration-300 group-hover:scale-110 w-full h-full object-contain"
                 />
