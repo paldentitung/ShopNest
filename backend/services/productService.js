@@ -22,9 +22,9 @@ exports.getAllProducts = async (page = null, limit = null) => {
     name: p.name,
     slug: p.slug,
     category: p.category || "Clothing",
-    images: Array.isArray(p.images)
-      ? p.images.map((img) => `http://localhost:3000/${img}`)
-      : [],
+
+    images: Array.isArray(p.images) ? p.images : [],
+
     priceCents: p.priceCents,
     averageRating: p.averageRating || 0,
     totalRatings: p.totalRatings || 0,
@@ -44,12 +44,12 @@ exports.getAllProducts = async (page = null, limit = null) => {
 
   return { products: mappedProducts };
 };
-
 exports.createProduct = async (data, file) => {
   const { name, category, priceCents, description, variations } = data;
 
   const slug = slugify(name, { lower: true });
-  const imagePaths = file ? [file.path] : [];
+
+  const imagePaths = file ? [file.secure_url || file.path] : [];
 
   const newProduct = new Product({
     name,
@@ -65,7 +65,6 @@ exports.createProduct = async (data, file) => {
 
   return await newProduct.save();
 };
-
 exports.updateProduct = async (id, updates, file) => {
   const product = await Product.findById(id);
 
@@ -77,7 +76,9 @@ exports.updateProduct = async (id, updates, file) => {
 
   if (updates.name) updates.slug = slugify(updates.name, { lower: true });
 
-  if (file) updates.images = [`uploads/products/${file.filename}`];
+  if (file) {
+    updates.images = [file.secure_url || file.path];
+  }
 
   const updatedProduct = await Product.findByIdAndUpdate(id, updates, {
     new: true,
@@ -85,7 +86,6 @@ exports.updateProduct = async (id, updates, file) => {
 
   return updatedProduct;
 };
-
 exports.deleteProduct = async (id) => {
   const product = await Product.findById(id);
   if (!product) throw new AppError("Product not found", 404);

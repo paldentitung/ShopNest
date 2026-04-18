@@ -25,7 +25,7 @@ exports.updateProfile = async (req, res) => {
   const updateData = {};
 
   if (req.file) {
-    updateData.avatar = `http://localhost:3000/${req.file.path}`;
+    updateData.avatar = req.file.path;
   } else if (req.body.avatar) {
     updateData.avatar = req.body.avatar;
   }

@@ -4,6 +4,7 @@ import CheckoutStepper from "../../Components/checkout/CheckoutStepper";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 import { CheckoutContext } from "../../Context/CheckoutContext";
+const VITE_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const Shipping = () => {
   const { cartItems, total, cartLength } = useCart();
@@ -216,7 +217,7 @@ const Shipping = () => {
                 className="flex items-center gap-2 p-1 rounded-md shadow-xs"
               >
                 <img
-                  src={`http://localhost:3000/${item.product.images[0]}`}
+                  src={`${VITE_SERVER_URL}/${item.product.images[0]}`}
                   alt=""
                   className="w-10 h-10 object-contain"
                 />

@@ -8,7 +8,7 @@ const ProductPage = ({ isHidden, isShow, productLimit }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await getAllProducts();
-      setProducts(res.data);
+      setProducts(res.data || []);
     };
     fetchProducts();
   }, []);

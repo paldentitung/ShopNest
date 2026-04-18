@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useApp } from "../../Hooks/useApp";
 import { useSearch } from "../../Hooks/useSearch";
+const VITE_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const SearchModal = () => {
   const { showSearchBar, setShowSearchBar, setSearch, results } = useSearch();
@@ -52,7 +53,7 @@ const SearchModal = () => {
               >
                 <li className="flex items-center gap-4 p-3 hover:bg-gray-100 rounded-lg cursor-pointer transition">
                   <img
-                    src={`http://localhost:3000/${item.images[0]}`}
+                    src={`${VITE_SERVER_URL}/${item.images[0]}`}
                     alt="Laptop"
                     className="w-20 h-20 object-cover rounded-md"
                   />

@@ -18,6 +18,7 @@ import {
 import AdminHeader from "./AdminHeader";
 import { useOrders } from "../../Hooks/useOrders";
 import { apiFetch } from "../../utils/api";
+const VITE_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const statusColors = {
   Shipping: "bg-blue-50 text-blue-700 border border-blue-200",
@@ -254,7 +255,7 @@ const Dashboard = () => {
                   </span>
                   <div className="w-9 h-9 rounded-lg overflow-hidden bg-gray-100 shrink-0 border border-gray-100">
                     <img
-                      src={`http://localhost:3000/${product.images?.[0]}`}
+                      src={`${VITE_SERVER_URL}/${product.images?.[0]}`}
                       alt={product.name}
                       className="w-full h-full object-cover"
                     />

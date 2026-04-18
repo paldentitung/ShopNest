@@ -5,6 +5,7 @@ import { useCart } from "../../Context/CartContext";
 import BackButton from "../../Components/common/BackButton";
 import CheckoutStepper from "../../Components/checkout/CheckoutStepper";
 import MainButton from "../../Components/common/MainButton";
+const VITE_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const Review = () => {
   const navigate = useNavigate();
@@ -102,7 +103,7 @@ const Review = () => {
               >
                 <div className="w-12 h-12 rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden shrink-0">
                   <img
-                    src={`http://localhost:3000/${item.product.images[0]}`}
+                    src={`${VITE_SERVER_URL}/${item.product.images[0]}`}
                     alt={item.product.name}
                     className="w-10 h-10 object-contain"
                   />

@@ -12,6 +12,7 @@ import { useApp } from "../../Hooks/useApp";
 import { FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
 import ConfirmModal from "../../Components/common/ConfirmModal";
+const VITE_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const ProductManagement = () => {
   const { setShowModal } = useApp();
@@ -80,9 +81,8 @@ const ProductManagement = () => {
         const newProduct = {
           ...response.data,
           images:
-            response.data.images?.map(
-              (img) => `http://localhost:3000/${img}`,
-            ) || [],
+            response.data.images?.map((img) => `${VITE_SERVER_URL}/${img}`) ||
+            [],
         };
         setProducts((prev) => [...prev, newProduct]);
         toast.success("Product Added");
@@ -93,7 +93,7 @@ const ProductManagement = () => {
           ...response.updatedProduct,
           images:
             response.updatedProduct.images?.map(
-              (img) => `http://localhost:3000/${img}`,
+              (img) => `${VITE_SERVER_URL}/${img}`,
             ) || products.find((p) => p._id === isEditing).images,
         };
         toast.success("Product edited");

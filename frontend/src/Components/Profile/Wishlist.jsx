@@ -5,6 +5,7 @@ import MainButton from "../common/MainButton";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 import toast from "react-hot-toast";
+const VITE_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 const Wishlist = () => {
   const { wishlist, toggleWishlist } = useApp();
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const Wishlist = () => {
             >
               <div className="overflow-hidden h-65 flex items-center justify-center">
                 <img
-                  src={`http://localhost:3000/${w.image?.[0]}`}
+                  src={`${VITE_SERVER_URL}/${w.image}`}
                   alt={`${w.name}`}
                   className="transition-all duration-300 group-hover:scale-110 w-full h-full object-contain"
                 />

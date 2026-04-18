@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 import { FaShoppingBag, FaArrowRight } from "react-icons/fa";
 import toast from "react-hot-toast";
+const VITE_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 import BackButton from "../../Components/common/BackButton";
 const Cart = () => {
   const {
@@ -46,7 +47,7 @@ const Cart = () => {
                   className="flex gap-5 border-b border-(--color-border) pb-4"
                 >
                   <img
-                    src={`http://localhost:3000/${item.product.images[0]}`}
+                    src={`${VITE_SERVER_URL}/${item.product.images[0]}`}
                     alt="Product"
                     className="h-22 w-20 md:h-28 md:w-28 object-contain rounded-xl"
                   />
