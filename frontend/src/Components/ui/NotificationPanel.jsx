@@ -67,8 +67,7 @@ const NotificationPanel = ({
   setNotification,
 }) => {
   const panelRef = useRef(null);
-  const unreadCount = notification.filter((n) => !n.read).length;
-
+  const unreadCount = (notification ?? []).filter((n) => !n.read).length;
   const handleReadNotification = async (id) => {
     try {
       await readNotification(id);
@@ -79,12 +78,6 @@ const NotificationPanel = ({
       console.error("Failed to mark read:", error);
     }
   };
-
-  // const handleMarkAllRead = async () => {
-  //   const unread = notification.filter((n) => !n.read);
-  //   await Promise.allSettled(unread.map((n) => readNotification(n._id)));
-  //   setNotification((prev) => prev.map((n) => ({ ...n, read: true })));
-  // };
 
   const handleMarkAllRead = async () => {
     await readAllNotification();
