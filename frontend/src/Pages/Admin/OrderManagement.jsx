@@ -263,41 +263,59 @@ const OrderManagement = () => {
       </div>
 
       {isModalOpen && selectedOrder && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white w-full max-w-md rounded-xl p-6 shadow-lg">
-            <h2 className="text-lg font-semibold mb-4">Update Order Status</h2>
-
-            <p className="text-sm text-gray-500 mb-4">
-              Order: #{selectedOrder._id.slice(-6).toUpperCase()}
-            </p>
-
-            <select
-              value={newStatus}
-              onChange={(e) => setNewStatus(e.target.value)}
-              className="w-full border rounded-lg px-3 py-2 mb-4"
-            >
-              <option value="pending">Pending</option>
-              <option value="shipped">Shipped</option>
-              <option value="delivered">Delivered</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
-
-            <div className="flex justify-end gap-2">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
+            {/* Header */}
+            <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
+              <div>
+                <h2 className="text-base font-semibold text-gray-900">
+                  Update Order Status
+                </h2>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  Order #{selectedOrder._id.slice(-6).toUpperCase()}
+                </p>
+              </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 text-sm border rounded-lg"
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 transition"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="px-6 py-5">
+              <label className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2 block">
+                Status
+              </label>
+              <select
+                value={newStatus}
+                onChange={(e) => setNewStatus(e.target.value)}
+                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 bg-gray-50 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 transition"
+              >
+                <option value="pending">Pending</option>
+                <option value="shipped">Shipped</option>
+                <option value="delivered">Delivered</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+
+            {/* Footer */}
+            <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex justify-end gap-2.5">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2 text-sm font-medium border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-100 transition"
               >
                 Cancel
               </button>
-
               <button
                 onClick={async () => {
                   await updateOrderStatus(selectedOrder._id, newStatus);
                   setIsModalOpen(false);
                 }}
-                className="px-4 py-2 text-sm bg-indigo-600 text-white rounded-lg"
+                className="px-4 py-2 text-sm font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 active:scale-95 transition"
               >
-                Save
+                Save Changes
               </button>
             </div>
           </div>
