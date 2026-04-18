@@ -56,21 +56,22 @@ const AccountSettingModal = ({ setShowAccountSettingModal }) => {
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        {/* Overlay */}
+      // Modal wrapper — bottom sheet on mobile, centered on sm+
+      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
+        {/* Overlay — unchanged */}
         <div
           className="absolute inset-0 bg-black/50 backdrop-blur-sm"
           onClick={() => setShowAccountSettingModal(false)}
         />
 
-        {/* Modal */}
+        {/* Form/card — sheet on mobile, card on sm+ */}
         <form
           onSubmit={handleSubmit}
-          onClick={(e) => e.stopPropagation()} // Prevent overlay click
-          className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col z-50"
+          onClick={(e) => e.stopPropagation()}
+          className="relative w-full sm:max-w-3xl bg-white  shadow-2xl overflow-hidden flex flex-col z-50 max-h-[92dvh] overflow-y-auto m-3"
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-7 py-5 border-b border-gray-100">
+          <div className="flex items-center justify-between px-4 sm:px-7 py-4 sm:py-5 border-b border-gray-100">
             <h3 className="text-xl font-semibold text-gray-900">
               Account Settings
             </h3>
@@ -84,8 +85,9 @@ const AccountSettingModal = ({ setShowAccountSettingModal }) => {
           </div>
 
           {/* Body */}
-          <div className="px-7 py-6 flex flex-col gap-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="px-4 py-5 sm:px-7 sm:py-6 flex flex-col gap-5 sm:gap-6">
+            {/* Password fields — stacked on mobile, 3-col on md+ */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
               {["currentPassword", "newPassword", "confirmPassword"].map(
                 (field, idx) => {
                   const labels = [
@@ -118,12 +120,12 @@ const AccountSettingModal = ({ setShowAccountSettingModal }) => {
               )}
             </div>
 
-            {/* Notifications & Privacy */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="flex flex-col gap-4">
+            {/* Notifications & Privacy — stacked on mobile, 2-col on lg+ */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+              <div className="flex flex-col gap-3 sm:gap-4">
                 <h4 className="font-semibold text-gray-800">Notifications</h4>
-                <div className="flex flex-col gap-3">
-                  <label className="flex items-start gap-3 p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                <div className="flex flex-col gap-2 sm:gap-3">
+                  <label className="flex items-start gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
                     <input type="checkbox" className="mt-1" />
                     <div className="flex flex-col">
                       <span className="text-sm font-medium">
@@ -134,7 +136,7 @@ const AccountSettingModal = ({ setShowAccountSettingModal }) => {
                       </span>
                     </div>
                   </label>
-                  <label className="flex items-start gap-3 p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                  <label className="flex items-start gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
                     <input type="checkbox" className="mt-1" />
                     <div className="flex flex-col">
                       <span className="text-sm font-medium">
@@ -148,10 +150,10 @@ const AccountSettingModal = ({ setShowAccountSettingModal }) => {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3 sm:gap-4">
                 <h4 className="font-semibold text-gray-800">Privacy</h4>
-                <div className="flex flex-col gap-3">
-                  <label className="flex items-start gap-3 p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                <div className="flex flex-col gap-2 sm:gap-3">
+                  <label className="flex items-start gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
                     <input type="checkbox" className="mt-1" />
                     <div className="flex flex-col">
                       <span className="text-sm font-medium">
@@ -162,7 +164,7 @@ const AccountSettingModal = ({ setShowAccountSettingModal }) => {
                       </span>
                     </div>
                   </label>
-                  <label className="flex items-start gap-3 p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                  <label className="flex items-start gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
                     <input type="checkbox" className="mt-1" />
                     <div className="flex flex-col">
                       <span className="text-sm font-medium">
@@ -179,7 +181,7 @@ const AccountSettingModal = ({ setShowAccountSettingModal }) => {
           </div>
 
           {/* Footer */}
-          <div className="flex justify-end gap-2.5 px-7 py-4 border-t border-gray-100 bg-gray-50/50">
+          <div className="flex justify-end gap-2.5 px-4 sm:px-7 py-4 border-t border-gray-100 bg-gray-50/50">
             <SecondaryButton
               type="button"
               name="Cancel"

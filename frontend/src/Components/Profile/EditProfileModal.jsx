@@ -54,7 +54,7 @@ const EditProfileForm = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 min-h-screen overflow-auto p-2">
       {/* Overlay */}
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
@@ -64,11 +64,11 @@ const EditProfileForm = () => {
       {/* Modal */}
       <form
         onSubmit={handleSubmit}
-        onClick={(e) => e.stopPropagation()} // Prevent overlay click
-        className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden z-50"
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full sm:max-w-lg bg-white  rounded-md shadow-2xl overflow-hidden z-50 max-h-[92dvh] overflow-y-auto"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-7 py-5 border-b border-gray-100">
+        <div className="flex items-center justify-between px-4 sm:px-7 py-4 sm:py-5 border-b border-gray-100">
           <h3 className="text-xl font-semibold text-gray-900 tracking-tight">
             Edit Profile
           </h3>
@@ -82,7 +82,7 @@ const EditProfileForm = () => {
         </div>
 
         {/* Body */}
-        <div className="px-7 py-6 flex flex-col gap-6">
+        <div className="px-4 py-5 sm:px-7 sm:py-6 flex flex-col gap-5 sm:gap-6">
           {/* Profile Image */}
           <div className="flex items-center gap-5">
             <div
@@ -167,7 +167,7 @@ const EditProfileForm = () => {
                 <FaMapMarkerAlt size={10} /> Address
               </label>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                 <input
                   className={inputClass}
                   type="text"
@@ -230,7 +230,7 @@ const EditProfileForm = () => {
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-2.5 px-7 py-4 border-t border-gray-100 bg-gray-50/50">
+        <div className="flex justify-end gap-2.5 px-4 sm:px-7 py-4 border-t border-gray-100 bg-gray-50/50">
           <SecondaryButton type="button" name="Cancel" onClick={onClose} />
           <MainButton
             name={loading ? "Saving…" : "Save Changes"}
