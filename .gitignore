@@ -24,10 +24,13 @@ dist-ssr
 *.sln
 *.sw?
 
-.env
-.env
-.env.*
+
 backend/uploads
 backend/createAdmin.js
+# env files (secrets)
+.env
 .env.development
 .env.production
+
+# BUT allow example file
+!.env.example
