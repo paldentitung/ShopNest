@@ -15,6 +15,10 @@ A production-ready e-commerce application delivering a seamless shopping experie
 </div>
 
 ---
+## 🌐 Live Demo
+
+[![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-ShopNest-blue?style=for-the-badge)](https://shopnest-beta-three.vercel.app/)
+---
 
 ## ✨ Why ShopNest?
 
