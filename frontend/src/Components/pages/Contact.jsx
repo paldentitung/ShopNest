@@ -92,8 +92,10 @@ const Contact = () => {
       if (!res) return;
       toast.success("Message sent!");
       setUserData({ name: "", email: "", message: "" });
-    } catch {
-      toast.error("Server error");
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message || error?.message || "Server error",
+      );
     } finally {
       setLoading(false);
     }
