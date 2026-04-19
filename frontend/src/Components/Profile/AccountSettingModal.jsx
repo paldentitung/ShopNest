@@ -119,65 +119,6 @@ const AccountSettingModal = ({ setShowAccountSettingModal }) => {
                 },
               )}
             </div>
-
-            {/* Notifications & Privacy — stacked on mobile, 2-col on lg+ */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-              <div className="flex flex-col gap-3 sm:gap-4">
-                <h4 className="font-semibold text-gray-800">Notifications</h4>
-                <div className="flex flex-col gap-2 sm:gap-3">
-                  <label className="flex items-start gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
-                    <input type="checkbox" className="mt-1" />
-                    <div className="flex flex-col">
-                      <span className="text-sm font-medium">
-                        Email Notifications
-                      </span>
-                      <span className="text-xs text-gray-500">
-                        Receive updates via email
-                      </span>
-                    </div>
-                  </label>
-                  <label className="flex items-start gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
-                    <input type="checkbox" className="mt-1" />
-                    <div className="flex flex-col">
-                      <span className="text-sm font-medium">
-                        Push Notifications
-                      </span>
-                      <span className="text-xs text-gray-500">
-                        Receive alerts on your device
-                      </span>
-                    </div>
-                  </label>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-3 sm:gap-4">
-                <h4 className="font-semibold text-gray-800">Privacy</h4>
-                <div className="flex flex-col gap-2 sm:gap-3">
-                  <label className="flex items-start gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
-                    <input type="checkbox" className="mt-1" />
-                    <div className="flex flex-col">
-                      <span className="text-sm font-medium">
-                        Profile Visibility
-                      </span>
-                      <span className="text-xs text-gray-500">
-                        Allow others to view your profile
-                      </span>
-                    </div>
-                  </label>
-                  <label className="flex items-start gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition">
-                    <input type="checkbox" className="mt-1" />
-                    <div className="flex flex-col">
-                      <span className="text-sm font-medium">
-                        Order Visibility
-                      </span>
-                      <span className="text-xs text-gray-500">
-                        Show your order history publicly
-                      </span>
-                    </div>
-                  </label>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Footer */}
