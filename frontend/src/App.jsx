@@ -29,6 +29,10 @@ import SplashScreen from "./Components/ui/SplashScreen";
 import ResetPassword from "./Pages/auth/ResetPassword";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 import VerifyEmail from "./Pages/auth/VerifyEmail";
+import FAQ from "./Pages/User/FAQ";
+import PrivacyPolicy from "./Pages/User/PrivacyPolicy";
+import ShippingReturns from "./Pages/User/ShippingReturns";
+import TermsConditions from "./Pages/User/TermsConditions";
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
 
@@ -100,9 +104,6 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-email/:token" element={<VerifyEmail />} />
 
-        {/* 404 */}
-        <Route path="*" element={<PageNotFound />} />
-
         {/* Admin routes (protected) */}
         <Route
           path="/admin"
@@ -126,7 +127,11 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="products" element={<ProductPage />} />
           <Route path="about" element={<AboutPage />} />
-          <Route path="contact" element={<ContactPage />} />
+          <Route path="contact" element={<ContactPage />} />{" "}
+          <Route path="faq" element={<FAQ />} />
+          <Route path="shipping-returns" element={<ShippingReturns />} />
+          <Route path="privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="terms-conditions" element={<TermsConditions />} />
         </Route>
 
         {/* Protected user routes */}
@@ -184,6 +189,9 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
+        {/* 404 */}
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
   );

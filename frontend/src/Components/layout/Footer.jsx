@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-
 const Footer = () => {
   const navLinks = [
     { id: "home", label: "Home", path: "/" },
@@ -15,7 +14,6 @@ const Footer = () => {
     { id: "shipping", label: "Shipping & Returns", path: "/shipping-returns" },
     { id: "privacy", label: "Privacy Policy", path: "/privacy-policy" },
     { id: "terms", label: "Terms & Conditions", path: "/terms-conditions" },
-    { id: "contact", label: "Contact", path: "/contact" },
   ];
 
   const footerContact = [
@@ -121,7 +119,7 @@ const Footer = () => {
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: i * 0.05 }}
-                  className="border-b border-transparent transition-all duration-300 hover:border-b-(--color-surface)"
+                  className=""
                 >
                   <span>{item.value}</span>
                 </motion.li>
