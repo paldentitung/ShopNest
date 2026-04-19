@@ -38,7 +38,7 @@ const ProductManagement = () => {
     let ignore = false;
 
     const fetchProducts = async () => {
-      const res = await getAllProducts(page, 3);
+      const res = await getAllProducts(page, 10);
 
       if (!ignore) {
         setProducts(res.data);
