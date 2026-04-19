@@ -6,8 +6,7 @@ export const apiFetch = async (endpoint, options = {}, requireAuth = true) => {
   const userToken = localStorage.getItem("ShopNest-token");
 
   if (requireAuth && !userToken) {
-    toast.error("User not logged in");
-    return null;
+    throw new Error("User not logged in");
   }
 
   const headers = {
@@ -41,7 +40,7 @@ export const apiFetch = async (endpoint, options = {}, requireAuth = true) => {
     localStorage.removeItem("ShopNest-token");
     toast.error("Session expired. Please login again.");
     window.location.href = "/login";
-    return null;
+    throw new Error("Unauthorized");
   }
 
   if (res.status === 403) {
@@ -54,7 +53,7 @@ export const apiFetch = async (endpoint, options = {}, requireAuth = true) => {
       window.location.href = "/login";
     }, 1500);
 
-    return null;
+    throw new Error("Forbidden");
   }
 
   if (!res.ok) {

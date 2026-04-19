@@ -66,6 +66,18 @@ const ProductManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.stock < 0) {
+      toast.error("Stock cannot be negative");
+      return;
+    }
+
+    if (formData.stock === 0) {
+      const confirm = window.confirm(
+        "Stock is 0. Product will be marked as Out of Stock. Continue?",
+      );
+      if (!confirm) return;
+    }
+
     const data = new FormData();
     data.append("name", formData.name);
     data.append("category", formData.category);
@@ -78,6 +90,10 @@ const ProductManagement = () => {
     try {
       if (!isEditing) {
         const response = await createProduct(data);
+        if (response?.success === false) {
+          toast.error(response.message || "Failed to add product");
+          return;
+        }
         const newProduct = {
           ...response.data,
           images:
@@ -113,7 +129,12 @@ const ProductManagement = () => {
         imageFile: null,
       });
     } catch (error) {
-      toast.error(error.message);
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "Something went wrong";
+
+      toast.error(message);
     }
   };
 

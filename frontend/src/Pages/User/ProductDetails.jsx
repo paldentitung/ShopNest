@@ -299,11 +299,14 @@ const ProductDetails = () => {
 
   const mainImage = selectedImage || product.images[0];
 
-  const handleAddItem = () => {
-    addItem(product._id, 1);
-    toast.success("Product Added");
+  const handleAddItem = async () => {
+    try {
+      await addItem(product._id, 1);
+      toast.success("Product Added");
+    } catch (error) {
+      toast.error(error.message || "Failed to add to cart");
+    }
   };
-
   const totalReviews = product.totalRatings || 0;
   const avgRating = product.averageRating || 0;
   const starCounts = [5, 4, 3, 2, 1].map((s) => ({

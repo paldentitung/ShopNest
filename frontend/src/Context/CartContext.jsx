@@ -18,10 +18,13 @@ export const CartProvider = ({ children }) => {
   };
 
   const addItem = async (productId, quantity) => {
-    await addToCart({ productId, quantity });
-    fetchCart();
+    try {
+      await addToCart({ productId, quantity });
+      await fetchCart();
+    } catch (error) {
+      throw error; // re-throw so the calling component can show a toast
+    }
   };
-
   const removeItem = async (cartItemId) => {
     await removeFromCart(cartItemId);
     setCartItems((prev) => prev.filter((item) => item._id !== cartItemId));

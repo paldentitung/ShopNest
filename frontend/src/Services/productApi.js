@@ -8,8 +8,6 @@ export const getAllProducts = async (page = 1, limit = 20) => {
     false,
   );
 
-  console.log("data for pagination", data);
-
   return data || { products: [], total: 0, page, pages: 1 };
 };
 
