@@ -1,35 +1,39 @@
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const AppError = require("../utils/AppError");
-const sanitizeUser = require("../utils/sanitizeUser");
-const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
-const {
-  registerTemplate,
-} = require("../utils/emailTemplates/registerTemplate");
+const bcrypt = require("bcryptjs");
+const User = require("../models/User");
+const AppError = require("../utils/AppError");
+const sendEmail = require("../utils/sendEmail");
+const jwt = require("jsonwebtoken");
+const { sanitizeUser } = require("../utils/sanitizeUser");
 exports.register = async (username, email, password) => {
   const existingUser = await User.findOne({ email });
-  console.log("Sending email to:", email);
   if (existingUser) {
     throw new AppError("User already exists", 400);
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const verificationToken = crypto.randomBytes(32).toString("hex");
+
+  const rawToken = crypto.randomBytes(32).toString("hex");
+
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(rawToken)
+    .digest("hex");
 
   const user = new User({
     username,
     email,
     password: hashedPassword,
     isVerified: false,
-    emailVerificationToken: verificationToken,
+    emailVerificationToken: hashedToken,
     emailVerificationExpires: Date.now() + 1000 * 60 * 30, // 30 min
   });
 
   await user.save();
+
   const FRONTEND_URL = process.env.FRONTEND_URL;
-  const verifyLink = `${FRONTEND_URL}/verify-email/${verificationToken}`;
+
+  const verifyLink = `${FRONTEND_URL}/verify-email/${rawToken}`;
 
   await sendEmail({
     to: email,
@@ -37,7 +41,7 @@ exports.register = async (username, email, password) => {
     html: `
       <h2>Welcome ${username}</h2>
       <p>Click below to verify your account:</p>
-      <a href="${verifyLink}">Verify Email</a>
+      <a href="${verifyLink}" target="_blank">${verifyLink}</a>
     `,
   });
 
@@ -45,10 +49,11 @@ exports.register = async (username, email, password) => {
     message: "Verification email sent. Please verify your account.",
   };
 };
-
 exports.verifyEmail = async (token) => {
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
   const user = await User.findOne({
-    emailVerificationToken: token,
+    emailVerificationToken: hashedToken,
     emailVerificationExpires: { $gt: Date.now() },
   });
 
@@ -176,7 +181,7 @@ exports.resetPassword = async (token, password) => {
   });
 
   if (!user) {
-    throw new Error("Invalid or expired token");
+    throw new AppError("Invalid or expired token", 400);
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
