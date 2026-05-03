@@ -34,7 +34,9 @@ exports.register = async (username, email, password) => {
   const FRONTEND_URL = process.env.FRONTEND_URL;
 
   const verifyLink = `${FRONTEND_URL}/verify-email/${rawToken}`;
-
+  console.log("EMAIL USER:", process.env.EMAIL_USER);
+  console.log("EMAIL PASS exists:", !!process.env.EMAIL_PASS);
+  console.log("FRONTEND URL:", process.env.FRONTEND_URL);
   await sendEmail({
     to: email,
     subject: "Verify your email",
