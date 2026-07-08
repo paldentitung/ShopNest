@@ -255,7 +255,7 @@ const Dashboard = () => {
                   </span>
                   <div className="w-9 h-9 rounded-lg overflow-hidden bg-gray-100 shrink-0 border border-gray-100">
                     <img
-                      src={`${VITE_SERVER_URL}/${product.images?.[0]}`}
+                      src={`${product.images?.[0]}`}
                       alt={product.name}
                       className="w-full h-full object-cover"
                     />
